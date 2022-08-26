@@ -1,0 +1,16 @@
+Package: minio
+Title: Interface to the MINIO Client
+Version: 0.0.0.9000
+Authors@R: c(person(
+              "Carl", "Boettiger", 
+              email = "cboettig@gmail.com", 
+              role = c("aut", "cre"),
+              comment = c(ORCID = "0000-0002-1642-628X")))
+Description: R interface to the 'MINIO' Client
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
