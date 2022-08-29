@@ -6,7 +6,13 @@ Authors@R: c(person(
               email = "cboettig@gmail.com", 
               role = c("aut", "cre"),
               comment = c(ORCID = "0000-0002-1642-628X")))
-Description: R interface to the 'MINIO' Client
+Description: An R interface to the 'MINIO' Client. The MinIO Client (mc)
+  provides a modern alternative to UNIX commands like `ls`, `cat`, `cp`,
+  `mirror`, `diff`, find etc. It supports filesystems  and Amazon "S3"
+  compatible cloud storage service ("AWS" Signature v2 and v4)." 
+  This package provides convenience functions for installing the 'MINIO'
+  client and running any operations, as described in the official 
+  documentation, <https://docs.min.io/docs/minio-client-quickstart-guide.html>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -14,3 +20,8 @@ RoxygenNote: 7.2.1
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Imports: 
+    fs,
+    glue,
+    tools,
+    utils
