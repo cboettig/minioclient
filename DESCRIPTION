@@ -1,6 +1,6 @@
 Package: minio
 Title: Interface to the MINIO Client
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: c(person(
               "Carl", "Boettiger", 
               email = "cboettig@gmail.com", 
@@ -24,4 +24,5 @@ Imports:
     fs,
     glue,
     tools,
-    utils
+    utils,
+    processx

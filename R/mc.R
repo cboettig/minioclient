@@ -3,21 +3,18 @@
 #' The MINIO Client
 #' 
 #' @param command text string of an mc command (starting after the mc ...)
-#' @param ... additional arguments (not used)
+#' @param ... additional arguments to `[processx::run]`
 #' @param path location where mc executable will be installed. By default will
 #' use the OS-appropriate storage location.  
+#' @return pid for the running processx process, invisibly.
 #' @export 
 #' @details see <https://docs.min.io/docs/minio-client-quickstart-guide.html>
 
 # FIXME consider using processx -- why doesn't it work?
 mc <- function(command, ..., path = bin_path()) {
   binary <- fs::path(path, "mc")
-  system2(binary, command)
-  
-  # FIXME why can't we use processx instead?
-  #cmd <- paste(binary, command)
-  #pid <- processx::run(cmd)
-  
+  pid <- processx::run(binary, command, ...)
+  invisible(pid)
 }
 
 

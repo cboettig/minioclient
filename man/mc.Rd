@@ -9,10 +9,13 @@ mc(command, ..., path = bin_path())
 \arguments{
 \item{command}{text string of an mc command (starting after the mc ...)}
 
-\item{...}{additional arguments (not used)}
+\item{...}{additional arguments to \verb{[processx::run]}}
 
 \item{path}{location where mc executable will be installed. By default will
 use the OS-appropriate storage location.}
+}
+\value{
+pid for the running processx process, invisibly.
 }
 \description{
 The MINIO Client
