@@ -38,7 +38,7 @@ install_mc <- function(os = system_os(), arch = system_arch(), path = bin_path()
                  "aarch64" = "arm64",
                  arch)
   
-  type <- glue::glue("{os-arch}")
+  type <- glue::glue("{os}-{arch}")
   
   utils::download.file(glue::glue("https://dl.min.io/client/mc/release/",
                                   "{type}/mc"),
