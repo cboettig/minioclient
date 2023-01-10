@@ -13,7 +13,8 @@
 # FIXME consider using processx -- why doesn't it work?
 mc <- function(command, ..., path = bin_path()) {
   binary <- fs::path(path, "mc")
-  pid <- processx::run(binary, command, ...)
+  args <- strsplit(command, split = " ")[[1]]
+  pid <- processx::run(binary, args, ...)
   invisible(pid)
 }
 
@@ -35,10 +36,10 @@ mc_alias_set <-
              scheme = "https",
              endpoint = Sys.getenv("AWS_S3_ENDPOINT",
                                             "s3.amazonaws.com")){
-      
-  cmd <- glue::glue("alias set {alias} {scheme}://{endpoint}")
-  if(nchar(secret_key)>0)
-    cmd <- glue::glue(cmd, " '{access_key}' '{secret_key}'")
+  
+  
+  cmd <- glue::glue(
+    "alias set {alias} {scheme}://{endpoint} '{access_key}' '{secret_key}'")
   mc(cmd)
 
   
