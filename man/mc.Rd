@@ -4,18 +4,21 @@
 \alias{mc}
 \title{mc}
 \usage{
-mc(command, ..., path = bin_path())
+mc(command, ..., path = bin_path(), verbose = TRUE)
 }
 \arguments{
 \item{command}{text string of an mc command (starting after the mc ...)}
 
-\item{...}{additional arguments to \verb{[processx::run]}}
+\item{...}{additional arguments to \code{\link[processx:run]{processx::run()}}}
 
 \item{path}{location where mc executable will be installed. By default will
 use the OS-appropriate storage location.}
+
+\item{verbose}{print output?}
 }
 \value{
-pid for the running processx process, invisibly.
+\code{\link[processx:run]{processx::run()}} list, with components \code{status}, \code{stdout},
+\code{stderr}, and \code{timeout}.
 }
 \description{
 The MINIO Client
