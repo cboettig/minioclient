@@ -40,7 +40,7 @@ mc_alias_set <-
   
   cmd <- glue::glue("alias set {alias} {scheme}://{endpoint}")
   if(nchar(secret_key) > 0)
-    cmd <- glue::glue(cmd, "'{access_key}' '{secret_key}'")
+    cmd <- glue::glue(cmd, " '{access_key}' '{secret_key}'")
   mc(cmd)
 
   
