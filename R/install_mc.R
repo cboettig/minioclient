@@ -39,7 +39,7 @@ install_mc <- function(os = system_os(), arch = system_arch(), path = bin_path()
                  arch)
   
   bin <- switch(os,
-                "windows" = "minio.exe",
+                "windows" = "mc.exe",
                 "mc")
   
   type <- glue::glue("{os}-{arch}")
