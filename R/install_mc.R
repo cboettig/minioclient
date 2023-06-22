@@ -21,14 +21,6 @@
 #' @export
 install_mc <- function(os = system_os(), arch = system_arch(), path = bin_path() ) {
   
-  # FIXME linux-amd64 only so far:
-  
-  binary <- fs::path(path, "mc")
-  
-  if( file.exists(binary) ) return(invisible(NULL)) # Already installed
-  
-  if(!file.exists(path)) fs::dir_create(path)
-  
   os <- switch(os, 
                "mac" = "darwin",
                os)
@@ -42,12 +34,17 @@ install_mc <- function(os = system_os(), arch = system_arch(), path = bin_path()
                 "windows" = "mc.exe",
                 "mc")
   
+  binary <- fs::path(path, bin)
+  if( file.exists(binary) ) return(invisible(NULL)) # Already installed
+  if(!file.exists(path)) fs::dir_create(path)
+  
   type <- glue::glue("{os}-{arch}")
   
   utils::download.file(glue::glue("https://dl.min.io/client/mc/release/",
                                   "{type}/{bin}"),
                        dest = binary, mode = "wb")
   fs::file_chmod(binary, "+x")
+  
   binary
 }
 
