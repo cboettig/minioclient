@@ -29,6 +29,7 @@ mc_alias_set <-
 #' @return Configured aliases, including secret keys!
 #' @seealso mc
 #' @details Note that all available 
+#' @export
 mc_alias_ls <- function(alias = "") {
   mc(paste("alias ls", alias))
 }

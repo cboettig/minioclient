@@ -32,5 +32,7 @@ mc_mirror <- function(from, to, overwrite = FALSE, remove = FALSE, flags = "", v
   if (remove) {
     flags <- paste("--remove", flags)
   }
-  mc(paste("mirror", flags, from, to), verbose = verbose)
+  cmd <- paste("mirror", flags, from, to)
+  cmd <- gsub("\\s+", " ", cmd)
+  mc(cmd, verbose = verbose)
 }

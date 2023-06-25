@@ -15,7 +15,7 @@ Create a new S3 bucket using mc command
 \examples{
 \dontrun{
 # Create a new bucket named "my-bucket"
-mc_mb("my-bucket")
+mc_mb("play/my-bucket")
 }
 
 }

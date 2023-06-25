@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(minio)
+library(minioclient)
 
-test_check("minio")
+test_check("minioclient")

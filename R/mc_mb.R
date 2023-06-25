@@ -5,7 +5,7 @@
 #' @examples
 #' \dontrun{
 #' # Create a new bucket named "my-bucket"
-#' mc_mb("my-bucket")
+#' mc_mb("play/my-bucket")
 #' }
 #'
 #' @export

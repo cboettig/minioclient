@@ -4,7 +4,12 @@
 \alias{install_mc}
 \title{install the mc client}
 \usage{
-install_mc(os = system_os(), arch = system_arch(), path = bin_path())
+install_mc(
+  os = system_os(),
+  arch = system_arch(),
+  path = bin_path(),
+  force = FALSE
+)
 }
 \arguments{
 \item{os}{operating system}
@@ -12,6 +17,8 @@ install_mc(os = system_os(), arch = system_arch(), path = bin_path())
 \item{arch}{architecture}
 
 \item{path}{destination where binary is installed.}
+
+\item{force}{install even if binary is already found. Can be used to force upgrade.}
 }
 \description{
 install the mc client

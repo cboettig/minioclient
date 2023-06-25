@@ -24,5 +24,7 @@ mc_ls <- function(target, recursive = FALSE, flags = "") {
   if (recursive) {
     flags <- paste("--recursive", flags)
   }
-  mc(paste("ls", flags, target))
+  cmd <- paste("ls", flags, target)
+  cmd <- gsub("\\s+", " ", cmd)
+  mc(cmd)
 }

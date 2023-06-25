@@ -4,7 +4,7 @@
 \alias{mc_cp}
 \title{Copy files or directories between servers}
 \usage{
-mc_cp(from, to, recursive = TRUE, flags = "", verbose = FALSE)
+mc_cp(from, to, recursive = FALSE, flags = "", verbose = FALSE)
 }
 \arguments{
 \item{from}{Character string specifying the source file or directory path.
@@ -12,7 +12,7 @@ Can accept a vector of file paths as well.}
 
 \item{to}{Character string specifying the destination path.}
 
-\item{recursive}{Logical indicating whether to recursively copy directories. Default is \code{TRUE}.}
+\item{recursive}{Logical indicating whether to recursively copy directories. Default is \code{FALSE}.}
 
 \item{flags}{any additional flags to \code{cp}}
 
