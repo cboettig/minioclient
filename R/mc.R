@@ -30,7 +30,7 @@ mc <- function(command, ..., path = bin_path(), verbose = TRUE) {
   if(p$timeout & verbose) warning(paste("request", command, "timed out"))
   if(p$status != 0) stop(paste(p$stderr))
   
-  if(verbose) message(glue::glue(p$stdout))
+  if(verbose) message(paste0(p$stdout))
   invisible(p)
 }
 

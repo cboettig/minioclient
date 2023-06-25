@@ -1,6 +1,6 @@
-Package: minio
+Package: minioclient
 Title: Interface to the MINIO Client
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: c(person(
               "Carl", "Boettiger", 
               email = "cboettig@gmail.com", 
@@ -8,11 +8,12 @@ Authors@R: c(person(
               comment = c(ORCID = "0000-0002-1642-628X")))
 Description: An R interface to the 'MINIO' Client. The MinIO Client (mc)
   provides a modern alternative to UNIX commands like `ls`, `cat`, `cp`,
-  `mirror`, `diff`, find etc. It supports filesystems  and Amazon "S3"
+  `mirror`, `diff`, `find` etc. It supports filesystems  and Amazon "S3"
   compatible cloud storage service ("AWS" Signature v2 and v4)." 
   This package provides convenience functions for installing the 'MINIO'
   client and running any operations, as described in the official 
   documentation, <https://docs.min.io/docs/minio-client-quickstart-guide.html>.
+  This package provides a flexible and high-performance alternative to `aws.s3`.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
