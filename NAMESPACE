@@ -3,3 +3,7 @@
 export(install_mc)
 export(mc)
 export(mc_alias_set)
+export(mc_cp)
+export(mc_ls)
+export(mc_mirror)
+export(mc_rm)

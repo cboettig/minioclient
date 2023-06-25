@@ -7,7 +7,7 @@
 mc(command, ..., path = bin_path(), verbose = TRUE)
 }
 \arguments{
-\item{command}{text string of an mc command (starting after the mc ...)}
+\item{command}{space-delimited text string of an mc command (starting after the mc ...)}
 
 \item{...}{additional arguments to \code{\link[processx:run]{processx::run()}}}
 
@@ -24,5 +24,9 @@ use the OS-appropriate storage location.}
 The MINIO Client
 }
 \details{
-see \url{https://docs.min.io/docs/minio-client-quickstart-guide.html}
+This function forms the basis for all other available commands.
+This utility can run any \code{mc} command supported by the official minio client,
+see \url{https://docs.min.io/docs/minio-client-quickstart-guide.html}.
+The R package provides wrappers only for the most common use cases,
+which provide a more natural R syntax and native documentation.
 }
