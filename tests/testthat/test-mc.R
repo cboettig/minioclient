@@ -1,6 +1,6 @@
 test_that("install works", {
-  #skip_if_offline()
-  #skip_on_cran()
+  skip_if_offline()
+  skip_on_cran()
   
   install_mc()
   expect_true(TRUE)
@@ -9,8 +9,8 @@ test_that("install works", {
 
 
 test_that("wrappers", {
-  #skip_on_cran()
-  #skip_if_offline()
+  skip_on_cran()
+  skip_if_offline()
   
   suppressMessages({  
     x <- mc_alias_ls("play")
