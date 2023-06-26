@@ -8,7 +8,6 @@
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/cboettig/minioclient/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/cboettig/minioclient/actions/workflows/R-CMD-check.yaml)
-[![R-CMD-check](https://github.com/cboettig/minio/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/cboettig/minio/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 ## Installation
@@ -79,7 +78,7 @@ Open Data Registry:
 ``` r
 mc_ls("anon/gbif-open-data-us-east-1")
 #> [2021-05-19 12:25:22 UTC]  32KiB STANDARD index.html
-#> [2023-06-26 00:09:37 UTC]     0B occurrence/
+#> [2023-06-26 00:14:22 UTC]     0B occurrence/
 ```
 
 All `mc` functions can also understand local filesystem paths. Any
@@ -124,7 +123,7 @@ fs::file_info("gbif.html")
 #> # A tibble: 1 × 18
 #>   path       type     size permissions modification_time   user  group device_id
 #>   <fs::path> <fct> <fs::b> <fs::perms> <dttm>              <chr> <chr>     <dbl>
-#> 1 gbif.html  file    31.6K rw-r--r--   2023-06-26 00:09:39 cboe… cboe…     66307
+#> 1 gbif.html  file    31.6K rw-r--r--   2023-06-26 00:14:23 cboe… cboe…     66307
 #> # ℹ 10 more variables: hard_links <dbl>, special_device_id <dbl>, inode <dbl>,
 #> #   block_size <dbl>, blocks <dbl>, flags <int>, generation <dbl>,
 #> #   access_time <dttm>, change_time <dttm>, birth_time <dttm>
@@ -138,7 +137,7 @@ random_name <- paste0(sample(letters, 12, replace = TRUE), collapse = "")
 play_bucket <- paste0("play/play-", random_name)
 
 mc_mb(play_bucket)
-#> Bucket created successfully `play/play-xsudiblnvyfc`.
+#> Bucket created successfully `play/play-njslnwfxbnxr`.
 ```
 
 We can copy files or directories to the remote bucket:
@@ -146,21 +145,21 @@ We can copy files or directories to the remote bucket:
 ``` r
 mc_cp("anon/gbif-open-data-us-east-1/index.html", play_bucket)
 mc_cp("R/", play_bucket, recursive = TRUE, verbose = TRUE)
-#> `/home/cboettig/cboettig/minio/R/install_mc.R` -> `play/play-xsudiblnvyfc/install_mc.R`
-#> `/home/cboettig/cboettig/minio/R/mc.R` -> `play/play-xsudiblnvyfc/mc.R`
-#> `/home/cboettig/cboettig/minio/R/mc_alias.R` -> `play/play-xsudiblnvyfc/mc_alias.R`
-#> `/home/cboettig/cboettig/minio/R/mc_anonymous.R` -> `play/play-xsudiblnvyfc/mc_anonymous.R`
-#> `/home/cboettig/cboettig/minio/R/mc_cp.R` -> `play/play-xsudiblnvyfc/mc_cp.R`
-#> `/home/cboettig/cboettig/minio/R/mc_diff.R` -> `play/play-xsudiblnvyfc/mc_diff.R`
-#> `/home/cboettig/cboettig/minio/R/mc_du.R` -> `play/play-xsudiblnvyfc/mc_du.R`
-#> `/home/cboettig/cboettig/minio/R/mc_ls.R` -> `play/play-xsudiblnvyfc/mc_ls.R`
-#> `/home/cboettig/cboettig/minio/R/mc_mb.R` -> `play/play-xsudiblnvyfc/mc_mb.R`
-#> `/home/cboettig/cboettig/minio/R/mc_mirror.R` -> `play/play-xsudiblnvyfc/mc_mirror.R`
-#> `/home/cboettig/cboettig/minio/R/mc_mv.R` -> `play/play-xsudiblnvyfc/mc_mv.R`
-#> `/home/cboettig/cboettig/minio/R/mc_rb.R` -> `play/play-xsudiblnvyfc/mc_rb.R`
-#> `/home/cboettig/cboettig/minio/R/mc_rm.R` -> `play/play-xsudiblnvyfc/mc_rm.R`
-#> `/home/cboettig/cboettig/minio/R/mc_stat.R` -> `play/play-xsudiblnvyfc/mc_stat.R`
-#> Total: 0 B, Transferred: 12.54 KiB, Speed: 296.32 KiB/s
+#> `/home/cboettig/cboettig/minioclient/R/install_mc.R` -> `play/play-njslnwfxbnxr/install_mc.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc.R` -> `play/play-njslnwfxbnxr/mc.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_alias.R` -> `play/play-njslnwfxbnxr/mc_alias.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_anonymous.R` -> `play/play-njslnwfxbnxr/mc_anonymous.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_cp.R` -> `play/play-njslnwfxbnxr/mc_cp.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_diff.R` -> `play/play-njslnwfxbnxr/mc_diff.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_du.R` -> `play/play-njslnwfxbnxr/mc_du.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_ls.R` -> `play/play-njslnwfxbnxr/mc_ls.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_mb.R` -> `play/play-njslnwfxbnxr/mc_mb.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_mirror.R` -> `play/play-njslnwfxbnxr/mc_mirror.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_mv.R` -> `play/play-njslnwfxbnxr/mc_mv.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_rb.R` -> `play/play-njslnwfxbnxr/mc_rb.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_rm.R` -> `play/play-njslnwfxbnxr/mc_rm.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_stat.R` -> `play/play-njslnwfxbnxr/mc_stat.R`
+#> Total: 0 B, Transferred: 12.54 KiB, Speed: 266.37 KiB/s
 ```
 
 Note the use of `recursive = TRUE` to transfer all objects matching the
@@ -174,14 +173,14 @@ We can examine disk usage of remote objects or directories:
 
 ``` r
 mc_du(play_bucket)
-#> 44KiB    15 objects  play-xsudiblnvyfc
+#> 44KiB    15 objects  play-njslnwfxbnxr
 ```
 
 We can also adjust permissions for anonymous access:
 
 ``` r
 mc_anonymous_set(play_bucket, "download")
-#> Access permission for `play/play-xsudiblnvyfc` is set to `download`
+#> Access permission for `play/play-njslnwfxbnxr` is set to `download`
 ```
 
 Public objects can be accessed directly over HTTPS connection using the
@@ -273,7 +272,7 @@ mc(paste("stat", "anon/gbif-open-data-us-east-1/index.html", paste0(play_bucket,
 #>   Content-Type: text/html 
 #> Replication Status: REPLICA 
 #> Name      : index.html
-#> Date      : 2023-06-26 00:09:40 UTC 
+#> Date      : 2023-06-26 00:14:25 UTC 
 #> Size      : 32 KiB 
 #> ETag      : b3c8ed2b99c181bd763d742025a7340d 
 #> Type      : file 
