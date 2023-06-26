@@ -15,7 +15,8 @@ Description: An R interface to the 'MinIO' Client. The 'MinIO' Client ('mc')
   documentation, <https://min.io/docs/minio/linux/reference/minio-mc.html?ref=docs-redirect>.
   This package provides a flexible and high-performance alternative to `aws.s3`.
 License: MIT + file LICENSE
-URL: https://github.com/cboettig/minioclient
+URL: https://github.com/cboettig/minioclient,
+    https://cboettig.github.io/minioclient/
 BugReports: https://github.com/cboettig/minioclient/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
