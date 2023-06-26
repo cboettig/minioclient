@@ -1,5 +1,5 @@
 Package: minioclient
-Title: Interface to the MINIO Client
+Title: Interface to the 'MinIO' Client
 Version: 0.0.2
 Authors@R: c(person(
               "Carl", "Boettiger", 
@@ -7,13 +7,13 @@ Authors@R: c(person(
               role = c("aut", "cre"),
               comment = c(ORCID = "0000-0002-1642-628X")))
 Description: An R interface to the 'MinIO' Client. The 'MinIO' Client ('mc')
-  provides a modern alternative to UNIX commands like `ls`, `cat`, `cp`,
-  `mirror`, `diff`, `find` etc. It supports 'filesystems'  and Amazon "S3"
+  provides a modern alternative to UNIX commands like 'ls', 'cat', 'cp',
+  'mirror', 'diff', 'find' etc. It supports 'filesystems'  and Amazon "S3"
   compatible cloud storage service ("AWS" Signature v2 and v4).
   This package provides convenience functions for installing the 'MinIO'
   client and running any operations, as described in the official 
   documentation, <https://min.io/docs/minio/linux/reference/minio-mc.html?ref=docs-redirect>.
-  This package provides a flexible and high-performance alternative to `aws.s3`.
+  This package provides a flexible and high-performance alternative to 'aws.s3'.
 License: MIT + file LICENSE
 URL: https://github.com/cboettig/minioclient,
     https://cboettig.github.io/minioclient/
