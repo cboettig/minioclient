@@ -9,15 +9,18 @@ mc_ls(target, recursive = FALSE, flags = "")
 \arguments{
 \item{target}{Character string specifying the target directory path.}
 
-\item{recursive}{Logical indicating whether to recursively list directories. Default is \code{FALSE}.}
+\item{recursive}{Logical indicating whether to recursively list directories.
+Default is \code{FALSE}.}
 
-\item{flags}{Additional flags to be passed to the \code{ls} command. Default is an empty string.}
+\item{flags}{Additional flags to be passed to the \code{ls} command.
+Default is an empty string.}
 }
 \value{
 list of files
 }
 \description{
-This function uses the \code{mc} command to list files and directories at the specified target location.
+This function uses the \code{mc} command to list files and directories
+at the specified target location.
 }
 \examples{
 \dontrun{

@@ -2,11 +2,14 @@
 
 #' Set anonymous access policy
 #'
-#' This function uses the `mc` command to set the anonymous access policy for a specified target.
+#' This function uses the `mc` command to set the anonymous access policy for
+#'  a specified target.
 #'
-#' @param target Character string specifying the target cloud storage bucket or object
+#' @param target Character string specifying the target cloud storage
+#'  bucket or object
 #' @param policy Character string specifying the anonymous access policy. 
-#'  Must be one of "download", "upload", "public" (upload and download), or "private".
+#'  Must be one of "download", "upload", "public" (upload and download),
+#'  or "private".
 #'
 #' @return None
 #'
@@ -26,7 +29,10 @@
 #' }
 #' @aliases mc_policy_set
 #' @export
-mc_anonymous_set <- function(target, policy = c("download", "upload", "public", "private")) {
+mc_anonymous_set <- function(target, 
+                             policy = c("download", "upload", 
+                                        "public", "private")
+                             ) {
   policy <- match.arg(policy)
   mc(paste("anonymous set", policy, target))
 }

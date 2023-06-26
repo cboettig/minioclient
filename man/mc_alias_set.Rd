@@ -17,16 +17,16 @@ mc_alias_set(
 
 \item{endpoint}{the endpoint domain name}
 
-\item{access_key}{access key (user), will be read from AWS env vars by default}
+\item{access_key}{access key (user), reads from AWS env vars by default}
 
-\item{secret_key}{secret access key, will be read from AWS env vars by default}
+\item{secret_key}{secret access key, reads from AWS env vars by default}
 
 \item{scheme}{https or http (e.g. for local machine only)}
 }
 \description{
 Set a new alias for the minio client, possibly using env var defaults.
 }
-\details{
-see \url{https://min.io/docs/minio/linux/reference/minio-mc.html?ref=docs-redirect}.
+\references{
+\url{https://min.io/docs/minio/linux/reference/minio-mc.html}.
 Note that keys can be omitted for anonymous use.
 }

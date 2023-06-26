@@ -12,17 +12,20 @@ Can accept a vector of file paths as well.}
 
 \item{to}{Character string specifying the destination path.}
 
-\item{recursive}{Logical indicating whether to recursively copy directories. Default is \code{FALSE}.}
+\item{recursive}{Logical indicating whether to recursively copy directories.
+Default is \code{FALSE}.}
 
 \item{flags}{any additional flags to \code{cp}}
 
-\item{verbose}{Logical indicating whether to report files copied. Default is \code{FALSE}.}
+\item{verbose}{Logical indicating whether to report files copied.
+Default is \code{FALSE}.}
 }
 \value{
 None
 }
 \description{
-Most commonly used to upload and download files between local filesystem and remote S3 store.
+Most commonly used to upload and download files between local filesystem
+and remote S3 store.
 }
 \details{
 see \code{mc("cp -h")} for details.

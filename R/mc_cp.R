@@ -1,14 +1,17 @@
 
 #' Copy files or directories between servers
 #'
-#' Most commonly used to upload and download files between local filesystem and remote S3 store.
+#' Most commonly used to upload and download files between local filesystem
+#'  and remote S3 store.
 #' 
 #' @param from Character string specifying the source file or directory path.
 #' Can accept a vector of file paths as well.
 #' @param to Character string specifying the destination path.
-#' @param recursive Logical indicating whether to recursively copy directories. Default is \code{FALSE}.
+#' @param recursive Logical indicating whether to recursively copy directories.
+#'  Default is \code{FALSE}.
 #' @param flags any additional flags to `cp`
-#' @param verbose Logical indicating whether to report files copied. Default is \code{FALSE}.
+#' @param verbose Logical indicating whether to report files copied.
+#'  Default is \code{FALSE}.
 #' @return None
 #' @details see `mc("cp -h")` for details.
 #' @seealso `mc_mirror`

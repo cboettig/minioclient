@@ -1,10 +1,13 @@
 #' List files and directories using mc command
 #'
-#' This function uses the `mc` command to list files and directories at the specified target location.
+#' This function uses the `mc` command to list files and directories
+#'  at the specified target location.
 #'
 #' @param target Character string specifying the target directory path.
-#' @param recursive Logical indicating whether to recursively list directories. Default is \code{FALSE}.
-#' @param flags Additional flags to be passed to the `ls` command. Default is an empty string.
+#' @param recursive Logical indicating whether to recursively list directories.
+#'  Default is \code{FALSE}.
+#' @param flags Additional flags to be passed to the `ls` command.
+#'  Default is an empty string.
 #' @return list of files
 #'
 #' @examples

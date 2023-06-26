@@ -12,11 +12,13 @@ Can accept a vector of file paths as well.}
 
 \item{to}{Character string specifying the destination path.}
 
-\item{recursive}{Logical indicating whether to recursively move directories. Default is \code{FALSE}.}
+\item{recursive}{Logical indicating whether to recursively move directories.
+Default is \code{FALSE}.}
 
 \item{flags}{any additional flags to \code{mv}}
 
-\item{verbose}{Logical indicating whether to report files copied. Default is \code{FALSE}.}
+\item{verbose}{Logical indicating whether to report files copied.
+Default is \code{FALSE}.}
 }
 \value{
 None

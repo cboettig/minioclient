@@ -7,19 +7,24 @@
 mc_rm(target, recursive = FALSE, flags = "", verbose = FALSE)
 }
 \arguments{
-\item{target}{Character string specifying the target file or directory path to be removed.}
+\item{target}{Character string specifying the target file or
+directory path to be removed.}
 
-\item{recursive}{Logical indicating whether to recursively remove directories. Default is \code{FALSE}.}
+\item{recursive}{Logical indicating whether to recursively remove
+directories. Default is \code{FALSE}.}
 
-\item{flags}{Additional flags to be passed to the \code{rm} command. Default is an empty string.}
+\item{flags}{Additional flags to be passed to the \code{rm} command.
+Default is an empty string.}
 
-\item{verbose}{Logical indicating whether to list files removed. Default is \code{FALSE}.}
+\item{verbose}{Logical indicating whether to list files removed.
+Default is \code{FALSE}.}
 }
 \value{
 None
 }
 \description{
-This function uses the \code{mc} command to remove files or directories at the specified target location.
+This function uses the \code{mc} command to remove files or directories
+at the specified target location.
 }
 \details{
 see \code{mc("rm -h")} for details.

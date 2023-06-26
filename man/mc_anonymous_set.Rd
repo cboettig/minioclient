@@ -8,16 +8,19 @@
 mc_anonymous_set(target, policy = c("download", "upload", "public", "private"))
 }
 \arguments{
-\item{target}{Character string specifying the target cloud storage bucket or object}
+\item{target}{Character string specifying the target cloud storage
+bucket or object}
 
 \item{policy}{Character string specifying the anonymous access policy.
-Must be one of "download", "upload", "public" (upload and download), or "private".}
+Must be one of "download", "upload", "public" (upload and download),
+or "private".}
 }
 \value{
 None
 }
 \description{
-This function uses the \code{mc} command to set the anonymous access policy for a specified target.
+This function uses the \code{mc} command to set the anonymous access policy for
+a specified target.
 }
 \examples{
 \dontrun{

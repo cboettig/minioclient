@@ -3,11 +3,11 @@
 #' 
 #' Set a new alias for the minio client, possibly using env var defaults.
 #' @param alias a short name for this endpoint, default is `minio`
-#' @param access_key access key (user), will be read from AWS env vars by default
-#' @param secret_key secret access key, will be read from AWS env vars by default
+#' @param access_key access key (user), reads from AWS env vars by default
+#' @param secret_key secret access key, reads from AWS env vars by default
 #' @param scheme https or http (e.g. for local machine only)
 #' @param endpoint the endpoint domain name
-#' @details see <https://docs.min.io/docs/minio-client-quickstart-guide.html#add-a-cloud-storage-service>.
+#' @references <https://min.io/docs/minio/linux/reference/minio-mc.html>.
 #' Note that keys can be omitted for anonymous use.
 #' @export
 mc_alias_set <- 

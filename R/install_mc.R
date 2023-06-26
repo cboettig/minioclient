@@ -4,7 +4,8 @@
 #' @param os operating system
 #' @param arch architecture
 #' @param path destination where binary is installed.
-#' @param force install even if binary is already found. Can be used to force upgrade.
+#' @param force install even if binary is already found.
+#'  Can be used to force upgrade.
 #' @details This function is just a convenience wrapper for prebuilt MINIO
 #' binaries, from <https://dl.min.io/client/mc/release/>. Should
 #' support Windows, Mac, and Linux on both Intel/AMD (amd64) and ARM

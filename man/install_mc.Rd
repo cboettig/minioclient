@@ -18,7 +18,8 @@ install_mc(
 
 \item{path}{destination where binary is installed.}
 
-\item{force}{install even if binary is already found. Can be used to force upgrade.}
+\item{force}{install even if binary is already found.
+Can be used to force upgrade.}
 }
 \description{
 install the mc client

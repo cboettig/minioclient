@@ -2,7 +2,8 @@
 #' 
 #' The MINIO Client
 #' 
-#' @param command space-delimited text string of an mc command (starting after the mc ...)
+#' @param command space-delimited text string of an mc command
+#'  (starting after the mc ...)
 #' @param ... additional arguments to [processx::run()]
 #' @param path location where mc executable will be installed. By default will
 #' use the OS-appropriate storage location.  
@@ -12,9 +13,9 @@
 #' @export 
 #' @details 
 #' 
-#' This function forms the basis for all other available commands.  
+#' This function forms the basis for all other available commands.
 #' This utility can run any `mc` command supported by the official minio client, 
-#' see <https://docs.min.io/docs/minio-client-quickstart-guide.html>.
+#' see <https://min.io/docs/minio/linux/reference/minio-mc.html>.
 #' The R package provides wrappers only for the most common use cases,
 #' which provide a more natural R syntax and native documentation.
 mc <- function(command, ..., path = bin_path(), verbose = TRUE) {
