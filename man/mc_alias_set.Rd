@@ -27,6 +27,6 @@ mc_alias_set(
 Set a new alias for the minio client, possibly using env var defaults.
 }
 \details{
-see \url{https://docs.min.io/docs/minio-client-quickstart-guide.html#add-a-cloud-storage-service}.
+see \url{https://min.io/docs/minio/linux/reference/minio-mc.html?ref=docs-redirect}.
 Note that keys can be omitted for anonymous use.
 }

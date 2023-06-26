@@ -26,7 +26,7 @@ The MINIO Client
 \details{
 This function forms the basis for all other available commands.
 This utility can run any \code{mc} command supported by the official minio client,
-see \url{https://docs.min.io/docs/minio-client-quickstart-guide.html}.
+see \url{https://min.io/docs/minio/linux/reference/minio-mc.html?ref=docs-redirect}.
 The R package provides wrappers only for the most common use cases,
 which provide a more natural R syntax and native documentation.
 }

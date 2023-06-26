@@ -207,7 +207,7 @@ more generic `mc()` utility, e.g. `mc("ls play")` is equivalent to
 discovery of functions, R-based documentation, and improved handling of
 display behavior (e.g. `verbose=FALSE` by default on certain commands.)
 See [official mc client
-docs](https://docs.min.io/docs/minio-client-quickstart-guide.html) for
+docs](https://min.io/docs/minio/linux/reference/minio-mc.html?ref=docs-redirect) for
 details.
 
 In addition to usual R documentation, users can display full help
@@ -256,7 +256,7 @@ mc_du("-h")
 ```
 
 We can now use arbitrary `mc` commands (see
-[quickstart](https://docs.min.io/docs/minio-client-quickstart-guide.html)).
+[quickstart](https://min.io/docs/minio/linux/reference/minio-mc.html?ref=docs-redirect)).
 For example, examine file information to confirm that eTags (md5sums
 here) match for these objects:
 

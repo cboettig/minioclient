@@ -135,7 +135,7 @@ download.file(public_url, "index.html", quiet = TRUE)
 Any command supported by the minio client can be accessed using the function `mc()`. 
 This function can be used in place of any of the above methods, or to access additional methods where no wrapper exists, see `mc("-h")` for complete list.  
 R functions such as `mc_ls()` are merely helpful wrappers around the more generic `mc()` utility, e.g. `mc("ls play")` is equivalent to `mc_ls("play")`.
-Providing helper methods allows tab-completion discovery of functions, R-based documentation, and improved handling of display behavior (e.g. `verbose=FALSE` by default on certain commands.)  See [official mc client docs](https://docs.min.io/docs/minio-client-quickstart-guide.html) for details.  
+Providing helper methods allows tab-completion discovery of functions, R-based documentation, and improved handling of display behavior (e.g. `verbose=FALSE` by default on certain commands.)  See [official mc client docs](https://min.io/docs/minio/linux/reference/minio-mc.html?ref=docs-redirect) for details.  
 
 In addition to usual R documentation, users can display full help information for any method using the argument `"-h"`.  This includes details on optional flags and further examples.  
 
@@ -143,7 +143,7 @@ In addition to usual R documentation, users can display full help information fo
 mc_du("-h")
 ```
 
-We can now use arbitrary `mc` commands (see [quickstart](https://docs.min.io/docs/minio-client-quickstart-guide.html)).  For example, examine file information to confirm that eTags (md5sums here) match for these objects:
+We can now use arbitrary `mc` commands (see [quickstart](https://min.io/docs/minio/linux/reference/minio-mc.html?ref=docs-redirect)).  For example, examine file information to confirm that eTags (md5sums here) match for these objects:
 
 ```{r}
 mc(paste("stat", "anon/gbif-open-data-us-east-1/index.html", paste0(play_bucket, "/index.html")))
