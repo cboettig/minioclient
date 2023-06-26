@@ -10,9 +10,45 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![R-CMD-check](https://github.com/cboettig/minioclient/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/cboettig/minioclient/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
+## Rationale
+
+There are numerous packages that already interface with the AWS S3
+protocol for object storage. Most rely directly on calls to the
+low-level [S3 REST
+API](https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html)
+through R packages such as `curl` or `httr`, which requires significant
+amounts of code to provide high-level functionality (e.g. handling
+authentication, paging over results, parsing returned XML), and is thus
+prone to inefficiency and bugs. Many also implicitly assume that Amazon
+is the underlying provider, making it difficult or impossible to work
+with a substantial and growing number of object stores now conform to
+the AWS S3 standard. These include NSF’s
+[OpenStorageNetwork](https://www.openstoragenetwork.org/),
+[Jetstream2](https://docs.jetstream-cloud.org/overview/overview-doc/)
+(both based on open source [Redhat
+CEPH](https://access.redhat.com/documentation/en-us/red_hat_ceph_storage/1.3/html/object_gateway_guide_for_red_hat_enterprise_linux/object_gateway_s3_api)),
+[NCAR’s Stratus](https://arc.ucar.edu/knowledge_base/70549594) (based on
+Western Digital S3), and [MinIO Servers](https://min.io) (another open
+source implementation popular with companies and developers), as well as
+Google Cloud Storage’s S3 compatibility mode.
+
+In contrast, the MinIO Client, an [open-source,
+AGPL-v3](https://github.com/minio/mc/) software developed in the Go
+language by the MinIO team, provides a high-performance utility with
+intuitive design for working across multiple cloud-based object stores
+as well as local filesystems. This package provides a thin R wrapper
+around that client – maximizing performance and minimizing potential for
+maintenance and bugs. A helper utility provides a convenient way to
+install and update the golang binary across operating systems and
+architectures. The client supports parallel threads by default,
+intuitive handling of bucket permissions such as granting or revoking
+anonymous access, and persistent configurations across multiple clouds.
+After struggling against the limitations of many different R wrappers
+for S3 object stores, this is now my go-to.
+
 ## Installation
 
-You can install the development version of minio from
+You can install the development version of `minioclient` from
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -69,16 +105,18 @@ mc_alias_set("anon", "s3.amazonaws.com", access_key = "", secret_key = "")
 #> Added `anon` successfully.
 ```
 
-All `mc` functions specify which cloud provider using a filepath
-notation, `<ALIAS>/<BUCKET>/<PATH>`. For instance, we can list all
-objects found in the bucket `gbif-open-data-us-east-1`, which is a
-[public bucket](https://registry.opendata.aws/gbif/) included in the AWS
-Open Data Registry:
+Configuration of aliases is stored in a persistent configuration file,
+so aliases need be created only once on a given machine. All `mc`
+functions specify which cloud provider using a filepath notation,
+`<ALIAS>/<BUCKET>/<PATH>`. For instance, we can list all objects found
+in the bucket `gbif-open-data-us-east-1`, which is a [public
+bucket](https://registry.opendata.aws/gbif/) included in the AWS Open
+Data Registry:
 
 ``` r
 mc_ls("anon/gbif-open-data-us-east-1")
 #> [2021-05-19 12:25:22 UTC]  32KiB STANDARD index.html
-#> [2023-06-26 04:16:03 UTC]     0B occurrence/
+#> [2023-06-26 04:56:20 UTC]     0B occurrence/
 ```
 
 All `mc` functions can also understand local filesystem paths. Any
@@ -123,7 +161,7 @@ fs::file_info("gbif.html")
 #> # A tibble: 1 × 18
 #>   path       type     size permissions modification_time   user  group device_id
 #>   <fs::path> <fct> <fs::b> <fs::perms> <dttm>              <chr> <chr>     <dbl>
-#> 1 gbif.html  file    31.6K rw-r--r--   2023-06-26 04:16:04 cboe… cboe…     66307
+#> 1 gbif.html  file    31.6K rw-r--r--   2023-06-26 04:56:21 cboe… cboe…     66307
 #> # ℹ 10 more variables: hard_links <dbl>, special_device_id <dbl>, inode <dbl>,
 #> #   block_size <dbl>, blocks <dbl>, flags <int>, generation <dbl>,
 #> #   access_time <dttm>, change_time <dttm>, birth_time <dttm>
@@ -137,7 +175,7 @@ random_name <- paste0(sample(letters, 12, replace = TRUE), collapse = "")
 play_bucket <- paste0("play/play-", random_name)
 
 mc_mb(play_bucket)
-#> Bucket created successfully `play/play-poriwrtgqrce`.
+#> Bucket created successfully `play/play-wgfnfkwlguyt`.
 ```
 
 We can copy files or directories to the remote bucket:
@@ -145,21 +183,21 @@ We can copy files or directories to the remote bucket:
 ``` r
 mc_cp("anon/gbif-open-data-us-east-1/index.html", play_bucket)
 mc_cp("R/", play_bucket, recursive = TRUE, verbose = TRUE)
-#> `/home/cboettig/cboettig/minioclient/R/install_mc.R` -> `play/play-poriwrtgqrce/install_mc.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc.R` -> `play/play-poriwrtgqrce/mc.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_alias.R` -> `play/play-poriwrtgqrce/mc_alias.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_anonymous.R` -> `play/play-poriwrtgqrce/mc_anonymous.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_cp.R` -> `play/play-poriwrtgqrce/mc_cp.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_diff.R` -> `play/play-poriwrtgqrce/mc_diff.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_du.R` -> `play/play-poriwrtgqrce/mc_du.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_ls.R` -> `play/play-poriwrtgqrce/mc_ls.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_mb.R` -> `play/play-poriwrtgqrce/mc_mb.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_mirror.R` -> `play/play-poriwrtgqrce/mc_mirror.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_mv.R` -> `play/play-poriwrtgqrce/mc_mv.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_rb.R` -> `play/play-poriwrtgqrce/mc_rb.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_rm.R` -> `play/play-poriwrtgqrce/mc_rm.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_stat.R` -> `play/play-poriwrtgqrce/mc_stat.R`
-#> Total: 0 B, Transferred: 12.72 KiB, Speed: 249.33 KiB/s
+#> `/home/cboettig/cboettig/minioclient/R/install_mc.R` -> `play/play-wgfnfkwlguyt/install_mc.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc.R` -> `play/play-wgfnfkwlguyt/mc.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_alias.R` -> `play/play-wgfnfkwlguyt/mc_alias.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_anonymous.R` -> `play/play-wgfnfkwlguyt/mc_anonymous.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_cp.R` -> `play/play-wgfnfkwlguyt/mc_cp.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_diff.R` -> `play/play-wgfnfkwlguyt/mc_diff.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_du.R` -> `play/play-wgfnfkwlguyt/mc_du.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_ls.R` -> `play/play-wgfnfkwlguyt/mc_ls.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_mb.R` -> `play/play-wgfnfkwlguyt/mc_mb.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_mirror.R` -> `play/play-wgfnfkwlguyt/mc_mirror.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_mv.R` -> `play/play-wgfnfkwlguyt/mc_mv.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_rb.R` -> `play/play-wgfnfkwlguyt/mc_rb.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_rm.R` -> `play/play-wgfnfkwlguyt/mc_rm.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_stat.R` -> `play/play-wgfnfkwlguyt/mc_stat.R`
+#> Total: 0 B, Transferred: 12.72 KiB, Speed: 284.56 KiB/s
 ```
 
 Note the use of `recursive = TRUE` to transfer all objects matching the
@@ -173,14 +211,14 @@ We can examine disk usage of remote objects or directories:
 
 ``` r
 mc_du(play_bucket)
-#> 44KiB    15 objects  play-poriwrtgqrce
+#> 44KiB    15 objects  play-wgfnfkwlguyt
 ```
 
 We can also adjust permissions for anonymous access:
 
 ``` r
 mc_anonymous_set(play_bucket, "download")
-#> Access permission for `play/play-poriwrtgqrce` is set to `download`
+#> Access permission for `play/play-wgfnfkwlguyt` is set to `download`
 ```
 
 Public objects can be accessed directly over HTTPS connection using the
@@ -270,7 +308,7 @@ mc(paste("stat", "anon/gbif-open-data-us-east-1/index.html", paste0(play_bucket,
 #>   Content-Type: text/html 
 #> Replication Status: REPLICA 
 #> Name      : index.html
-#> Date      : 2023-06-26 04:16:06 UTC 
+#> Date      : 2023-06-26 04:56:23 UTC 
 #> Size      : 32 KiB 
 #> ETag      : b3c8ed2b99c181bd763d742025a7340d 
 #> Type      : file 

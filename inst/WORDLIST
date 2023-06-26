@@ -1,10 +1,15 @@
+AGPL
 CEPH
 CMD
 GBIF
 HTTPS
+Jetstream
 Lifecycle
 MINIO
 MinIO
+NCAR's
+NSF's
+OpenStorageNetwork
 Redhat
 amd
 aws
@@ -15,6 +20,7 @@ env
 filepath
 filesystem
 filesystems
+golang
 http
 https
 mc
