@@ -77,22 +77,18 @@ Default is an empty string.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>list of files</p>
+<p>Returns the list from <code><a href="http://processx.r-lib.org/reference/run.html" class="external-link">processx::run()</a></code>, with components <code>status</code>,
+<code>stdout</code>, <code>stderr</code>, and <code>timeout</code>; invisibly.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="co"># List files and directories in a directory</span></span></span>
-<span class="r-in"><span><span class="fu">mc_ls</span><span class="op">(</span><span class="st">"path/to/directory"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># interactive()</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># List files and directories recursively in a directory</span></span></span>
-<span class="r-in"><span><span class="fu">mc_ls</span><span class="op">(</span><span class="st">"path/to/directory"</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># list all buckets on play server</span></span></span>
+<span class="r-in"><span><span class="fu">mc_ls</span><span class="op">(</span><span class="st">"play/"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># List files and directories with additional flags</span></span></span>
-<span class="r-in"><span><span class="fu">mc_ls</span><span class="op">(</span><span class="st">"path/to/directory"</span>, flags <span class="op">=</span> <span class="st">"-l"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

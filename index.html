@@ -82,7 +82,7 @@
 <div class="section level2">
 <h2 id="rationale">Rationale<a class="anchor" aria-label="anchor" href="#rationale"></a>
 </h2>
-<p>There are numerous packages that already interface with the AWS S3 protocol for object storage. Most rely directly on calls to the low-level <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html" class="external-link">S3 REST API</a> through R packages such as <code>curl</code> or <code>httr</code>, which requires significant amounts of code to provide high-level functionality (e.g. handling authentication, paging over results, parsing returned XML), and is thus prone to inefficiency and bugs. Many also implicitly assume that Amazon is the underlying provider, making it difficult or impossible to work with a substantial and growing number of object stores now conform to the AWS S3 standard. These include NSF’s <a href="https://www.openstoragenetwork.org/" class="external-link">OpenStorageNetwork</a>, <a href="https://docs.jetstream-cloud.org/overview/overview-doc/" class="external-link">Jetstream2</a> (both based on open source <a href="https://access.redhat.com/documentation/en-us/red_hat_ceph_storage/1.3/html/object_gateway_guide_for_red_hat_enterprise_linux/object_gateway_s3_api" class="external-link">Redhat CEPH</a>), <a href="https://arc.ucar.edu/knowledge_base/70549594" class="external-link">NCAR’s Stratus</a> (based on Western Digital S3), and <a href="https://min.io" class="external-link">MinIO Servers</a> (another open source implementation popular with companies and developers), as well as Google Cloud Storage’s S3 compatibility mode.</p>
+<p>There are numerous packages that already interface with the AWS S3 protocol for object storage. Most rely directly on calls to the low-level <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html" class="external-link">S3 REST API</a> through R packages such as <code>curl</code> or <code>httr</code>, which requires significant amounts of code to provide high-level functionality (e.g. handling authentication, paging over results, parsing returned XML), and is thus prone to inefficiency and bugs. Many also implicitly assume that Amazon is the underlying provider, making it difficult or impossible to work with a substantial and growing number of object stores now conform to the AWS S3 standard. These include NSF’s <a href="https://www.openstoragenetwork.org" class="external-link">OpenStorageNetwork</a>, <a href="https://docs.jetstream-cloud.org/overview/overview-doc/" class="external-link">Jetstream2</a> (both based on open source <a href="https://access.redhat.com/documentation/en-us/red_hat_ceph_storage/1.3/html/object_gateway_guide_for_red_hat_enterprise_linux/object_gateway_s3_api" class="external-link">Redhat CEPH</a>), <a href="https://arc.ucar.edu/knowledge_base/70549594" class="external-link">NCAR’s Stratus</a> (based on Western Digital S3), and <a href="https://min.io" class="external-link">MinIO Servers</a> (another open source implementation popular with companies and developers), as well as Google Cloud Storage’s S3 compatibility mode.</p>
 <p>In contrast, the MinIO Client, an <a href="https://github.com/minio/mc/" class="external-link">open-source, AGPL-v3</a> software developed in the Go language by the MinIO team, provides a high-performance utility with intuitive design for working across multiple cloud-based object stores as well as local filesystems. This package provides a thin R wrapper around that client – maximizing performance and minimizing potential for maintenance and bugs. A helper utility provides a convenient way to install and update the golang binary across operating systems and architectures. The client supports parallel threads by default, intuitive handling of bucket permissions such as granting or revoking anonymous access, and persistent configurations across multiple clouds. After struggling against the limitations of many different R wrappers for S3 object stores, this is now my go-to.</p>
 </div>
 <div class="section level2">
@@ -120,7 +120,7 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/mc_ls.html">mc_ls</a></span><span class="op">(</span><span class="st">"anon/gbif-open-data-us-east-1"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [2021-05-19 12:25:22 UTC]  32KiB STANDARD index.html</span></span>
-<span><span class="co">#&gt; [2023-06-26 04:56:20 UTC]     0B occurrence/</span></span></code></pre></div>
+<span><span class="co">#&gt; [2023-06-26 18:39:22 UTC]     0B occurrence/</span></span></code></pre></div>
 <p>All <code>mc</code> functions can also understand local filesystem paths. Any absolute path (path starting with <code>/</code>), or any relative path not recognized as a registered alias (Note: be careful not to have local folders using the same name as remote aliases!) will be interpreted as a local path. For instance, we can list the contents of the local <code>R/</code> directory:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/mc_ls.html">mc_ls</a></span><span class="op">(</span><span class="st">"R"</span><span class="op">)</span></span>
@@ -152,7 +152,7 @@
 <span><span class="co">#&gt; # A tibble: 1 × 18</span></span>
 <span><span class="co">#&gt;   path       type     size permissions modification_time   user  group device_id</span></span>
 <span><span class="co">#&gt;   &lt;fs::path&gt; &lt;fct&gt; &lt;fs::b&gt; &lt;fs::perms&gt; &lt;dttm&gt;              &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 gbif.html  file    31.6K rw-r--r--   2023-06-26 04:56:21 cboe… cboe…     66307</span></span>
+<span><span class="co">#&gt; 1 gbif.html  file    31.6K rw-r--r--   2023-06-26 18:39:23 cboe… cboe…     66307</span></span>
 <span><span class="co">#&gt; # ℹ 10 more variables: hard_links &lt;dbl&gt;, special_device_id &lt;dbl&gt;, inode &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   block_size &lt;dbl&gt;, blocks &lt;dbl&gt;, flags &lt;int&gt;, generation &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   access_time &lt;dttm&gt;, change_time &lt;dttm&gt;, birth_time &lt;dttm&gt;</span></span></code></pre></div>
@@ -162,35 +162,35 @@
 <span><span class="va">play_bucket</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"play/play-"</span>, <span class="va">random_name</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/mc_mb.html">mc_mb</a></span><span class="op">(</span><span class="va">play_bucket</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Bucket created successfully `play/play-wgfnfkwlguyt`.</span></span></code></pre></div>
+<span><span class="co">#&gt; Bucket created successfully `play/play-natziyhyiyhb`.</span></span></code></pre></div>
 <p>We can copy files or directories to the remote bucket:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/mc_cp.html">mc_cp</a></span><span class="op">(</span><span class="st">"anon/gbif-open-data-us-east-1/index.html"</span>, <span class="va">play_bucket</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/mc_cp.html">mc_cp</a></span><span class="op">(</span><span class="st">"R/"</span>, <span class="va">play_bucket</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/install_mc.R` -&gt; `play/play-wgfnfkwlguyt/install_mc.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc.R` -&gt; `play/play-wgfnfkwlguyt/mc.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_alias.R` -&gt; `play/play-wgfnfkwlguyt/mc_alias.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_anonymous.R` -&gt; `play/play-wgfnfkwlguyt/mc_anonymous.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_cp.R` -&gt; `play/play-wgfnfkwlguyt/mc_cp.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_diff.R` -&gt; `play/play-wgfnfkwlguyt/mc_diff.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_du.R` -&gt; `play/play-wgfnfkwlguyt/mc_du.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_ls.R` -&gt; `play/play-wgfnfkwlguyt/mc_ls.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_mb.R` -&gt; `play/play-wgfnfkwlguyt/mc_mb.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_mirror.R` -&gt; `play/play-wgfnfkwlguyt/mc_mirror.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_mv.R` -&gt; `play/play-wgfnfkwlguyt/mc_mv.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_rb.R` -&gt; `play/play-wgfnfkwlguyt/mc_rb.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_rm.R` -&gt; `play/play-wgfnfkwlguyt/mc_rm.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_stat.R` -&gt; `play/play-wgfnfkwlguyt/mc_stat.R`</span></span>
-<span><span class="co">#&gt; Total: 0 B, Transferred: 12.72 KiB, Speed: 284.56 KiB/s</span></span></code></pre></div>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/install_mc.R` -&gt; `play/play-natziyhyiyhb/install_mc.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc.R` -&gt; `play/play-natziyhyiyhb/mc.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_alias.R` -&gt; `play/play-natziyhyiyhb/mc_alias.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_anonymous.R` -&gt; `play/play-natziyhyiyhb/mc_anonymous.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_cp.R` -&gt; `play/play-natziyhyiyhb/mc_cp.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_diff.R` -&gt; `play/play-natziyhyiyhb/mc_diff.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_du.R` -&gt; `play/play-natziyhyiyhb/mc_du.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_ls.R` -&gt; `play/play-natziyhyiyhb/mc_ls.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_mb.R` -&gt; `play/play-natziyhyiyhb/mc_mb.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_mirror.R` -&gt; `play/play-natziyhyiyhb/mc_mirror.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_mv.R` -&gt; `play/play-natziyhyiyhb/mc_mv.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_rb.R` -&gt; `play/play-natziyhyiyhb/mc_rb.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_rm.R` -&gt; `play/play-natziyhyiyhb/mc_rm.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_stat.R` -&gt; `play/play-natziyhyiyhb/mc_stat.R`</span></span>
+<span><span class="co">#&gt; Total: 0 B, Transferred: 12.72 KiB, Speed: 247.50 KiB/s</span></span></code></pre></div>
 <p>Note the use of <code>recursive = TRUE</code> to transfer all objects matching the pattern. In S3 object stores, file paths are really just prefixes, thus this query includes not only everything in the <code>R</code> folder, but also <code>README.md</code>, since it also matches the prefix. (Had we used the prefix <code>R/</code>, <code>README.md</code> would not be matched and the R scripts would go directly into <code>play_bucket</code> root instead of an <code>R/</code> sub-path.)</p>
 <p>We can examine disk usage of remote objects or directories:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/mc_du.html">mc_du</a></span><span class="op">(</span><span class="va">play_bucket</span><span class="op">)</span></span>
-<span><span class="co">#&gt; 44KiB    15 objects  play-wgfnfkwlguyt</span></span></code></pre></div>
+<span><span class="co">#&gt; 44KiB    15 objects  play-natziyhyiyhb</span></span></code></pre></div>
 <p>We can also adjust permissions for anonymous access:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/mc_anonymous_set.html">mc_anonymous_set</a></span><span class="op">(</span><span class="va">play_bucket</span>, <span class="st">"download"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Access permission for `play/play-wgfnfkwlguyt` is set to `download`</span></span></code></pre></div>
+<span><span class="co">#&gt; Access permission for `play/play-natziyhyiyhb` is set to `download`</span></span></code></pre></div>
 <p>Public objects can be accessed directly over HTTPS connection using the endpoint URL, bucket name and path:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bucket</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">play_bucket</span><span class="op">)</span> <span class="co"># strip alias from path</span></span>
@@ -255,7 +255,7 @@
 <span><span class="co">#&gt;   Content-Type: text/html </span></span>
 <span><span class="co">#&gt; Replication Status: REPLICA </span></span>
 <span><span class="co">#&gt; Name      : index.html</span></span>
-<span><span class="co">#&gt; Date      : 2023-06-26 04:56:23 UTC </span></span>
+<span><span class="co">#&gt; Date      : 2023-06-26 18:39:25 UTC </span></span>
 <span><span class="co">#&gt; Size      : 32 KiB </span></span>
 <span><span class="co">#&gt; ETag      : b3c8ed2b99c181bd763d742025a7340d </span></span>
 <span><span class="co">#&gt; Type      : file </span></span>
