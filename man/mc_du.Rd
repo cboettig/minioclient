@@ -11,16 +11,13 @@ mc_du(target, flags = "")
 
 \item{flags}{optional additional flags}
 }
+\value{
+Returns the list from \code{\link[processx:run]{processx::run()}}, with components \code{status},
+\code{stdout}, \code{stderr}, and \code{timeout}; invisibly.
+}
 \description{
 Show disk usage for a target path
 }
 \details{
 for more help, run \code{mc_du("-h")}
-}
-\examples{
-\dontrun{
-
-mc_mb("play/test")
-mc_du("play/test")
-}
 }

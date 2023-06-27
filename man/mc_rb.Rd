@@ -9,14 +9,18 @@ mc_rb(bucket)
 \arguments{
 \item{bucket}{Character string specifying the name of the bucket to remove}
 }
+\value{
+Returns the list from \code{\link[processx:run]{processx::run()}}, with components \code{status},
+\code{stdout}, \code{stderr}, and \code{timeout}; invisibly.
+}
 \description{
 Remove an S3 bucket using mc command
 }
 \examples{
-\dontrun{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+
 # Create a new bucket named "my-bucket" on the "play" system
 mc_mb("play/my-bucket")
 mc_rb("play/my-bucket")
-}
-
+\dontshow{\}) # examplesIf}
 }

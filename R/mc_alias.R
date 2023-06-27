@@ -7,8 +7,14 @@
 #' @param secret_key secret access key, reads from AWS env vars by default
 #' @param scheme https or http (e.g. for local machine only)
 #' @param endpoint the endpoint domain name
+#' @inherit mc return
 #' @references <https://min.io/docs/minio/linux/reference/minio-mc.html>.
 #' Note that keys can be omitted for anonymous use.
+#' 
+#' @examplesIf interactive()
+#' 
+#' mc_alias_set()
+#' 
 #' @export
 mc_alias_set <- 
   function(alias = "minio", 

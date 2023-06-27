@@ -12,16 +12,16 @@
 #' @param verbose Logical indicating whether to list files removed.
 #'  Default is \code{FALSE}.
 #' @details see `mc("rm -h")` for details.
-#' @return None
+#' @inherit mc return
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf FALSE
+#'
 #' # Remove a file
 #' mc_rm("path/to/file.txt")
 #'
 #' # Remove a directory recursively
 #' mc_rm("path/to/directory", recursive = TRUE)
-#' }
+#' 
 #' @export
 mc_rm <- function(target, recursive = FALSE, flags = "", verbose = FALSE) {
   if (recursive) {

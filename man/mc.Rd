@@ -18,8 +18,8 @@ use the OS-appropriate storage location.}
 \item{verbose}{print output?}
 }
 \value{
-\code{\link[processx:run]{processx::run()}} list, with components \code{status}, \code{stdout},
-\code{stderr}, and \code{timeout}.
+Returns the list from \code{\link[processx:run]{processx::run()}}, with components \code{status},
+\code{stdout}, \code{stderr}, and \code{timeout}; invisibly.
 }
 \description{
 The MINIO Client

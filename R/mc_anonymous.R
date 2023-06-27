@@ -11,22 +11,26 @@
 #'  Must be one of "download", "upload", "public" (upload and download),
 #'  or "private".
 #'
-#' @return None
+#' @inherit mc return
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf interactive()
+
+#' # create a test bucket on the 'play' server
+#' mc_mb("play/minioclient-test")
+#' 
 #' # Set anonymous access policy to download
-#' mc_anonymous_set("alias/bucket/file.txt", policy = "download")
+#' mc_anonymous_set("play/minioclient-test/file.txt", policy = "download")
 #'
 #' # Set anonymous access policy to upload
-#' mc_anonymous_set("alias/bucket/directory", policy = "upload")
+#' mc_anonymous_set("play/minioclient-test/directory", policy = "upload")
 #'
 #' # Set anonymous access policy to public
-#' mc_anonymous_set("alias/bucket/file.txt", policy = "public")
+#' mc_anonymous_set("play/minioclient-test/file.txt", policy = "public")
 #'
 #' # Set anonymous access policy to private (default policy for new buckets)
-#' mc_anonymous_set("alias/bucket/directory", policy = "private")
-#' }
+#' mc_anonymous_set("play/minioclient-test/directory", policy = "private")
+#'
+#' mc_rb("play/minioclient-test")
 #' @aliases mc_policy_set
 #' @export
 mc_anonymous_set <- function(target, 

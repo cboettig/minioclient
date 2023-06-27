@@ -15,10 +15,10 @@
 #' @param verbose Logical indicating whether to display verbose output.
 #'  Default is \code{FALSE}.
 #'
-#' @return None
+#' @inherit mc return
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf FALSE
+#'
 #' # Mirror files and directories from source to destination
 #' mc_mirror("path/to/source", "path/to/destination")
 #'
@@ -29,7 +29,6 @@
 #' # Mirror files and directories with additional flags and verbose output
 #' mc_mirror("path/to/source", "path/to/destination", 
 #'           flags = "--exclude '*.txt'", verbose = TRUE)
-#' }
 #'
 #' @export
 mc_mirror <- function(from, to, overwrite = FALSE, 

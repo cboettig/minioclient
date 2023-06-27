@@ -23,8 +23,18 @@ mc_alias_set(
 
 \item{scheme}{https or http (e.g. for local machine only)}
 }
+\value{
+Returns the list from \code{\link[processx:run]{processx::run()}}, with components \code{status},
+\code{stdout}, \code{stderr}, and \code{timeout}; invisibly.
+}
 \description{
 Set a new alias for the minio client, possibly using env var defaults.
+}
+\examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+
+mc_alias_set()
+\dontshow{\}) # examplesIf}
 }
 \references{
 \url{https://min.io/docs/minio/linux/reference/minio-mc.html}.

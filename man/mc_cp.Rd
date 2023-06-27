@@ -21,7 +21,8 @@ Default is \code{FALSE}.}
 Default is \code{FALSE}.}
 }
 \value{
-None
+Returns the list from \code{\link[processx:run]{processx::run()}}, with components \code{status},
+\code{stdout}, \code{stderr}, and \code{timeout}; invisibly.
 }
 \description{
 Most commonly used to upload and download files between local filesystem
@@ -31,14 +32,14 @@ and remote S3 store.
 see \code{mc("cp -h")} for details.
 }
 \examples{
-\dontrun{
+\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # Copy a file
 mc_cp("local/path/to/file.txt", "alias/bucket/path/file.txt")
 
 # Copy a directory recursively
 mc_cp("local/directory", "alias/bucket/path/to/directory", recursive = TRUE)
-}
 
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{mc_mirror}

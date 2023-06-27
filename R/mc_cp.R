@@ -12,17 +12,16 @@
 #' @param flags any additional flags to `cp`
 #' @param verbose Logical indicating whether to report files copied.
 #'  Default is \code{FALSE}.
-#' @return None
+#' @inherit mc return
 #' @details see `mc("cp -h")` for details.
 #' @seealso `mc_mirror`
-#' @examples
-#' \dontrun{
+#' @examplesIf FALSE
 #' # Copy a file
 #' mc_cp("local/path/to/file.txt", "alias/bucket/path/file.txt")
 #'
 #' # Copy a directory recursively
 #' mc_cp("local/directory", "alias/bucket/path/to/directory", recursive = TRUE)
-#' }
+#'
 #'
 #' @export
 mc_cp <- function(from, to, recursive = FALSE, flags="", verbose = FALSE) {

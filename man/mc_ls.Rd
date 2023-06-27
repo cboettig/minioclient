@@ -16,22 +16,18 @@ Default is \code{FALSE}.}
 Default is an empty string.}
 }
 \value{
-list of files
+Returns the list from \code{\link[processx:run]{processx::run()}}, with components \code{status},
+\code{stdout}, \code{stderr}, and \code{timeout}; invisibly.
 }
 \description{
 This function uses the \code{mc} command to list files and directories
 at the specified target location.
 }
 \examples{
-\dontrun{
-# List files and directories in a directory
-mc_ls("path/to/directory")
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
-# List files and directories recursively in a directory
-mc_ls("path/to/directory", recursive = TRUE)
+# list all buckets on play server
+mc_ls("play/")
 
-# List files and directories with additional flags
-mc_ls("path/to/directory", flags = "-l")
-}
-
+\dontshow{\}) # examplesIf}
 }

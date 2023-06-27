@@ -21,7 +21,8 @@ Default is \code{FALSE}.}
 Default is \code{FALSE}.}
 }
 \value{
-None
+Returns the list from \code{\link[processx:run]{processx::run()}}, with components \code{status},
+\code{stdout}, \code{stderr}, and \code{timeout}; invisibly.
 }
 \description{
 move or rename files or directories between servers
@@ -30,14 +31,14 @@ move or rename files or directories between servers
 see \code{mc("mv -h")} for details.
 }
 \examples{
-\dontrun{
+\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+
 # move a file
 mc_mv("local/path/to/file.txt", "alias/bucket/path/file.txt")
 
 # move a directory recursively
 mc_mv("local/directory", "alias/bucket/path/to/directory", recursive = TRUE)
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 mc_cp

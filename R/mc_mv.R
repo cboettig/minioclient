@@ -9,17 +9,16 @@
 #' @param flags any additional flags to `mv`
 #' @param verbose Logical indicating whether to report files copied.
 #'  Default is \code{FALSE}.
-#' @return None
+#' @inherit mc return
 #' @details see `mc("mv -h")` for details.
 #' @seealso mc_cp
-#' @examples
-#' \dontrun{
+#' @examplesIf FALSE
+#' 
 #' # move a file
 #' mc_mv("local/path/to/file.txt", "alias/bucket/path/file.txt")
 #'
 #' # move a directory recursively
 #' mc_mv("local/directory", "alias/bucket/path/to/directory", recursive = TRUE)
-#' }
 #'
 #' @export
 mc_mv <- function(from, to, recursive = FALSE, flags="", verbose = FALSE) {

@@ -8,8 +8,8 @@
 #' @param path location where mc executable will be installed. By default will
 #' use the OS-appropriate storage location.  
 #' @param verbose print output?
-#' @return [processx::run()] list, with components `status`, `stdout`,
-#'  `stderr`, and `timeout`.
+#' @return Returns the list from [processx::run()], with components `status`, 
+#' `stdout`, `stderr`, and `timeout`; invisibly.
 #' @export 
 #' @details 
 #' 

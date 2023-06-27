@@ -20,7 +20,8 @@ Default is an empty string.}
 Default is \code{FALSE}.}
 }
 \value{
-None
+Returns the list from \code{\link[processx:run]{processx::run()}}, with components \code{status},
+\code{stdout}, \code{stderr}, and \code{timeout}; invisibly.
 }
 \description{
 This function uses the \code{mc} command to remove files or directories
@@ -30,11 +31,12 @@ at the specified target location.
 see \code{mc("rm -h")} for details.
 }
 \examples{
-\dontrun{
+\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+
 # Remove a file
 mc_rm("path/to/file.txt")
 
 # Remove a directory recursively
 mc_rm("path/to/directory", recursive = TRUE)
-}
+\dontshow{\}) # examplesIf}
 }

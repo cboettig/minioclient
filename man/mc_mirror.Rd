@@ -31,14 +31,16 @@ Default is an empty string.}
 Default is \code{FALSE}.}
 }
 \value{
-None
+Returns the list from \code{\link[processx:run]{processx::run()}}, with components \code{status},
+\code{stdout}, \code{stderr}, and \code{timeout}; invisibly.
 }
 \description{
 This function uses the \code{mc} command to mirror files and directories
 from one location to another.
 }
 \examples{
-\dontrun{
+\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+
 # Mirror files and directories from source to destination
 mc_mirror("path/to/source", "path/to/destination")
 
@@ -49,6 +51,5 @@ mc_mirror("path/to/source", "path/to/destination",
 # Mirror files and directories with additional flags and verbose output
 mc_mirror("path/to/source", "path/to/destination", 
           flags = "--exclude '*.txt'", verbose = TRUE)
-}
-
+\dontshow{\}) # examplesIf}
 }

@@ -6,6 +6,7 @@
 #' @param path destination where binary is installed.
 #' @param force install even if binary is already found.
 #'  Can be used to force upgrade.
+#' @return path to the minio binary (invisibly)
 #' @details This function is just a convenience wrapper for prebuilt MINIO
 #' binaries, from <https://dl.min.io/client/mc/release/>. Should
 #' support Windows, Mac, and Linux on both Intel/AMD (amd64) and ARM
@@ -20,6 +21,12 @@
 #'  `options("mc.bin.dir" = "/usr/local/bin)`.  Note that this package
 #'  will not automatically use MINIO available on $PATH (to promote security
 #'  and portability in design).
+#' @examplesIf interactive()
+#' install_mc()
+#' 
+#' # Force upgrade
+#' install_mc(force=TRUE)
+#' 
 #' @export
 install_mc <- function(os = system_os(), arch = system_arch(),
                        path = bin_path(), force = FALSE ) {
@@ -38,7 +45,7 @@ install_mc <- function(os = system_os(), arch = system_arch(),
   
   binary <- fs::path(path, bin)
   if (file.exists(binary) && !force) {
-    return(invisible(NULL)) # Already installed
+    return(invisible(binary)) # Already installed
   }
   if (!file.exists(path)) {
     fs::dir_create(path)
@@ -46,9 +53,9 @@ install_mc <- function(os = system_os(), arch = system_arch(),
   
   utils::download.file(glue::glue("https://dl.min.io/client/mc/release/",
                                   "{type}/{bin}"),
-                       dest = binary, mode = "wb")
+                       dest = binary, mode = "wb", quiet = TRUE)
   fs::file_chmod(binary, "+x")
-  binary
+  invisible(binary)
 }
 
 bin_path <- function() {

@@ -9,13 +9,17 @@ mc_mb(bucket)
 \arguments{
 \item{bucket}{Character string specifying the name of the bucket to create.}
 }
+\value{
+Returns the list from \code{\link[processx:run]{processx::run()}}, with components \code{status},
+\code{stdout}, \code{stderr}, and \code{timeout}; invisibly.
+}
 \description{
 Create a new S3 bucket using mc command
 }
 \examples{
-\dontrun{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+
 # Create a new bucket named "my-bucket"
 mc_mb("play/my-bucket")
-}
-
+\dontshow{\}) # examplesIf}
 }

@@ -21,6 +21,9 @@ install_mc(
 \item{force}{install even if binary is already found.
 Can be used to force upgrade.}
 }
+\value{
+path to the minio binary (invisibly)
+}
 \description{
 install the mc client
 }
@@ -39,4 +42,12 @@ directory containing your "mc" binary, e.g.
 \verb{options("mc.bin.dir" = "/usr/local/bin)}.  Note that this package
 will not automatically use MINIO available on $PATH (to promote security
 and portability in design).
+}
+\examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+install_mc()
+
+# Force upgrade
+install_mc(force=TRUE)
+\dontshow{\}) # examplesIf}
 }

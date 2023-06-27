@@ -8,19 +8,13 @@
 #'  Default is \code{FALSE}.
 #' @param flags Additional flags to be passed to the `ls` command.
 #'  Default is an empty string.
-#' @return list of files
+#' @inherit mc return
 #'
-#' @examples
-#' \dontrun{
-#' # List files and directories in a directory
-#' mc_ls("path/to/directory")
+#' @examplesIf interactive()
+#' 
+#' # list all buckets on play server
+#' mc_ls("play/")
 #'
-#' # List files and directories recursively in a directory
-#' mc_ls("path/to/directory", recursive = TRUE)
-#'
-#' # List files and directories with additional flags
-#' mc_ls("path/to/directory", flags = "-l")
-#' }
 #'
 #' @export
 mc_ls <- function(target, recursive = FALSE, flags = "") {
