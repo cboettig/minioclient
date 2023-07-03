@@ -60,7 +60,7 @@ devtools::install_github("cboettig/minioclient")
 
 At first use, all operations will attempt to install the client if not
 already installed. Users can also install latest version of the minio
-client can be installed using `install_minio()`.
+client can be installed using `install_mc()`.
 
 ``` r
 library(minioclient)
