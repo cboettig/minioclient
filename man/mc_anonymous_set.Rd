@@ -5,7 +5,11 @@
 \alias{mc_policy_set}
 \title{Set anonymous access policy}
 \usage{
-mc_anonymous_set(target, policy = c("download", "upload", "public", "private"))
+mc_anonymous_set(
+  target,
+  policy = c("download", "upload", "public", "private"),
+  verbose = interactive()
+)
 }
 \arguments{
 \item{target}{Character string specifying the target cloud storage
@@ -14,6 +18,8 @@ bucket or object}
 \item{policy}{Character string specifying the anonymous access policy.
 Must be one of "download", "upload", "public" (upload and download),
 or "private".}
+
+\item{verbose}{print output?}
 }
 \value{
 Returns the list from \code{\link[processx:run]{processx::run()}}, with components \code{status},

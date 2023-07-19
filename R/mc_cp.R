@@ -24,7 +24,7 @@
 #'
 #'
 #' @export
-mc_cp <- function(from, to, recursive = FALSE, flags="", verbose = FALSE) {
+mc_cp <- function(from, to = "", recursive = FALSE, flags="", verbose = FALSE) {
   if(recursive) {
     flags <- paste("-r", flags)
   }

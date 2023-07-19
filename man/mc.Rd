@@ -4,7 +4,7 @@
 \alias{mc}
 \title{mc}
 \usage{
-mc(command, ..., path = bin_path(), verbose = TRUE)
+mc(command, ..., path = bin_path(), verbose = interactive())
 }
 \arguments{
 \item{command}{space-delimited text string of an mc command

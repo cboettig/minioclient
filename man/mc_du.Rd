@@ -21,3 +21,16 @@ Show disk usage for a target path
 \details{
 for more help, run \code{mc_du("-h")}
 }
+\examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+
+# create a new bucket
+mc_mb("play/minioclient-test")
+
+# no disk usage on new bucket
+mc_du("play/minioclient-test")
+
+# clean up
+mc_rb("play/minioclient-test")
+\dontshow{\}) # examplesIf}
+}

@@ -18,7 +18,7 @@
 #' see <https://min.io/docs/minio/linux/reference/minio-mc.html>.
 #' The R package provides wrappers only for the most common use cases,
 #' which provide a more natural R syntax and native documentation.
-mc <- function(command, ..., path = bin_path(), verbose = TRUE) {
+mc <- function(command, ..., path = bin_path(), verbose = interactive()) {
   
   binary <- fs::path(path, "mc")
   if(!file.exists(binary)) {

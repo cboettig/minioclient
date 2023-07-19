@@ -14,7 +14,7 @@
 #' 
 #' # clean up
 #' mc_rb("play/minioclient-test")
-#' }
+#' 
 #' @export
 mc_du <- function(target, flags="") {
   cmd <- paste("du", flags, target)

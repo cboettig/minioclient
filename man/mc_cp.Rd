@@ -4,7 +4,7 @@
 \alias{mc_cp}
 \title{Copy files or directories between servers}
 \usage{
-mc_cp(from, to, recursive = FALSE, flags = "", verbose = FALSE)
+mc_cp(from, to = "", recursive = FALSE, flags = "", verbose = FALSE)
 }
 \arguments{
 \item{from}{Character string specifying the source file or directory path.

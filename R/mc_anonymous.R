@@ -10,7 +10,7 @@
 #' @param policy Character string specifying the anonymous access policy. 
 #'  Must be one of "download", "upload", "public" (upload and download),
 #'  or "private".
-#'
+#' @inheritParams mc
 #' @inherit mc return
 #'
 #' @examplesIf interactive()
@@ -35,10 +35,10 @@
 #' @export
 mc_anonymous_set <- function(target, 
                              policy = c("download", "upload", 
-                                        "public", "private")
-                             ) {
+                                        "public", "private"),
+                             verbose = interactive()) {
   policy <- match.arg(policy)
-  mc(paste("anonymous set", policy, target))
+  mc(paste("anonymous set", policy, target), verbose = verbose)
 }
 
 

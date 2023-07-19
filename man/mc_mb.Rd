@@ -4,10 +4,16 @@
 \alias{mc_mb}
 \title{Create a new S3 bucket using mc command}
 \usage{
-mc_mb(bucket)
+mc_mb(bucket, ignore_existing = TRUE, flags = "", verbose = TRUE)
 }
 \arguments{
 \item{bucket}{Character string specifying the name of the bucket to create.}
+
+\item{ignore_existing}{do not error if bucket already exists}
+
+\item{flags}{additional flags, see \code{mc_mb("-h")} for details.}
+
+\item{verbose}{print output?}
 }
 \value{
 Returns the list from \code{\link[processx:run]{processx::run()}}, with components \code{status},
