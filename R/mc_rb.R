@@ -11,5 +11,13 @@
 #'
 #' @export
 mc_rb <- function(bucket) {
+  if(interactive()){
+    proceed <- utils::askYesNo("Are you sure?")
+  }
+  
+  if(!proceed){ 
+    return(invisible(NULL))
+  }
+    
   mc(paste("rb --force", bucket))
 }

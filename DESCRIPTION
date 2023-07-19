@@ -1,6 +1,6 @@
 Package: minioclient
 Title: Interface to the 'MinIO' Client
-Version: 0.0.2
+Version: 0.0.2.999
 Authors@R: c(person(
               "Carl", "Boettiger", 
               email = "cboettig@gmail.com", 
@@ -30,5 +30,6 @@ Imports:
     glue,
     tools,
     utils,
-    processx
+    processx,
+    jsonlite
 Language: en-US
