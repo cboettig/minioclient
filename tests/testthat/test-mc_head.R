@@ -1,8 +1,16 @@
 test_that("mc_head works", {
   skip_on_cran()
   skip_if_offline()  
-
-  h <- mc_head("play/email/password_reset.html", n = 10)
-  is_ok <- nrow(h) == 10
-  expect_true(is_ok)
+  
+  tf <- tempfile()
+  write.csv(faithful, tf, row.names = FALSE)
+  on.exit(unlink(tf))
+  
+  mc_mb("play/faithful", verbose = FALSE)
+  mc_cp(tf, "play/faithful/faithful.csv")
+  
+  response <- mc_head("play/faithful/faithful.csv")
+  has_content <- length(response) == 10
+  
+  expect_true(has_content)
 })
