@@ -6,6 +6,8 @@
 #' @param target Character string specifying the target directory path.
 #' @param recursive Logical indicating whether to recursively list directories.
 #'  Default is \code{FALSE}.
+#' @param verbose Logical indicating whether to display a message with stdout
+#'  results from running the command
 #' @param flags Additional flags to be passed to the `ls` command.
 #'  Default is an empty string.
 #' @inherit mc return
@@ -17,13 +19,13 @@
 #'
 #'
 #' @export
-mc_ls <- function(target, recursive = FALSE, flags = "") {
+mc_ls <- function(target, recursive = FALSE, flags = "", verbose = interactive()) {
   if (recursive) {
     flags <- paste("--recursive", flags)
   }
   cmd <- paste("ls", flags, target)
   cmd <- gsub("\\s+", " ", cmd)
-  mc(cmd)
+  mc(cmd, verbose = verbose)
 }
 
 #' Directory listing as data frame
@@ -33,19 +35,25 @@ mc_ls <- function(target, recursive = FALSE, flags = "") {
 #' @param target Character string specifying the target directory path.
 #' @param recursive Logical indicating whether to recursively list directories.
 #'  Default is \code{FALSE}.
+#' @param show_fullpath logical, by default FALSE, if TRUE, a column with the 
+#' full path is included in the listing
 #' @returns a data.frame with the directory listing information
 #' @export
-mc_ls_tbl <- function(target, recursive = FALSE) {
+mc_ls_tbl <- function(target, recursive = FALSE, show_fullpath = FALSE) {
   
-  con <- textConnection(encoding = "UTF-8", object = suppressMessages(
-    mc_ls(target=target, recursive=recursive)$stdout
-  ))
+  out <- mc_ls(target = target, recursive = recursive, verbose = FALSE)$stdout
+  if (nchar(out) < 1) return(data.frame())
   
-  on.exit(close(con))
+  lines <- strsplit(out, "\n")[[1]]
+  res <- parse_mc_ls(lines)
   
-  out <- readLines(con)
-  parse_mc_ls(trimws(out[nchar(out) > 0]))
+  if (show_fullpath) {
+    # strip and reattach slash if fullpath is requested
+    fp <- file.path(gsub("(.*?)/+$", "\\1", target), res$filename)
+    res$fullpath <- fp
+  }
   
+  res
 }
 
 # helper functions for parsing  
@@ -77,7 +85,11 @@ parse_mc_ls <- function(x, ts_format = "%Y-%m-%d %H:%M:%S") {
   re_time <- "\\[(.*?)\\s+(.*?)\\s+(.*?)\\].*$"
   re_size <- ".*?\\]\\s+(\\d+\\.*\\d*)(.*?B).*$"
   re_all <- "\\[(.*?)\\s+(.*?)\\s+(.*?)\\]\\s+(\\d+\\.*\\d*)(.*B)\\s+(.*)$"
-  re_fn <- ".*?((.*?)\\s+)*(.*)$"
+  
+  # after time and size, the rest of the line contains "storage class" info (optionally) and filename
+  # https://github.com/minio/mc/blob/1c17ff4c995d772c97eed8c5a269f2074a9425fe/cmd/ilm-tier-add.go#L149-L152
+  re_rol <- ".*?((STANDARD|REDUCED_REDUNDANCY)\\s+)*(.*)$"
+  re_trailing_slash <- ".*?/$"
 
   # parse time components
   dt <- gs(x, re_time, "\\1")
@@ -91,15 +103,16 @@ parse_mc_ls <- function(x, ts_format = "%Y-%m-%d %H:%M:%S") {
   size <- paste(sz, sz_unit)
   bytes <- strpsize(paste(sz, sz_unit))
 
-  # parse the rest of line, ie attribs, filename  
+  # parse the rest of line, ie storage class and filename  
   rol <- gs(x, re_all, "\\6")
-  filename <- gs(rol, re_fn, "\\3")
-  attribs <- gs(rol, re_fn, "\\2")
-  attribs[attribs == ""] <- NA
+  filename <- gs(rol, re_rol, "\\3")
+  storage_class <- gs(rol, re_rol, "\\2")
+  storage_class[storage_class == ""] <- NA
+  is_folder <- grepl(re_trailing_slash, filename)
   
   # return a data frame
   res <- data.frame(stringsAsFactors = FALSE,
-    timestamp, bytes, size, attribs, filename
+    timestamp, bytes, size, storage_class, filename, is_folder
   )
   
   class(res) <- c("tbl_df", "tbl", "data.frame")
