@@ -4,13 +4,16 @@
 \alias{mc_ls_tbl}
 \title{Directory listing as data frame}
 \usage{
-mc_ls_tbl(target, recursive = FALSE)
+mc_ls_tbl(target, recursive = FALSE, show_fullpath = FALSE)
 }
 \arguments{
 \item{target}{Character string specifying the target directory path.}
 
 \item{recursive}{Logical indicating whether to recursively list directories.
 Default is \code{FALSE}.}
+
+\item{show_fullpath}{logical, by default FALSE, if TRUE, a column with the
+full path is included in the listing}
 }
 \value{
 a data.frame with the directory listing information

@@ -9,8 +9,9 @@ test_that("mc_head works", {
   mc_mb("play/faithful", verbose = FALSE)
   mc_cp(tf, "play/faithful/faithful.csv")
   
-  response <- mc_head("play/faithful/faithful.csv")
-  has_content <- length(response) == 10
+  response <- mc_head("play/faithful/faithful.csv", 6)
+  faithful <- read.csv(textConnection(response))
+  has_content <- nrow(faithful) == (6 - 1) # header row
   
   expect_true(has_content)
 })

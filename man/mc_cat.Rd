@@ -25,6 +25,9 @@ be useful when reading smaller files (without first downloading to disk).
 }
 \examples{
 \dontrun{
-mc_cat("play/email/password_reset.html")
+# upload a file to a bucket and read it back
+mc_mb("play/mcr")
+mc_cp(system.file(package = "minioclient", "DESCRIPTION"), "play/mcr/DESCRIPTION")
+mc_cat("play/mcr/DESCRIPTION")
 }
 }

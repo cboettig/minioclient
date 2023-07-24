@@ -4,7 +4,7 @@
 \alias{mc_ls}
 \title{List files and directories using mc command}
 \usage{
-mc_ls(target, recursive = FALSE, flags = "")
+mc_ls(target, recursive = FALSE, flags = "", verbose = interactive())
 }
 \arguments{
 \item{target}{Character string specifying the target directory path.}
@@ -14,6 +14,9 @@ Default is \code{FALSE}.}
 
 \item{flags}{Additional flags to be passed to the \code{ls} command.
 Default is an empty string.}
+
+\item{verbose}{Logical indicating whether to display a message with stdout
+results from running the command}
 }
 \value{
 Returns the list from \code{\link[processx:run]{processx::run()}}, with components \code{status},
