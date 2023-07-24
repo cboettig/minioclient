@@ -15,19 +15,14 @@
 
 mc_head <- function(target, n = 10, flags = "") {
   
-  if (n != 0) {
+  if (n != 10) {
     flags <- paste("--lines", n)
   }
   
   cmd <- paste("head", flags, target)
   cmd <- gsub("\\s+", " ", cmd)
-  res <- suppressMessages(mc(cmd))
+  res <- mc(cmd, verbose = FALSE)
   
-  con <- textConnection(encoding = "UTF-8", object = suppressMessages(
-    res$stdout
-  ))
-  
-  on.exit(close(con))
-  
-  readLines(con, n = n)
+  res$stdout
+
 }
