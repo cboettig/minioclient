@@ -10,7 +10,10 @@
 #'  Default is an empty string.
 #' @returns a character string with the contents of the file
 #' @examples \dontrun{
-#' mc_cat("play/email/password_reset.html")
+#' # upload a file to a bucket and read it back
+#' mc_mb("play/mcr")
+#' mc_cp(system.file(package = "minioclient", "DESCRIPTION"), "play/mcr/DESCRIPTION")
+#' mc_cat("play/mcr/DESCRIPTION")
 #' }
 #' @export
 
@@ -26,14 +29,8 @@ mc_cat <- function(target, offset = 0, tail = 0, flags = "") {
   
   cmd <- paste("cat", flags, target)
   cmd <- gsub("\\s+", " ", cmd)
-  res <- suppressMessages(mc(cmd))
+  res <- mc(cmd, verbose = FALSE)
   
-  con <- textConnection(encoding = "UTF-8", object = suppressMessages(
-    res$stdout
-  ))
+  res$stdout
   
-  on.exit(close(con))
-  
-  out <- readLines(con)
-  paste(collapse = "\n", out)
 }
