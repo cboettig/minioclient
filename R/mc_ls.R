@@ -117,7 +117,7 @@ parse_mc_ls_jsonl <- function(x) {
   # convert to stronger types
   last_modified <- parse_json_ts(df$lastModified)
   size <- parse_json_sz(df$size)
-  is_folder <- df$size == "folder"
+  is_folder <- df$type == "folder"
 
   # some columns are not provided when listing local files
   if (is.null(df$storageClass)) df$storageClass <- NA_character_
