@@ -4,7 +4,7 @@
 \alias{mc_ls_tbl}
 \title{Directory listing as data frame}
 \usage{
-mc_ls_tbl(target, recursive = FALSE, show_fullpath = FALSE)
+mc_ls_tbl(target, recursive = FALSE, show_fullpath = FALSE, use_json = FALSE)
 }
 \arguments{
 \item{target}{Character string specifying the target directory path.}
@@ -14,6 +14,9 @@ Default is \code{FALSE}.}
 
 \item{show_fullpath}{logical, by default FALSE, if TRUE, a column with the
 full path is included in the listing}
+
+\item{use_json}{logical, by default FALSE, parses output from jsonl output,
+which provides some additional information (etag, ver, url)}
 }
 \value{
 a data.frame with the directory listing information

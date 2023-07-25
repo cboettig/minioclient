@@ -2,8 +2,8 @@ is_df <- function(x)
     all(class(x) == c("tbl_df", "tbl", "data.frame")) &
     is.numeric(x$bytes) &
     nrow(x) > 0 &
-    all(nchar(x$filename) > 0) &
-    "POSIXct" %in% class(x$timestamp)
+    all(nchar(x$key) > 0) &
+    "POSIXct" %in% class(x$last_modified)
 
 
 test_that("mc_ls_tbl works for listing files at minio play server", {
@@ -41,6 +41,17 @@ test_that("mc_ls_tbl can provide fullpath", {
   
   ls <- mc_ls_tbl("play/", show_fullpath = TRUE)
   has_fullpath <- all(grepl("play/", ls$fullpath))
+  
+  expect_true(is_df(ls) & has_fullpath)
+})
+
+test_that("mc_ls_tbl can parse the --json format", {
+  
+  skip_on_cran()
+  skip_if_offline()
+  
+  ls <- mc_ls_tbl(".", use_json = TRUE, show_fullpath = TRUE)
+  has_fullpath <- all(nchar(ls$fullpath) > 0)
   
   expect_true(is_df(ls) & has_fullpath)
 })

@@ -37,9 +37,24 @@ mc_ls <- function(target, recursive = FALSE, flags = "", verbose = interactive()
 #'  Default is \code{FALSE}.
 #' @param show_fullpath logical, by default FALSE, if TRUE, a column with the 
 #' full path is included in the listing
+#' @param use_json logical, by default FALSE, parses output from jsonl output,
+#' which provides some additional information (etag, ver, url)
 #' @returns a data.frame with the directory listing information
 #' @export
-mc_ls_tbl <- function(target, recursive = FALSE, show_fullpath = FALSE) {
+mc_ls_tbl <- function(target, recursive = FALSE, show_fullpath = FALSE, use_json = FALSE) {
+  
+  if (use_json) {
+    out <- 
+      mc_ls(
+        target = target, 
+        recursive = recursive, 
+        verbose = FALSE, 
+        flags = "--json"
+      )
+    df <- parse_mc_ls_jsonl(out$stdout)
+    if (show_fullpath) df$fullpath <- paste0(df$url, df$key)
+    return(df)
+  }
   
   out <- mc_ls(target = target, recursive = recursive, verbose = FALSE)$stdout
   if (nchar(out) < 1) return(data.frame())
@@ -49,7 +64,7 @@ mc_ls_tbl <- function(target, recursive = FALSE, show_fullpath = FALSE) {
   
   if (show_fullpath) {
     # strip and reattach slash if fullpath is requested
-    fp <- file.path(gsub("(.*?)/+$", "\\1", target), res$filename)
+    fp <- file.path(gsub("(.*?)/+$", "\\1", target), res$key)
     res$fullpath <- fp
   }
   
@@ -79,6 +94,53 @@ parse_dttm <- function(x, tz, format = "%Y-%m-%d %H:%M:%S") {
   Reduce(c, vstrpdate(x, zone = tz))
 }
 
+parse_json_ts <- function(x) {
+  # exclude the colon in the timezone offset to enable using "%z" when parsing
+  ts <- gsub(pattern = "(.*?[+])(\\d{2}):(\\d{2})", replacement = "\\1\\2\\3", x)
+  strptime(ts, format = "%Y-%m-%dT%H:%M:%OS%z", tz = "UTC")
+}
+
+parse_json_sz <- function(x) {
+  format_iec <- function(x) {
+    class(x) <- "object_size"
+    format(x, units = "auto", standard = "IEC")
+  }
+  sapply(x, format_iec)
+}
+
+parse_mc_ls_jsonl <- function(x) {
+  
+  con <- textConnection(x)
+  on.exit(close(con))
+  df <- jsonlite::stream_in(con, verbose = FALSE)
+  
+  # convert to stronger types
+  last_modified <- parse_json_ts(df$lastModified)
+  size <- parse_json_sz(df$size)
+  is_folder <- df$size == "folder"
+
+  # some columns are not provided when listing local files
+  if (is.null(df$storageClass)) df$storageClass <- NA_character_
+  if (all(df$etag == "")) df$etag <- NA_character_
+
+  # remap some column names to simplify comparison with 
+  # non-json stdout file listings
+  
+  key <- df$key
+  bytes <- df$size
+  storage_class <- df$storageClass
+  ver <- df$versionOrdinal
+  etag <- df$etag
+  url <- df$url
+  
+  res <- data.frame(
+    key, last_modified, bytes, size, storage_class, is_folder, ver, etag, url
+  )
+  
+  class(res) <- c("tbl_df", "tbl", "data.frame")
+  res  
+}
+
 parse_mc_ls <- function(x, ts_format = "%Y-%m-%d %H:%M:%S") {
 
   # regular expressions for extracting components from mc_ls stdout
@@ -95,7 +157,7 @@ parse_mc_ls <- function(x, ts_format = "%Y-%m-%d %H:%M:%S") {
   dt <- gs(x, re_time, "\\1")
   ts <- gs(x, re_time, "\\2")
   tz <- gs(x, re_time, "\\3")
-  timestamp <- parse_dttm(paste(dt, ts), tz, format = ts_format)
+  last_modified <- parse_dttm(paste(dt, ts), tz, format = ts_format)
 
   # parse size components  
   sz <- as.double(gs(x, re_size, "\\1"))
@@ -105,14 +167,14 @@ parse_mc_ls <- function(x, ts_format = "%Y-%m-%d %H:%M:%S") {
 
   # parse the rest of line, ie storage class and filename  
   rol <- gs(x, re_all, "\\6")
-  filename <- gs(rol, re_rol, "\\3")
+  key <- gs(rol, re_rol, "\\3")
   storage_class <- gs(rol, re_rol, "\\2")
   storage_class[storage_class == ""] <- NA
-  is_folder <- grepl(re_trailing_slash, filename)
+  is_folder <- grepl(re_trailing_slash, key)
   
   # return a data frame
   res <- data.frame(stringsAsFactors = FALSE,
-    timestamp, bytes, size, storage_class, filename, is_folder
+    key, last_modified, bytes, size, storage_class, is_folder
   )
   
   class(res) <- c("tbl_df", "tbl", "data.frame")
