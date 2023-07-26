@@ -1,11 +1,17 @@
 Package: minioclient
 Title: Interface to the 'MinIO' Client
-Version: 0.0.2.999
+Version: 0.0.2.9999
 Authors@R: c(person(
               "Carl", "Boettiger", 
               email = "cboettig@gmail.com", 
               role = c("aut", "cre"),
-              comment = c(ORCID = "0000-0002-1642-628X")))
+              comment = c(ORCID = "0000-0002-1642-628X")),
+              person(
+              "Markus", "Skyttner",
+              email = "markussk@kth.se",
+              role = c("ctb")
+              )
+            )
 Description: An R interface to the 'MinIO' Client. The 'MinIO' Client ('mc')
   provides a modern alternative to UNIX commands like 'ls', 'cat', 'cp',
   'mirror', 'diff', 'find' etc. It supports 'filesystems'  and Amazon "S3"
