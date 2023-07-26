@@ -4,27 +4,23 @@
 \alias{mc_ls}
 \title{List files and directories using mc command}
 \usage{
-mc_ls(target, recursive = FALSE, flags = "", verbose = interactive())
+mc_ls(target, recursive = FALSE, show_fullpath = TRUE)
 }
 \arguments{
-\item{target}{Character string specifying the target directory path.}
+\item{target}{character vector specifying the target directory path(s).}
 
 \item{recursive}{Logical indicating whether to recursively list directories.
 Default is \code{FALSE}.}
 
-\item{flags}{Additional flags to be passed to the \code{ls} command.
-Default is an empty string.}
-
-\item{verbose}{Logical indicating whether to display a message with stdout
-results from running the command}
+\item{show_fullpath}{logical, by default TRUE, a column with the
+full path is included in the listing}
 }
 \value{
-Returns the list from \code{\link[processx:run]{processx::run()}}, with components \code{status},
-\code{stdout}, \code{stderr}, and \code{timeout}; invisibly.
+a data.frame with the directory listing information
 }
 \description{
 This function uses the \code{mc} command to list files and directories
-at the specified target location.
+at the specified target location and returns a data frame with the results.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
