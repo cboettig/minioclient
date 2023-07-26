@@ -1,7 +1,8 @@
 #' Display first few lines of an object
 #'
 #' The head command returns the first n lines of the object as a string. This can 
-#' be useful when inspecting the content of a file(without first downloading to disk).
+#' be useful when inspecting the content of a large file (without first having to
+#' download and store it on disk locally).
 #'
 #' @param target character string specifying the target directory path.
 #' @param n integer number of lines to read from the beginning, by default 10
@@ -9,7 +10,14 @@
 #'  Default is an empty string.
 #' @returns a character string with the contents of the file
 #' @examples \dontrun{
-#' mc_head("play/email/password_reset.html")
+#' # upload a CSV file
+#' tf <- tempfile()
+#' write.csv(iris, tf, row.names = FALSE)
+#' mc_mb("play/iris")
+#' mc_cp(tf, "play/iris/iris.csv")
+#' 
+#' # read first 13 lines from the CSV (header + 12 rows of data)
+#' read.csv(text = mc_head("play/iris/iris.csv", n = 13))
 #' }
 #' @export
 
