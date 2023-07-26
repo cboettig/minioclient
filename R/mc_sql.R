@@ -16,10 +16,20 @@
 #' See <https://min.io/docs/minio/linux/reference/minio-mc/mc-sql.html#> and 
 #' <https://github.com/minio/minio/blob/master/docs/select/README.md>
 #' 
-#' For example "select s.* from S3Object limit 10" is valid syntax.
+#' For example "select s.* from S3Object s limit 10" is valid syntax.
 #' 
 #' More examples of query syntax here: 
 #' <https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-select-sql-reference-select.html>
+#' @examples \dontrun{
+#' # upload a CSV file
+#' tf <- tempfile()
+#' write.csv(iris, tf, row.names = FALSE)
+#' mc_mb("play/iris")
+#' mc_cp(tf, "play/iris/iris.csv")
+#' 
+#' # read first 12 lines from the CSV
+#' mc_sql("play/iris/iris.csv", query = "select * from S3Object limit 12")
+#' }#' 
 mc_sql <- function(target, query = "select * from S3Object", recursive = TRUE, verbose = FALSE) {
   
   binary <- fs::path(bin_path(), "mc")
