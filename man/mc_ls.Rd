@@ -4,7 +4,7 @@
 \alias{mc_ls}
 \title{List files and directories using mc command}
 \usage{
-mc_ls(target, recursive = FALSE, show_fullpath = TRUE)
+mc_ls(target, recursive = FALSE, details = FALSE)
 }
 \arguments{
 \item{target}{character vector specifying the target directory path(s).}
@@ -12,21 +12,22 @@ mc_ls(target, recursive = FALSE, show_fullpath = TRUE)
 \item{recursive}{Logical indicating whether to recursively list directories.
 Default is \code{FALSE}.}
 
-\item{show_fullpath}{logical, by default TRUE, a column with the
-full path is included in the listing}
+\item{details}{logical, by default FALSE; if TRUE a data frame with details
+for the directory listing is returned.}
 }
 \value{
-a data.frame with the directory listing information
+a vector of file or directory names ("keys" in minio parlance) or,
+if details is TRUE, a data.frame with the directory listing information
 }
 \description{
 This function uses the \code{mc} command to list files and directories
-at the specified target location and returns a data frame with the results.
+at the specified target location.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 # list all buckets on play server
 mc_ls("play/")
-
+mc_ls("play", details = TRUE)
 \dontshow{\}) # examplesIf}
 }
