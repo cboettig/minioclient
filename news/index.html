@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">minioclient</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2.999</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2.9999</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,6 +44,16 @@
       <small>Source: <a href="https://github.com/cboettig/minioclient/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.4" id="minioclient-004">minioclient 0.0.4<a class="anchor" aria-label="anchor" href="#minioclient-004"></a></h2>
+<ul><li>Refactored function <code><a href="../reference/mc_ls.html">mc_ls()</a></code> to provide results as a data.frame</li>
+<li>
+<code><a href="../reference/mc_sql.html">mc_sql()</a></code> function added, which can query CSV, JSON and parquet objects using sql (S3 Select API sql syntax)</li>
+<li>
+<code><a href="../reference/mc_head.html">mc_head()</a></code> function added, which reads the first n lines from an object and returns a string</li>
+<li>
+<code><a href="../reference/mc_cat.html">mc_cat()</a></code> function added, which can be useful when reading or previewing a smaller file directly from the object storage server without first requiring to download it locally</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.3" id="minioclient-003">minioclient 0.0.3<a class="anchor" aria-label="anchor" href="#minioclient-003"></a></h2>
 <ul><li>New function, <code><a href="../reference/mc_config_set.html">mc_config_set()</a></code>, can be used to set session tokens <a href="https://github.com/cboettig/minioclient/issues/1" class="external-link">#1</a>.</li>

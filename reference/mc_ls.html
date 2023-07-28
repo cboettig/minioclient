@@ -12,7 +12,7 @@ at the specified target location."><!-- mathjax --><script src="https://cdnjs.cl
     
     <a class="navbar-brand me-2" href="../index.html">minioclient</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2.999</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2.9999</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,13 +54,13 @@ at the specified target location.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mc_ls</span><span class="op">(</span><span class="va">target</span>, recursive <span class="op">=</span> <span class="cn">FALSE</span>, flags <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mc_ls</span><span class="op">(</span><span class="va">target</span>, recursive <span class="op">=</span> <span class="cn">FALSE</span>, details <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>target</dt>
-<dd><p>Character string specifying the target directory path.</p></dd>
+<dd><p>character vector specifying the target directory path(s).</p></dd>
 
 
 <dt>recursive</dt>
@@ -68,17 +68,17 @@ at the specified target location.</p>
 Default is <code>FALSE</code>.</p></dd>
 
 
-<dt>flags</dt>
-<dd><p>Additional flags to be passed to the <code>ls</code> command.
-Default is an empty string.</p></dd>
+<dt>details</dt>
+<dd><p>logical, by default FALSE; if TRUE a data frame with details
+for the directory listing is returned.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>Returns the list from <code><a href="http://processx.r-lib.org/reference/run.html" class="external-link">processx::run()</a></code>, with components <code>status</code>,
-<code>stdout</code>, <code>stderr</code>, and <code>timeout</code>; invisibly.</p>
+<p>a vector of file or directory names ("keys" in minio parlance) or,
+if details is TRUE, a data.frame with the directory listing information</p>
     </div>
 
     <div class="section level2">
@@ -87,7 +87,7 @@ Default is an empty string.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># list all buckets on play server</span></span></span>
 <span class="r-in"><span><span class="fu">mc_ls</span><span class="op">(</span><span class="st">"play/"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">mc_ls</span><span class="op">(</span><span class="st">"play"</span>, details <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>

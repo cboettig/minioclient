@@ -37,6 +37,9 @@
     <loc>https://cboettig.github.io/minioclient/reference/mc_anonymous_set.html</loc>
   </url>
   <url>
+    <loc>https://cboettig.github.io/minioclient/reference/mc_cat.html</loc>
+  </url>
+  <url>
     <loc>https://cboettig.github.io/minioclient/reference/mc_config_set.html</loc>
   </url>
   <url>
@@ -44,6 +47,9 @@
   </url>
   <url>
     <loc>https://cboettig.github.io/minioclient/reference/mc_du.html</loc>
+  </url>
+  <url>
+    <loc>https://cboettig.github.io/minioclient/reference/mc_head.html</loc>
   </url>
   <url>
     <loc>https://cboettig.github.io/minioclient/reference/mc_ls.html</loc>
@@ -62,5 +68,8 @@
   </url>
   <url>
     <loc>https://cboettig.github.io/minioclient/reference/mc_rm.html</loc>
+  </url>
+  <url>
+    <loc>https://cboettig.github.io/minioclient/reference/mc_sql.html</loc>
   </url>
 </urlset>
