@@ -4,20 +4,20 @@
 \alias{mc_ls}
 \title{List files and directories using mc command}
 \usage{
-mc_ls(target, recursive = FALSE, flags = "")
+mc_ls(target, recursive = FALSE, details = FALSE)
 }
 \arguments{
-\item{target}{Character string specifying the target directory path.}
+\item{target}{character vector specifying the target directory path(s).}
 
 \item{recursive}{Logical indicating whether to recursively list directories.
 Default is \code{FALSE}.}
 
-\item{flags}{Additional flags to be passed to the \code{ls} command.
-Default is an empty string.}
+\item{details}{logical, by default FALSE; if TRUE a data frame with details
+for the directory listing is returned.}
 }
 \value{
-Returns the list from \code{\link[processx:run]{processx::run()}}, with components \code{status},
-\code{stdout}, \code{stderr}, and \code{timeout}; invisibly.
+a vector of file or directory names ("keys" in minio parlance) or,
+if details is TRUE, a data.frame with the directory listing information
 }
 \description{
 This function uses the \code{mc} command to list files and directories
@@ -28,6 +28,6 @@ at the specified target location.
 
 # list all buckets on play server
 mc_ls("play/")
-
+mc_ls("play", details = TRUE)
 \dontshow{\}) # examplesIf}
 }
