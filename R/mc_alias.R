@@ -145,8 +145,8 @@ mc_aliases <- function(details = FALSE, show_secret = FALSE) {
   }
 
   if (!show_secret) {
-    res <- subset(res, select = -c(secretKey))
-    env_res <- subset(env_res, select = -c(secretKey))
+    res <- subset(res, select = -c("secretKey"))
+    env_res <- subset(env_res, select = -c("secretKey"))
   }
   
   res$token <- NA_character_
@@ -163,6 +163,7 @@ vreplace <- function(x, search = "", replace = NA_character_) {
   replace(x, x == search, replace)
 }
 
+#' @importFrom stats na.omit
 parse_aws_env <- function(use_https = TRUE) {
   
   # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html
