@@ -46,10 +46,13 @@ is_bucket <- function(target) {
 }
 
 is_alias <- function(target) {
-  starts_with_alias(target) && length(strsplit(target, "/")[[1]]) == 1 && 
-      gs(target, "/", "") %in% mc_aliases()
+  starts_with_alias(target) && 
+  length(strsplit(target, "/")[[1]]) == 1 && 
+  gs(target, "/", "") %in% mc_aliases()
 }
-strip_trailing_slash <- function(x) gs(x, "(.*?)/+$", "\\1")
+
+strip_trailing_slash <- function(x) 
+  gs(x, "(.*?)/+$", "\\1")
 
 #' @importFrom stats setNames
 read_metadata <- function(target, verbose = TRUE) {
@@ -79,7 +82,7 @@ read_metadata <- function(target, verbose = TRUE) {
     "bucket" = tilt(md),
     "object" = tilt(md),
     "folders" = md,
-    NULL
+    stop("The type of the specified target could not be determined.")
   )
 }
 

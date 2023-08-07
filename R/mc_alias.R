@@ -83,6 +83,30 @@ parse_url <- function(x) {
   )
 }  
 
+#' Parse a named vector containing MC_HOST_* environment variable(s)
+#' 
+#' In addition to known aliases against S3 servers configured in the
+#' config.json file for the minio client, settings for remote connections 
+#' or aliases can also be provided through system environment variables 
+#' named "MC_HOST_*" using one string.
+#' 
+#' This function parses such a string and returns the components as a 
+#' data frame.
+#' 
+#' @details
+#' 
+#' In minio parlance these settings together constitute an "alias" and the 
+#' asterisk in MC_HOST_* represents a placeholder for the corresponding alias.
+#' 
+#' These MC_HOST_* environment variable string values are similar to database 
+#' connection strings; they encode information about protocol/scheme, credentials 
+#' and optional session tokens used and server host URL in a single string - 
+#' ie settings required for making a connection an S3 server. 
+#' 
+#' @param x a named vector - where the name corresponds to the "alias"
+#' @param show_secret logical indicating whether to blank out or
+#' to include the secret access key (the default)
+#' @return a data frame with the same columns as when 
 parse_mc_host_env <- function(x, show_secret = TRUE) {
   
   # see https://github.com/minio/mc/blob/0a529d5e642f1a50a74b256c683be453e26bf7e9/cmd/config.go#L215
@@ -97,29 +121,29 @@ parse_mc_host_env <- function(x, show_secret = TRUE) {
   
   # the tail, to cater for more than 9 re capture groups
   re_tail <- paste0(".*?@", re_endpoint, "$")
+  #re_tail <- ".*?@(([^:]*)(:(.*?)))?(.*?)$"
 
   # now parse the components
   
   alias <- gsr(names(x), "MC_HOST_", "")
   
-  # triplet login/pass/(optional)token
+  # triplet login/pass and (optional) token
   login <- gsr(x, re_all, "\\2")
   pass <- gsr(x, re_all, "\\3")
   token <- gsr(x, re_all, "\\5")
   
   # server info
   proto <- gsr(x, re_all, "\\1")
-  #re_tail <- ".*?@(([^:]*)(:(.*?)))?(.*?)$"
   endpoint <- gsr(x, re_all, "\\6")
   port <- gsr(x, re_tail, "\\3")
   
-  URL <- paste0(proto, "://", endpoint, ifelse(is.na(port), "", paste0(":", port)))
-  #URL <- glue::glue("{proto}://{endpoint}:{port}", .na = "")
-  #URL <- glue::glue_collapse(c(proto, endpoint), sep = "://")
+  URL <- paste0(proto, "://", endpoint, 
+    ifelse(is.na(port), "", paste0(":", port)))
   
   status <- ifelse(!grepl("\\s+", URL), "success", "invalid")
   accessKey <- login
   secretKey <- if (show_secret) pass else NA_character_
+  
   api <- NA_character_
   path <- NA_character_
   
@@ -134,6 +158,14 @@ parse_mc_host_env <- function(x, show_secret = TRUE) {
   
 }
 
+#' Returns all aliases known by the minio client, including those provided 
+#' through MC_HOST_* environment variables
+#' 
+#' @param details logical to indicate whether results should be provided as
+#' a vector with the alias names or as a data frame with full details
+#' @param show_secret logical to indicate whether to display the secret pass
+#' or to blank it out (the default)
+#' @return a vector of aliases or a data frame with alias details
 mc_aliases <- function(details = FALSE, show_secret = FALSE) {
   
   res <- read_jsonl(mc("alias ls --json", verbose = FALSE)$stdout)
@@ -164,7 +196,7 @@ vreplace <- function(x, search = "", replace = NA_character_) {
 }
 
 #' @importFrom stats na.omit
-parse_aws_env <- function(use_https = TRUE) {
+parse_aws_env <- function() {
   
   # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html
   env_keys <- c(
@@ -187,29 +219,38 @@ parse_aws_env <- function(use_https = TRUE) {
     res <- unname(aws[key])
     replace(res, res == "", NA_character_)
   }
-  
-  proto <- sprintf("http%s://", if (use_https) "s" else "")
-  login <- use("AWS_ACCESS_KEY_ID")
-  pass <- use("AWS_SECRET_ACCESS_KEY")
-  token <- use("AWS_SESSION_TOKEN")
+
   region <- use("AWS_DEFAULT_REGION")
   endpoint <- gs(use("AWS_ENDPOINT_URL"), "https*://", "")
   
+  login <- use("AWS_ACCESS_KEY_ID")
+  pass <- use("AWS_SECRET_ACCESS_KEY")
+  token <- use("AWS_SESSION_TOKEN")
   triplet <- glue::glue_collapse(na.omit(c(login, pass, token)), sep = ":")
-  
+
+  use_https <- grepl("^https", use("AWS_ENDPOINT_URL"))
+  proto <- sprintf("http%s://", if (use_https) "s" else "")
   
   as.character(glue::glue("{proto}{triplet}@{endpoint}"))
 }
 
-set_mc_env_from_aws <- function(alias, use_https = TRUE) {
-  mc_envvar_name <- sprintf("MC_HOST_%s", alias)
-  mc_envvar_value <- parse_aws_env(use_https = use_https)
-  Sys.setenv(mc_envvar_name = mc_envvar_value)
+#' Creates and activates a MC_HOST_alias environment variable based on AWS 
+#' system environment variables.
+#' 
+#' This function parses current system variable settings for  AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY,
+#' AWS_DEFAULT_REGION, AWS_ENDPOINT_URL and AWS_SESSION_TOKEN and builds a
+#' single MC_HOST_alias environment variable for the same connection and activates
+#' this connection as an alias available to the minio client.
+#' @param alias string with the alias name for the connection settings
+set_alias_from_aws_env <- function(alias) {
+  args <- list(parse_aws_env())
+  names(args) <- sprintf("MC_HOST_%s", alias)
+  do.call(Sys.setenv, args)  
 }
 
-unset_mc_env <- function(alias) {
-  mc_envvar_name <- sprintf("MC_HOST_%s", alias)
-  mc_envvar_value <- ""
-  Sys.setenv(mc_envvar_name = mc_envvar_value)
+unset_mc_host_env <- function(alias) {
+  nme <- sprintf("MC_HOST_%s", alias)
+  Sys.unsetenv(eval(quote(nme)))
 }
+
 
