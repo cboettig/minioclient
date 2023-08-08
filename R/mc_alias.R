@@ -101,7 +101,7 @@ parse_url <- function(x) {
 #' These MC_HOST_* environment variable string values are similar to database 
 #' connection strings; they encode information about protocol/scheme, credentials 
 #' and optional session tokens used and server host URL in a single string - 
-#' ie settings required for making a connection an S3 server. 
+#' settings required for making a connection an S3 server. 
 #' 
 #' @param x a named vector - where the name corresponds to the "alias"
 #' @param show_secret logical indicating whether to blank out or
@@ -177,8 +177,8 @@ mc_aliases <- function(details = FALSE, show_secret = FALSE) {
   }
 
   if (!show_secret) {
-    res <- subset(res, select = -c("secretKey"))
-    env_res <- subset(env_res, select = -c("secretKey"))
+    res$secretKey <- NA_character_
+    env_res$secretKey <- NA_character_
   }
   
   res$token <- NA_character_
@@ -196,7 +196,7 @@ vreplace <- function(x, search = "", replace = NA_character_) {
 }
 
 #' @importFrom stats na.omit
-parse_aws_env <- function() {
+parse_aws_env <- function(alias) {
   
   # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html
   env_keys <- c(
@@ -222,16 +222,40 @@ parse_aws_env <- function() {
 
   region <- use("AWS_DEFAULT_REGION")
   endpoint <- gs(use("AWS_ENDPOINT_URL"), "https*://", "")
-  
+  endpoint_url <- use("AWS_ENDPOINT_URL")
   login <- use("AWS_ACCESS_KEY_ID")
   pass <- use("AWS_SECRET_ACCESS_KEY")
   token <- use("AWS_SESSION_TOKEN")
-  triplet <- glue::glue_collapse(na.omit(c(login, pass, token)), sep = ":")
-
-  use_https <- grepl("^https", use("AWS_ENDPOINT_URL"))
-  proto <- sprintf("http%s://", if (use_https) "s" else "")
   
-  as.character(glue::glue("{proto}{triplet}@{endpoint}"))
+  if (missing(alias)) alias <- "aws"
+  
+  mc_host_env(alias, endpoint_url, login, pass, token)
+#  triplet <- glue::glue_collapse(na.omit(c(login, pass, token)), sep = ":")
+
+#  use_https <- grepl("^https", use("AWS_ENDPOINT_URL"))
+#  proto <- sprintf("http%s://", if (use_https) "s" else "")
+  
+#  as.character(glue::glue("{proto}{triplet}@{endpoint}"))
+}
+
+mc_host_env <- function(alias, endpoint_url, login = NA, pass = NA, token = NA) {
+
+  use_https <- grepl("^https", endpoint_url)
+  proto <- sprintf("http%s://", if (use_https) "s" else "")
+  endpoint <- gs(endpoint_url, "https*://", "")
+  
+  triplet <- as.character(glue::glue_collapse(na.omit(c(login, pass, token)), sep = ":"))
+  
+  if (length(triplet) == 0) {
+    warning("Please provide credentials (login/pass)...")
+    triplet <- NULL
+  }
+  
+  alias <- paste0("MC_HOST_", alias)
+  val <- as.character(glue::glue("{proto}{triplet}@{endpoint}", .na = "", .null = ""))
+  names(val) <- alias
+  as.list(val)
+    
 }
 
 #' Creates and activates a MC_HOST_alias environment variable based on AWS 
@@ -243,9 +267,11 @@ parse_aws_env <- function() {
 #' this connection as an alias available to the minio client.
 #' @param alias string with the alias name for the connection settings
 set_alias_from_aws_env <- function(alias) {
-  args <- list(parse_aws_env())
-  names(args) <- sprintf("MC_HOST_%s", alias)
-  do.call(Sys.setenv, args)  
+  #args <- list(parse_aws_env(alias = alias))
+  #names(args) <- sprintf("MC_HOST_%s", alias)
+  if (missing(alias)) message("Will use alias \"aws\" by default.")
+  args <- as.list(parse_aws_env(alias = alias))
+  do.call(Sys.setenv, args)
 }
 
 unset_mc_host_env <- function(alias) {

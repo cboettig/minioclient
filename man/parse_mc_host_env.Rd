@@ -31,5 +31,5 @@ asterisk in MC_HOST_* represents a placeholder for the corresponding alias.
 These MC_HOST_* environment variable string values are similar to database
 connection strings; they encode information about protocol/scheme, credentials
 and optional session tokens used and server host URL in a single string -
-ie settings required for making a connection an S3 server.
+settings required for making a connection an S3 server.
 }
