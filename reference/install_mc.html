@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">minioclient</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">install_mc</span><span class="op">(</span></span>
 <span>  os <span class="op">=</span> <span class="fu">system_os</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  arch <span class="op">=</span> <span class="fu">system_arch</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  path <span class="op">=</span> <span class="fu">bin_path</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  path <span class="op">=</span> <span class="fu">minio_path</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  force <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -92,11 +92,11 @@ support Windows, Mac, and Linux on both Intel/AMD (amd64) and ARM
 architectures.
 For details, see official MINIO docs for your operating system,
 e.g. <a href="https://min.io/docs/minio/macos/index.html" class="external-link">https://min.io/docs/minio/macos/index.html</a>.</p>
-<p>NOTE: If you want to install to other than the default location, OR if you
-already have a minio client installed somewhere and want to use that,
-simply set the option "mc.bin.dir", to the appropriate location of the
+<p>NOTE: If you want to install to other than the default location,
+simply set the option "minioclient.dir", to the appropriate location of the
 directory containing your "mc" binary, e.g.
-<code>options("mc.bin.dir" = "/usr/local/bin)</code>.  Note that this package
+<code>options("minioclient.dir" = "~/.mc")</code>. This is also used as the location
+of the config directory. Note that this package
 will not automatically use MINIO available on $PATH (to promote security
 and portability in design).</p>
     </div>

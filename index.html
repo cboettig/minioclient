@@ -40,7 +40,7 @@
     
     <a class="navbar-brand me-2" href="index.html">minioclient</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,48 +96,32 @@
 <div class="section level2">
 <h2 id="minio-client">MinIO Client<a class="anchor" aria-label="anchor" href="#minio-client"></a>
 </h2>
-<p>At first use, all operations will attempt to install the client if not already installed. Users can also install latest version of the minio client can be installed using <code><a href="reference/install_mc.html">install_mc()</a></code>.</p>
+<p>At first use, all operations will attempt to install the client (after prompting) if not already installed. Users can also install latest version of the minio client can be installed using <code>install_mc</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cboettig/minioclient" class="external-link">minioclient</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cboettig/minioclient" class="external-link">minioclient</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/install_mc.html">install_mc</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The MinIO client is designed to support multiple endpoints for cloud storage, including AWS, Google Cloud Storage (via S3-compatibility), and other S3 compatible clients such as open source MinIO or Redhat CEPH storage systems. MinIO uses a syntax based around <em>aliases</em> to allow access across multiple platforms. Aliases can be configured using access key pairs to allow authenticated access.</p>
 <div class="section level3">
 <h3 id="aliases">Aliases<a class="anchor" aria-label="anchor" href="#aliases"></a>
 </h3>
 <p>By default, the client comes pre-configured with credentials for the MinIO <code>play</code> platform, designed for public experimental storage and examples. We can use <code><a href="reference/mc_alias_ls.html">mc_alias_ls()</a></code> to see all clients, specify the client we want:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/mc_alias_ls.html">mc_alias_ls</a></span><span class="op">(</span><span class="st">"play"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; play</span></span>
-<span><span class="co">#&gt;   URL       : https://play.min.io</span></span>
-<span><span class="co">#&gt;   AccessKey : Q3AM3UQ867SPQQA43P2F</span></span>
-<span><span class="co">#&gt;   SecretKey : zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG</span></span>
-<span><span class="co">#&gt;   API       : S3v4</span></span>
-<span><span class="co">#&gt;   Path      : auto</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/mc_alias_ls.html">mc_alias_ls</a></span><span class="op">(</span><span class="st">"play"</span><span class="op">)</span></span></code></pre></div>
 <p>Some S3 object storage systems allow access without credentials. Confusingly, attempting to access public data with invalid credentials will still fail, so we need to specify an anonymous endpoint with no credentials. By default, <code>mc_alias_set</code> will seek to use <code>AWS_S3_ENDPOINT</code>, <code>AWS_ACCESS_KEY_ID</code> and <code>AWS_SECRET_ACCESS_KEY</code> in your environment, if set. This allows <code>minioclient</code> to be used in scripts with authentication keys passed in securely as environmental variables. To set an anonymous access, simply indicate empty credentials, like so:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/mc_alias_set.html">mc_alias_set</a></span><span class="op">(</span><span class="st">"anon"</span>, <span class="st">"s3.amazonaws.com"</span>, access_key <span class="op">=</span> <span class="st">""</span>, secret_key <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Added `anon` successfully.</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/mc_alias_set.html">mc_alias_set</a></span><span class="op">(</span><span class="st">"anon"</span>, <span class="st">"s3.amazonaws.com"</span>, access_key <span class="op">=</span> <span class="st">""</span>, secret_key <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
 <p>Configuration of aliases is stored in a persistent configuration file, so aliases need be created only once on a given machine. All <code>mc</code> functions specify which cloud provider using a filepath notation, <code>&lt;ALIAS&gt;/&lt;BUCKET&gt;/&lt;PATH&gt;</code>. For instance, we can list all objects found in the bucket <code>gbif-open-data-us-east-1</code>, which is a <a href="https://registry.opendata.aws/gbif/" class="external-link">public bucket</a> included in the AWS Open Data Registry:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/mc_ls.html">mc_ls</a></span><span class="op">(</span><span class="st">"anon/gbif-open-data-us-east-1"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [2021-05-19 12:25:22 UTC]  32KiB STANDARD index.html</span></span>
-<span><span class="co">#&gt; [2023-06-26 18:39:22 UTC]     0B occurrence/</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "index.html"  "occurrence/"</span></span></code></pre></div>
 <p>All <code>mc</code> functions can also understand local filesystem paths. Any absolute path (path starting with <code>/</code>), or any relative path not recognized as a registered alias (Note: be careful not to have local folders using the same name as remote aliases!) will be interpreted as a local path. For instance, we can list the contents of the local <code>R/</code> directory:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/mc_ls.html">mc_ls</a></span><span class="op">(</span><span class="st">"R"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [2023-06-26 04:08:40 UTC] 2.1KiB install_mc.R</span></span>
-<span><span class="co">#&gt; [2023-06-26 04:10:18 UTC] 1.2KiB mc.R</span></span>
-<span><span class="co">#&gt; [2023-06-26 04:10:41 UTC] 1.3KiB mc_alias.R</span></span>
-<span><span class="co">#&gt; [2023-06-26 03:55:58 UTC] 1.2KiB mc_anonymous.R</span></span>
-<span><span class="co">#&gt; [2023-06-26 03:56:18 UTC] 1.1KiB mc_cp.R</span></span>
-<span><span class="co">#&gt; [2023-06-25 21:40:07 UTC]    82B mc_diff.R</span></span>
-<span><span class="co">#&gt; [2023-06-25 23:09:03 UTC]   371B mc_du.R</span></span>
-<span><span class="co">#&gt; [2023-06-26 03:56:33 UTC]  1004B mc_ls.R</span></span>
-<span><span class="co">#&gt; [2023-06-25 21:33:07 UTC]   299B mc_mb.R</span></span>
-<span><span class="co">#&gt; [2023-06-26 03:57:09 UTC] 1.6KiB mc_mirror.R</span></span>
-<span><span class="co">#&gt; [2023-06-26 03:57:25 UTC] 1.0KiB mc_mv.R</span></span>
-<span><span class="co">#&gt; [2023-06-25 21:32:46 UTC]   351B mc_rb.R</span></span>
-<span><span class="co">#&gt; [2023-06-26 03:57:43 UTC] 1.0KiB mc_rm.R</span></span>
-<span><span class="co">#&gt; [2023-06-25 21:41:30 UTC]   125B mc_stat.R</span></span></code></pre></div>
+<span><span class="co">#&gt;  [1] "install_mc.R"    "mc.R"            "mc_alias.R"      "mc_anonymous.R" </span></span>
+<span><span class="co">#&gt;  [5] "mc_cat.R"        "mc_config_set.R" "mc_cp.R"         "mc_diff.R"      </span></span>
+<span><span class="co">#&gt;  [9] "mc_du.R"         "mc_head.R"       "mc_ls.R"         "mc_mb.R"        </span></span>
+<span><span class="co">#&gt; [13] "mc_mirror.R"     "mc_mv.R"         "mc_rb.R"         "mc_rm.R"        </span></span>
+<span><span class="co">#&gt; [17] "mc_sql.R"        "mc_stat.R"</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -152,7 +136,7 @@
 <span><span class="co">#&gt; # A tibble: 1 × 18</span></span>
 <span><span class="co">#&gt;   path       type     size permissions modification_time   user  group device_id</span></span>
 <span><span class="co">#&gt;   &lt;fs::path&gt; &lt;fct&gt; &lt;fs::b&gt; &lt;fs::perms&gt; &lt;dttm&gt;              &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 gbif.html  file    31.6K rw-r--r--   2023-06-26 18:39:23 cboe… cboe…     66307</span></span>
+<span><span class="co">#&gt; 1 gbif.html  file    31.6K rw-r--r--   2023-08-10 18:33:12 cboe… cboe…     66307</span></span>
 <span><span class="co">#&gt; # ℹ 10 more variables: hard_links &lt;dbl&gt;, special_device_id &lt;dbl&gt;, inode &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   block_size &lt;dbl&gt;, blocks &lt;dbl&gt;, flags &lt;int&gt;, generation &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   access_time &lt;dttm&gt;, change_time &lt;dttm&gt;, birth_time &lt;dttm&gt;</span></span></code></pre></div>
@@ -162,35 +146,37 @@
 <span><span class="va">play_bucket</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"play/play-"</span>, <span class="va">random_name</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/mc_mb.html">mc_mb</a></span><span class="op">(</span><span class="va">play_bucket</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Bucket created successfully `play/play-natziyhyiyhb`.</span></span></code></pre></div>
+<span><span class="co">#&gt; Bucket created successfully `play/play-nwqvinphaeoh`.</span></span></code></pre></div>
 <p>We can copy files or directories to the remote bucket:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/mc_cp.html">mc_cp</a></span><span class="op">(</span><span class="st">"anon/gbif-open-data-us-east-1/index.html"</span>, <span class="va">play_bucket</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/mc_cp.html">mc_cp</a></span><span class="op">(</span><span class="st">"R/"</span>, <span class="va">play_bucket</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/install_mc.R` -&gt; `play/play-natziyhyiyhb/install_mc.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc.R` -&gt; `play/play-natziyhyiyhb/mc.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_alias.R` -&gt; `play/play-natziyhyiyhb/mc_alias.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_anonymous.R` -&gt; `play/play-natziyhyiyhb/mc_anonymous.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_cp.R` -&gt; `play/play-natziyhyiyhb/mc_cp.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_diff.R` -&gt; `play/play-natziyhyiyhb/mc_diff.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_du.R` -&gt; `play/play-natziyhyiyhb/mc_du.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_ls.R` -&gt; `play/play-natziyhyiyhb/mc_ls.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_mb.R` -&gt; `play/play-natziyhyiyhb/mc_mb.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_mirror.R` -&gt; `play/play-natziyhyiyhb/mc_mirror.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_mv.R` -&gt; `play/play-natziyhyiyhb/mc_mv.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_rb.R` -&gt; `play/play-natziyhyiyhb/mc_rb.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_rm.R` -&gt; `play/play-natziyhyiyhb/mc_rm.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_stat.R` -&gt; `play/play-natziyhyiyhb/mc_stat.R`</span></span>
-<span><span class="co">#&gt; Total: 0 B, Transferred: 12.72 KiB, Speed: 247.50 KiB/s</span></span></code></pre></div>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc.R` -&gt; `play/play-nwqvinphaeoh/mc.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_alias.R` -&gt; `play/play-nwqvinphaeoh/mc_alias.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/install_mc.R` -&gt; `play/play-nwqvinphaeoh/install_mc.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_anonymous.R` -&gt; `play/play-nwqvinphaeoh/mc_anonymous.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_cat.R` -&gt; `play/play-nwqvinphaeoh/mc_cat.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_config_set.R` -&gt; `play/play-nwqvinphaeoh/mc_config_set.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_cp.R` -&gt; `play/play-nwqvinphaeoh/mc_cp.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_diff.R` -&gt; `play/play-nwqvinphaeoh/mc_diff.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_du.R` -&gt; `play/play-nwqvinphaeoh/mc_du.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_head.R` -&gt; `play/play-nwqvinphaeoh/mc_head.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_ls.R` -&gt; `play/play-nwqvinphaeoh/mc_ls.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_mb.R` -&gt; `play/play-nwqvinphaeoh/mc_mb.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_mirror.R` -&gt; `play/play-nwqvinphaeoh/mc_mirror.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_mv.R` -&gt; `play/play-nwqvinphaeoh/mc_mv.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_rb.R` -&gt; `play/play-nwqvinphaeoh/mc_rb.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_rm.R` -&gt; `play/play-nwqvinphaeoh/mc_rm.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_sql.R` -&gt; `play/play-nwqvinphaeoh/mc_sql.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_stat.R` -&gt; `play/play-nwqvinphaeoh/mc_stat.R`</span></span>
+<span><span class="co">#&gt; Total: 0 B, Transferred: 21.60 KiB, Speed: 417.13 KiB/s</span></span></code></pre></div>
 <p>Note the use of <code>recursive = TRUE</code> to transfer all objects matching the pattern. In S3 object stores, file paths are really just prefixes, thus this query includes not only everything in the <code>R</code> folder, but also <code>README.md</code>, since it also matches the prefix. (Had we used the prefix <code>R/</code>, <code>README.md</code> would not be matched and the R scripts would go directly into <code>play_bucket</code> root instead of an <code>R/</code> sub-path.)</p>
 <p>We can examine disk usage of remote objects or directories:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/mc_du.html">mc_du</a></span><span class="op">(</span><span class="va">play_bucket</span><span class="op">)</span></span>
-<span><span class="co">#&gt; 44KiB    15 objects  play-natziyhyiyhb</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/mc_du.html">mc_du</a></span><span class="op">(</span><span class="va">play_bucket</span><span class="op">)</span></span></code></pre></div>
 <p>We can also adjust permissions for anonymous access:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/mc_anonymous_set.html">mc_anonymous_set</a></span><span class="op">(</span><span class="va">play_bucket</span>, <span class="st">"download"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Access permission for `play/play-natziyhyiyhb` is set to `download`</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/mc_anonymous_set.html">mc_anonymous_set</a></span><span class="op">(</span><span class="va">play_bucket</span>, <span class="st">"download"</span><span class="op">)</span></span></code></pre></div>
 <p>Public objects can be accessed directly over HTTPS connection using the endpoint URL, bucket name and path:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bucket</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">play_bucket</span><span class="op">)</span> <span class="co"># strip alias from path</span></span>
@@ -204,63 +190,10 @@
 <p>Any command supported by the minio client can be accessed using the function <code><a href="reference/mc.html">mc()</a></code>. This function can be used in place of any of the above methods, or to access additional methods where no wrapper exists, see <code>mc("-h")</code> for complete list. R functions such as <code><a href="reference/mc_ls.html">mc_ls()</a></code> are merely helpful wrappers around the more generic <code><a href="reference/mc.html">mc()</a></code> utility, e.g. <code>mc("ls play")</code> is equivalent to <code>mc_ls("play")</code>. Providing helper methods allows tab-completion discovery of functions, R-based documentation, and improved handling of display behavior (e.g. <code>verbose=FALSE</code> by default on certain commands.) See <a href="https://min.io/docs/minio/linux/reference/minio-mc.html?ref=docs-redirect" class="external-link">official mc client docs</a> for details.</p>
 <p>In addition to usual R documentation, users can display full help information for any method using the argument <code>"-h"</code>. This includes details on optional flags and further examples.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/mc_du.html">mc_du</a></span><span class="op">(</span><span class="st">"-h"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; NAME:</span></span>
-<span><span class="co">#&gt;   mc du - summarize disk usage recursively</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; USAGE:</span></span>
-<span><span class="co">#&gt;   mc du [FLAGS] TARGET</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; FLAGS:</span></span>
-<span><span class="co">#&gt;   --depth value, -d value       print the total for a folder prefix only if it is N or fewer levels below the command line argument (default: 0)</span></span>
-<span><span class="co">#&gt;   --recursive, -r               recursively print the total for a folder prefix</span></span>
-<span><span class="co">#&gt;   --rewind value                include all object versions no later than specified date</span></span>
-<span><span class="co">#&gt;   --versions                    include all object versions</span></span>
-<span><span class="co">#&gt;   --encrypt-key value           encrypt/decrypt objects (using server-side encryption with customer provided keys)</span></span>
-<span><span class="co">#&gt;   --config-dir value, -C value  path to configuration folder (default: "/home/cboettig/.mc")</span></span>
-<span><span class="co">#&gt;   --quiet, -q                   disable progress bar display</span></span>
-<span><span class="co">#&gt;   --no-color                    disable color theme</span></span>
-<span><span class="co">#&gt;   --json                        enable JSON lines formatted output</span></span>
-<span><span class="co">#&gt;   --debug                       enable debug output</span></span>
-<span><span class="co">#&gt;   --insecure                    disable SSL certificate verification</span></span>
-<span><span class="co">#&gt;   --limit-upload value          limits uploads to a maximum rate in KiB/s, MiB/s, GiB/s. (default: unlimited)</span></span>
-<span><span class="co">#&gt;   --limit-download value        limits downloads to a maximum rate in KiB/s, MiB/s, GiB/s. (default: unlimited)</span></span>
-<span><span class="co">#&gt;   --help, -h                    show help</span></span>
-<span><span class="co">#&gt;   </span></span>
-<span><span class="co">#&gt; ENVIRONMENT VARIABLES:</span></span>
-<span><span class="co">#&gt;   MC_ENCRYPT_KEY: list of comma delimited prefix=secret values</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; EXAMPLES:</span></span>
-<span><span class="co">#&gt;   1. Summarize disk usage of 'jazz-songs' bucket recursively.</span></span>
-<span><span class="co">#&gt;      $ mc du s3/jazz-songs</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   2. Summarize disk usage of 'louis' prefix in 'jazz-songs' bucket upto two levels.</span></span>
-<span><span class="co">#&gt;      $ mc du --depth=2 s3/jazz-songs/louis/</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   3. Summarize disk usage of 'jazz-songs' bucket at a fixed date/time</span></span>
-<span><span class="co">#&gt;      $ mc du --rewind "2020.01.01" s3/jazz-songs/</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   4. Summarize disk usage of 'jazz-songs' bucket with all objects versions</span></span>
-<span><span class="co">#&gt;      $ mc du --versions s3/jazz-songs/</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/mc_du.html">mc_du</a></span><span class="op">(</span><span class="st">"-h"</span><span class="op">)</span></span></code></pre></div>
 <p>We can now use arbitrary <code>mc</code> commands (see <a href="https://min.io/docs/minio/linux/reference/minio-mc.html?ref=docs-redirect" class="external-link">quickstart</a>). For example, examine file information to confirm that eTags (md5sums here) match for these objects:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/mc.html">mc</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"stat"</span>, <span class="st">"anon/gbif-open-data-us-east-1/index.html"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">play_bucket</span>, <span class="st">"/index.html"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Name      : index.html</span></span>
-<span><span class="co">#&gt; Date      : 2021-05-19 12:25:22 UTC </span></span>
-<span><span class="co">#&gt; Size      : 32 KiB </span></span>
-<span><span class="co">#&gt; ETag      : b3c8ed2b99c181bd763d742025a7340d </span></span>
-<span><span class="co">#&gt; VersionID : QgZ8OTH0gdcSbpj2yTl9tINxi_4thnj1 </span></span>
-<span><span class="co">#&gt; Type      : file </span></span>
-<span><span class="co">#&gt; Metadata  :</span></span>
-<span><span class="co">#&gt;   Content-Type: text/html </span></span>
-<span><span class="co">#&gt; Replication Status: REPLICA </span></span>
-<span><span class="co">#&gt; Name      : index.html</span></span>
-<span><span class="co">#&gt; Date      : 2023-06-26 18:39:25 UTC </span></span>
-<span><span class="co">#&gt; Size      : 32 KiB </span></span>
-<span><span class="co">#&gt; ETag      : b3c8ed2b99c181bd763d742025a7340d </span></span>
-<span><span class="co">#&gt; Type      : file </span></span>
-<span><span class="co">#&gt; Metadata  :</span></span>
-<span><span class="co">#&gt;   Content-Type: text/html</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/mc.html">mc</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"stat"</span>, <span class="st">"anon/gbif-open-data-us-east-1/index.html"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">play_bucket</span>, <span class="st">"/index.html"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
