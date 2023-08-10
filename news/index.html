@@ -47,7 +47,8 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.5" id="minioclient-005">minioclient 0.0.5<a class="anchor" aria-label="anchor" href="#minioclient-005"></a></h2>
 <p>CRAN-policy based bugfix release.</p>
-<ul><li>bug-fix: 0.0.4 release introduced unit tests that wrote to <code>~/.mc</code>. Configuration files are now placed in <code>minio_path()</code> directory.</li>
+<ul><li>bug-fix: 0.0.4 release introduced unit tests that wrote to <code>~/.mc</code>. Configuration files are now placed in <code>minio_path()</code> directory, using OS-specific path from <code><a href="https://rdrr.io/r/tools/userdir.html" class="external-link">tools::R_user_dir()</a></code>, or configured as <code>options("minioclient.dir")</code>
+</li>
 <li>bug-fix: 0.0.4 introduced unit tests that downloaded binary without prompt. <code><a href="../reference/install_mc.html">install_mc()</a></code> will now prompt before install in interactive mode and must be called explicitly in batch scripts.</li>
 <li>bug-fix: 0.0.4 some tests may not have fail gracefully when depending on external resources. This is now patched.</li>
 </ul></div>
