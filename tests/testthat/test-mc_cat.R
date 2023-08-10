@@ -1,7 +1,9 @@
 test_that("mc_cat works", {
   
+  skip_if_offline()
   skip_on_cran()
-  skip_if_offline()  
+  Sys.setenv("R_USER_DATA_DIR"=tempdir())
+  install_mc()
   
   tf <- tempfile()
   write.csv(faithful, tf, row.names = FALSE)

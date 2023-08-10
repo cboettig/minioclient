@@ -4,7 +4,7 @@
 \alias{mc_config_set}
 \title{mc_config_set}
 \usage{
-mc_config_set(alias, key, value, json = "~/.mc/config.json")
+mc_config_set(alias, key, value, json = file.path(minio_path(), "config.json"))
 }
 \arguments{
 \item{alias}{A configured alias, see \code{\link[=mc_alias_set]{mc_alias_set()}}}

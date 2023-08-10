@@ -38,11 +38,12 @@ devtools::install_github("cboettig/minioclient")
 
 ## MinIO Client
 
-At first use, all operations will attempt to install the client if not already installed.
+At first use, all operations will attempt to install the client (after prompting) if not already installed.
 Users can also install latest version of the minio client can be installed using `install_mc`.
 
 ```{r}
 library(minioclient)
+install_mc()
 ```
 
 The MinIO client is designed to support multiple endpoints for cloud storage, including AWS, Google Cloud Storage (via S3-compatibility), and other S3 compatible clients such as open source MinIO or Redhat CEPH storage systems. MinIO uses a syntax based around _aliases_ to allow access across multiple platforms. Aliases can be configured using access key pairs to allow authenticated access. 

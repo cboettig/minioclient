@@ -36,15 +36,3 @@ For example "select s.* from S3Object s limit 10" is valid syntax.
 More examples of query syntax here:
 \url{https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-select-sql-reference-select.html}
 }
-\examples{
-\dontrun{
-# upload a CSV file
-tf <- tempfile()
-write.csv(iris, tf, row.names = FALSE)
-mc_mb("play/iris")
-mc_cp(tf, "play/iris/iris.csv")
-
-# read first 12 lines from the CSV
-mc_sql("play/iris/iris.csv", query = "select * from S3Object limit 12")
-}#' 
-}

@@ -58,12 +58,13 @@ devtools::install_github("cboettig/minioclient")
 
 ## MinIO Client
 
-At first use, all operations will attempt to install the client if not
-already installed. Users can also install latest version of the minio
-client can be installed using `install_mc()`.
+At first use, all operations will attempt to install the client (after
+prompting) if not already installed. Users can also install latest
+version of the minio client can be installed using `install_mc`.
 
 ``` r
 library(minioclient)
+install_mc()
 ```
 
 The MinIO client is designed to support multiple endpoints for cloud
@@ -82,12 +83,6 @@ client we want:
 
 ``` r
 mc_alias_ls("play")
-#> play
-#>   URL       : https://play.min.io
-#>   AccessKey : Q3AM3UQ867SPQQA43P2F
-#>   SecretKey : zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
-#>   API       : S3v4
-#>   Path      : auto
 ```
 
 Some S3 object storage systems allow access without credentials.
@@ -102,7 +97,6 @@ credentials, like so:
 
 ``` r
 mc_alias_set("anon", "s3.amazonaws.com", access_key = "", secret_key = "")
-#> Added `anon` successfully.
 ```
 
 Configuration of aliases is stored in a persistent configuration file,
@@ -115,8 +109,7 @@ Data Registry:
 
 ``` r
 mc_ls("anon/gbif-open-data-us-east-1")
-#> [2021-05-19 12:25:22 UTC]  32KiB STANDARD index.html
-#> [2023-06-26 18:39:22 UTC]     0B occurrence/
+#> [1] "index.html"  "occurrence/"
 ```
 
 All `mc` functions can also understand local filesystem paths. Any
@@ -128,20 +121,11 @@ directory:
 
 ``` r
 mc_ls("R")
-#> [2023-06-26 04:08:40 UTC] 2.1KiB install_mc.R
-#> [2023-06-26 04:10:18 UTC] 1.2KiB mc.R
-#> [2023-06-26 04:10:41 UTC] 1.3KiB mc_alias.R
-#> [2023-06-26 03:55:58 UTC] 1.2KiB mc_anonymous.R
-#> [2023-06-26 03:56:18 UTC] 1.1KiB mc_cp.R
-#> [2023-06-25 21:40:07 UTC]    82B mc_diff.R
-#> [2023-06-25 23:09:03 UTC]   371B mc_du.R
-#> [2023-06-26 03:56:33 UTC]  1004B mc_ls.R
-#> [2023-06-25 21:33:07 UTC]   299B mc_mb.R
-#> [2023-06-26 03:57:09 UTC] 1.6KiB mc_mirror.R
-#> [2023-06-26 03:57:25 UTC] 1.0KiB mc_mv.R
-#> [2023-06-25 21:32:46 UTC]   351B mc_rb.R
-#> [2023-06-26 03:57:43 UTC] 1.0KiB mc_rm.R
-#> [2023-06-25 21:41:30 UTC]   125B mc_stat.R
+#>  [1] "install_mc.R"    "mc.R"            "mc_alias.R"      "mc_anonymous.R" 
+#>  [5] "mc_cat.R"        "mc_config_set.R" "mc_cp.R"         "mc_diff.R"      
+#>  [9] "mc_du.R"         "mc_head.R"       "mc_ls.R"         "mc_mb.R"        
+#> [13] "mc_mirror.R"     "mc_mv.R"         "mc_rb.R"         "mc_rm.R"        
+#> [17] "mc_sql.R"        "mc_stat.R"
 ```
 
 ## Uploads & Downloads
@@ -161,7 +145,7 @@ fs::file_info("gbif.html")
 #> # A tibble: 1 × 18
 #>   path       type     size permissions modification_time   user  group device_id
 #>   <fs::path> <fct> <fs::b> <fs::perms> <dttm>              <chr> <chr>     <dbl>
-#> 1 gbif.html  file    31.6K rw-r--r--   2023-06-26 18:39:23 cboe… cboe…     66307
+#> 1 gbif.html  file    31.6K rw-r--r--   2023-08-10 18:33:12 cboe… cboe…     66307
 #> # ℹ 10 more variables: hard_links <dbl>, special_device_id <dbl>, inode <dbl>,
 #> #   block_size <dbl>, blocks <dbl>, flags <int>, generation <dbl>,
 #> #   access_time <dttm>, change_time <dttm>, birth_time <dttm>
@@ -175,7 +159,7 @@ random_name <- paste0(sample(letters, 12, replace = TRUE), collapse = "")
 play_bucket <- paste0("play/play-", random_name)
 
 mc_mb(play_bucket)
-#> Bucket created successfully `play/play-natziyhyiyhb`.
+#> Bucket created successfully `play/play-nwqvinphaeoh`.
 ```
 
 We can copy files or directories to the remote bucket:
@@ -183,21 +167,25 @@ We can copy files or directories to the remote bucket:
 ``` r
 mc_cp("anon/gbif-open-data-us-east-1/index.html", play_bucket)
 mc_cp("R/", play_bucket, recursive = TRUE, verbose = TRUE)
-#> `/home/cboettig/cboettig/minioclient/R/install_mc.R` -> `play/play-natziyhyiyhb/install_mc.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc.R` -> `play/play-natziyhyiyhb/mc.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_alias.R` -> `play/play-natziyhyiyhb/mc_alias.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_anonymous.R` -> `play/play-natziyhyiyhb/mc_anonymous.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_cp.R` -> `play/play-natziyhyiyhb/mc_cp.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_diff.R` -> `play/play-natziyhyiyhb/mc_diff.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_du.R` -> `play/play-natziyhyiyhb/mc_du.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_ls.R` -> `play/play-natziyhyiyhb/mc_ls.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_mb.R` -> `play/play-natziyhyiyhb/mc_mb.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_mirror.R` -> `play/play-natziyhyiyhb/mc_mirror.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_mv.R` -> `play/play-natziyhyiyhb/mc_mv.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_rb.R` -> `play/play-natziyhyiyhb/mc_rb.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_rm.R` -> `play/play-natziyhyiyhb/mc_rm.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_stat.R` -> `play/play-natziyhyiyhb/mc_stat.R`
-#> Total: 0 B, Transferred: 12.72 KiB, Speed: 247.50 KiB/s
+#> `/home/cboettig/cboettig/minioclient/R/mc.R` -> `play/play-nwqvinphaeoh/mc.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_alias.R` -> `play/play-nwqvinphaeoh/mc_alias.R`
+#> `/home/cboettig/cboettig/minioclient/R/install_mc.R` -> `play/play-nwqvinphaeoh/install_mc.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_anonymous.R` -> `play/play-nwqvinphaeoh/mc_anonymous.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_cat.R` -> `play/play-nwqvinphaeoh/mc_cat.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_config_set.R` -> `play/play-nwqvinphaeoh/mc_config_set.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_cp.R` -> `play/play-nwqvinphaeoh/mc_cp.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_diff.R` -> `play/play-nwqvinphaeoh/mc_diff.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_du.R` -> `play/play-nwqvinphaeoh/mc_du.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_head.R` -> `play/play-nwqvinphaeoh/mc_head.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_ls.R` -> `play/play-nwqvinphaeoh/mc_ls.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_mb.R` -> `play/play-nwqvinphaeoh/mc_mb.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_mirror.R` -> `play/play-nwqvinphaeoh/mc_mirror.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_mv.R` -> `play/play-nwqvinphaeoh/mc_mv.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_rb.R` -> `play/play-nwqvinphaeoh/mc_rb.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_rm.R` -> `play/play-nwqvinphaeoh/mc_rm.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_sql.R` -> `play/play-nwqvinphaeoh/mc_sql.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_stat.R` -> `play/play-nwqvinphaeoh/mc_stat.R`
+#> Total: 0 B, Transferred: 21.60 KiB, Speed: 417.13 KiB/s
 ```
 
 Note the use of `recursive = TRUE` to transfer all objects matching the
@@ -211,14 +199,12 @@ We can examine disk usage of remote objects or directories:
 
 ``` r
 mc_du(play_bucket)
-#> 44KiB    15 objects  play-natziyhyiyhb
 ```
 
 We can also adjust permissions for anonymous access:
 
 ``` r
 mc_anonymous_set(play_bucket, "download")
-#> Access permission for `play/play-natziyhyiyhb` is set to `download`
 ```
 
 Public objects can be accessed directly over HTTPS connection using the
@@ -252,43 +238,6 @@ details on optional flags and further examples.
 
 ``` r
 mc_du("-h")
-#> NAME:
-#>   mc du - summarize disk usage recursively
-#> 
-#> USAGE:
-#>   mc du [FLAGS] TARGET
-#> 
-#> FLAGS:
-#>   --depth value, -d value       print the total for a folder prefix only if it is N or fewer levels below the command line argument (default: 0)
-#>   --recursive, -r               recursively print the total for a folder prefix
-#>   --rewind value                include all object versions no later than specified date
-#>   --versions                    include all object versions
-#>   --encrypt-key value           encrypt/decrypt objects (using server-side encryption with customer provided keys)
-#>   --config-dir value, -C value  path to configuration folder (default: "/home/cboettig/.mc")
-#>   --quiet, -q                   disable progress bar display
-#>   --no-color                    disable color theme
-#>   --json                        enable JSON lines formatted output
-#>   --debug                       enable debug output
-#>   --insecure                    disable SSL certificate verification
-#>   --limit-upload value          limits uploads to a maximum rate in KiB/s, MiB/s, GiB/s. (default: unlimited)
-#>   --limit-download value        limits downloads to a maximum rate in KiB/s, MiB/s, GiB/s. (default: unlimited)
-#>   --help, -h                    show help
-#>   
-#> ENVIRONMENT VARIABLES:
-#>   MC_ENCRYPT_KEY: list of comma delimited prefix=secret values
-#> 
-#> EXAMPLES:
-#>   1. Summarize disk usage of 'jazz-songs' bucket recursively.
-#>      $ mc du s3/jazz-songs
-#> 
-#>   2. Summarize disk usage of 'louis' prefix in 'jazz-songs' bucket upto two levels.
-#>      $ mc du --depth=2 s3/jazz-songs/louis/
-#> 
-#>   3. Summarize disk usage of 'jazz-songs' bucket at a fixed date/time
-#>      $ mc du --rewind "2020.01.01" s3/jazz-songs/
-#> 
-#>   4. Summarize disk usage of 'jazz-songs' bucket with all objects versions
-#>      $ mc du --versions s3/jazz-songs/
 ```
 
 We can now use arbitrary `mc` commands (see
@@ -298,20 +247,4 @@ here) match for these objects:
 
 ``` r
 mc(paste("stat", "anon/gbif-open-data-us-east-1/index.html", paste0(play_bucket, "/index.html")))
-#> Name      : index.html
-#> Date      : 2021-05-19 12:25:22 UTC 
-#> Size      : 32 KiB 
-#> ETag      : b3c8ed2b99c181bd763d742025a7340d 
-#> VersionID : QgZ8OTH0gdcSbpj2yTl9tINxi_4thnj1 
-#> Type      : file 
-#> Metadata  :
-#>   Content-Type: text/html 
-#> Replication Status: REPLICA 
-#> Name      : index.html
-#> Date      : 2023-06-26 18:39:25 UTC 
-#> Size      : 32 KiB 
-#> ETag      : b3c8ed2b99c181bd763d742025a7340d 
-#> Type      : file 
-#> Metadata  :
-#>   Content-Type: text/html
 ```

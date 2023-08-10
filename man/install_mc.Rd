@@ -7,7 +7,7 @@
 install_mc(
   os = system_os(),
   arch = system_arch(),
-  path = bin_path(),
+  path = minio_path(),
   force = FALSE
 )
 }
@@ -35,11 +35,11 @@ architectures.
 For details, see official MINIO docs for your operating system,
 e.g. \url{https://min.io/docs/minio/macos/index.html}.
 
-NOTE: If you want to install to other than the default location, OR if you
-already have a minio client installed somewhere and want to use that,
-simply set the option "mc.bin.dir", to the appropriate location of the
+NOTE: If you want to install to other than the default location,
+simply set the option "minioclient.dir", to the appropriate location of the
 directory containing your "mc" binary, e.g.
-\verb{options("mc.bin.dir" = "/usr/local/bin)}.  Note that this package
+\code{options("minioclient.dir" = "~/.mc")}. This is also used as the location
+of the config directory. Note that this package
 will not automatically use MINIO available on $PATH (to promote security
 and portability in design).
 }

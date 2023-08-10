@@ -8,8 +8,11 @@ is_df <- function(x)
 
 test_that("mc_ls works for listing files at minio play server", {
   
+  skip_if_offline()
   skip_on_cran()
-  skip_if_offline()  
+  Sys.setenv("R_USER_DATA_DIR"=tempdir())
+  install_mc()
+  
   
   ls <- mc_ls("play/", details = TRUE)
   expect_true(is_df(ls))
@@ -17,8 +20,10 @@ test_that("mc_ls works for listing files at minio play server", {
 
 test_that("mc_ls works for listing files locally", {
   
+  skip_if_offline()
   skip_on_cran()
-  skip_if_offline()  
+  Sys.setenv("R_USER_DATA_DIR"=tempdir())
+  install_mc() 
   
   ls <- mc_ls(getwd(), details = TRUE)
   expect_true(is_df(ls))
@@ -26,8 +31,10 @@ test_that("mc_ls works for listing files locally", {
 
 test_that("mc_ls works for listing files recursively locally", {
   
+  skip_if_offline()
   skip_on_cran()
-  skip_if_offline()  
+  Sys.setenv("R_USER_DATA_DIR"=tempdir())
+  install_mc()
   
   ls <- mc_ls(getwd(), details = TRUE, recursive = TRUE)
   
@@ -36,8 +43,10 @@ test_that("mc_ls works for listing files recursively locally", {
 
 test_that("mc_ls provides path", {
   
+  skip_if_offline()
   skip_on_cran()
-  skip_if_offline()  
+  Sys.setenv("R_USER_DATA_DIR"=tempdir())
+  install_mc() 
   
   ls <- mc_ls("play/", details = TRUE)
   has_path <- all(grepl("play", ls$path))

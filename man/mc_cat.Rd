@@ -24,10 +24,11 @@ The cat command returns the contents of the object as a string. This can
 be useful when reading smaller files (without first downloading to disk).
 }
 \examples{
-\dontrun{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # upload a file to a bucket and read it back
+install_mc()
 mc_mb("play/mcr")
 mc_cp(system.file(package = "minioclient", "DESCRIPTION"), "play/mcr/DESCRIPTION")
 mc_cat("play/mcr/DESCRIPTION")
-}
+\dontshow{\}) # examplesIf}
 }
