@@ -1,5 +1,11 @@
 test_that("s3 select api requests work and returns a data frame", {
   
+  skip_if_offline()
+  skip_on_cran()
+  Sys.setenv("R_USER_DATA_DIR"=tempdir())
+  install_mc()
+  
+  
   mc_mb("play/iris")
   tf <- tempfile(fileext = ".csv")
   write.csv(iris, row.names = FALSE, file = tf)
@@ -13,6 +19,13 @@ test_that("s3 select api requests work and returns a data frame", {
 })
 
 test_that("s3 select api requests work with a specific query used", {
+  
+  skip_if_offline()
+  skip_on_cran()
+  Sys.setenv("R_USER_DATA_DIR"=tempdir())
+  
+  install_mc()
+  
   
   mc_mb("play/iris")
   tf <- tempfile(fileext = ".csv")

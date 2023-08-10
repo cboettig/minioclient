@@ -14,7 +14,7 @@
 mc_config_set <- function(alias,
                           key, 
                           value,
-                          json = "~/.mc/config.json") {
+                          json = file.path(minio_path(), "config.json")) {
   config <- jsonlite::read_json(json)
   
   config[["aliases"]][[alias]][[key]] <- value

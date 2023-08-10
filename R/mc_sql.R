@@ -20,7 +20,8 @@
 #' 
 #' More examples of query syntax here: 
 #' <https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-select-sql-reference-select.html>
-#' @examples \dontrun{
+#' @examplesIf interactive()
+#' install_mc()
 #' # upload a CSV file
 #' tf <- tempfile()
 #' write.csv(iris, tf, row.names = FALSE)
@@ -30,9 +31,12 @@
 #' # read first 12 lines from the CSV
 #' mc_sql("play/iris/iris.csv", query = "select * from S3Object limit 12")
 #' }#' 
-mc_sql <- function(target, query = "select * from S3Object", recursive = TRUE, verbose = FALSE) {
+mc_sql <- function(target,
+                   query = "select * from S3Object",
+                   recursive = TRUE, 
+                   verbose = FALSE) {
   
-  binary <- fs::path(bin_path(), "mc")
+  binary <- fs::path(minio_path(), "mc")
   
   if(!file.exists(binary)) {
     install_mc()

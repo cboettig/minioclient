@@ -18,13 +18,16 @@
 #' see <https://min.io/docs/minio/linux/reference/minio-mc.html>.
 #' The R package provides wrappers only for the most common use cases,
 #' which provide a more natural R syntax and native documentation.
-mc <- function(command, ..., path = bin_path(), verbose = interactive()) {
+mc <- function(command, ..., path = minio_path(), verbose = interactive()) {
   
   binary <- fs::path(path, "mc")
-  if(!file.exists(binary)) {
-    install_mc()
+  if(!file.exists(binary) && interactive()) {
+    proceed <- utils::askYesNo(
+      "the mc client is not yet installed, should we install it now?")
+    if(proceed) install_mc()
   }
   
+  command <- paste("--config-dir", path, command)
   args <- strsplit(command, split = " ")[[1]]
   p <- processx::run(binary, args, ...)
   

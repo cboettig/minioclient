@@ -12,6 +12,7 @@ test_that("wrappers", {
   skip_on_cran()
   skip_if_offline()
   Sys.setenv("R_USER_DATA_DIR"=tempdir())
+  install_mc()
   
   suppressMessages({  
     x <- mc_alias_ls("play")
