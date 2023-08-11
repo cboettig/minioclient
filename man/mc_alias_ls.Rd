@@ -2,22 +2,27 @@
 % Please edit documentation in R/mc_alias.R
 \name{mc_alias_ls}
 \alias{mc_alias_ls}
-\title{List all configured aliases}
+\title{Returns all aliases known by the minio client, including those provided
+through MC_HOST_* environment variables}
 \usage{
-mc_alias_ls(alias = "")
+mc_alias_ls(alias, details = FALSE, include_all = TRUE, show_secret = FALSE)
 }
 \arguments{
-\item{alias}{optional argument, display only specified alias}
+\item{alias}{single string with the alias to filter for, by default missing}
+
+\item{details}{logical to indicate whether results should be provided as
+a vector with the alias names or as a data frame with full details}
+
+\item{include_all}{logical to indicate whether to include also temporary aliases
+specified through MC_HOST_* environment variable settings}
+
+\item{show_secret}{logical to indicate whether to display the secret pass
+or to blank it out (the default)}
 }
 \value{
-Configured aliases, including secret keys!
+a vector of aliases or a data frame with alias details
 }
 \description{
-List all configured aliases
-}
-\details{
-Note that all available
-}
-\seealso{
-mc
+Returns all aliases known by the minio client, including those provided
+through MC_HOST_* environment variables
 }

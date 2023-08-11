@@ -2,11 +2,17 @@
 #' mc alias set
 #' 
 #' Set a new alias for the minio client, possibly using env var defaults.
-#' @param alias a short name for this endpoint, default is `minio`
-#' @param access_key access key (user), reads from AWS env vars by default
-#' @param secret_key secret access key, reads from AWS env vars by default
-#' @param scheme https or http (e.g. for local machine only)
-#' @param endpoint the endpoint domain name
+#' @param endpoint_url the endpoint url, starting with the scheme, for example
+#'   "http://localhost:9000" or "https://play.min.io" or "https://s3.amazonaws.com"
+#' @param alias a short name for this endpoint
+#' @param access_key access key (user)
+#' @param secret_key secret access key
+#' @param token temporary session token
+#' @param storage one of "config" (default) or "env", to indicate if the alias setting 
+#' should be stored in the config file for the minio client or as a system
+#' environment variable
+#' @param use_aws_env logical to indicate whether settings for the alias should
+#' be inferred from currently specified AWS environment variables
 #' @inherit mc return
 #' @references <https://min.io/docs/minio/linux/reference/minio-mc.html>.
 #' Note that keys can be omitted for anonymous use.
@@ -16,34 +22,50 @@
 #' mc_alias_set()
 #' 
 #' @export
-mc_alias_set <- 
-  function(alias = "minio", 
-           endpoint = Sys.getenv("AWS_S3_ENDPOINT", "s3.amazonaws.com"),
-           access_key = Sys.getenv("AWS_ACCESS_KEY_ID"),
-           secret_key = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
-           scheme = "https"
-           ){
-
-    cmd <- glue::glue("alias set {alias} {scheme}://{endpoint}")
-    if(nchar(secret_key) > 0)
-      cmd <- glue::glue(cmd, " {access_key} {secret_key}")
-    mc(cmd)
+mc_alias_set <- function(alias, endpoint_url, 
+  access_key = NA, secret_key = NA, token = NA, 
+  storage = c("config", "env"),
+  use_aws_env = FALSE) {
+  
+  if (use_aws_env) {
+    setting <- parse_aws_env(alias)
+  } else {
+    setting <- mc_host_env(
+      alias = alias, endpoint_url = endpoint_url, 
+      login = access_key, pass = secret_key, token = token
+    )
   }
-
-#' List all configured aliases
-#' @param alias optional argument, display only specified alias
-#' @return Configured aliases, including secret keys!
-#' @seealso mc
-#' @details Note that all available 
-#' @export
-mc_alias_ls <- function(alias = "") {
-  mc(paste("alias ls", alias))
+  
+  switch(match.arg(storage), 
+    "config" = {
+      params <- parse_mc_host_env(setting, show_secret = T)
+      if (nzchar(params$URL))
+        stop("Please provide an endpoint_url setting")
+      if (nzchar(params$alias))
+        stop("Please provide a setting for the alias name")
+      cmd <- glue::glue("alias set {params$alias} {params$URL}")
+      if (!nzchar(params$secretKey))
+        cmd <- glue::glue(cmd, " {params$accessKey} {params$secretKey}")
+      mc(cmd)
+      # append session token (see https://github.com/minio/mc/issues/2444)
+      if (!missing(token)) {
+        mc_config_set(alias = alias, key = "sessionToken", value = params$token)
+      }
+    },
+    "env" = {
+      do.call(Sys.setenv, setting)
+    }
+  )
 }
 
 mc_alias_ls_env <- function(alias, details = FALSE, show_secret = FALSE) {
   envs <- Sys.getenv()[which(grepl("^MC_HOST_.*", names(Sys.getenv())))]
   aliases <- gs(names(envs), "MC_HOST_", "")
-  if (!missing(alias)) aliases <- aliases[names(aliases) %in% alias]
+  if (!missing(alias)) {
+    i <- aliases %in% alias
+    aliases <- aliases[i]
+    envs <- envs[i]
+  }
   if (!details) return(aliases)
   parse_mc_host_env(envs, show_secret = show_secret)
 }
@@ -109,6 +131,8 @@ parse_url <- function(x) {
 #' @return a data frame with the same columns as when 
 parse_mc_host_env <- function(x, show_secret = TRUE) {
   
+  if (length(x) == 0) return(data.frame())
+   
   # see https://github.com/minio/mc/blob/0a529d5e642f1a50a74b256c683be453e26bf7e9/cmd/config.go#L215
   
   re_proto <- "(https*)://"
@@ -123,23 +147,31 @@ parse_mc_host_env <- function(x, show_secret = TRUE) {
   re_tail <- paste0(".*?@", re_endpoint, "$")
   #re_tail <- ".*?@(([^:]*)(:(.*?)))?(.*?)$"
 
+  re_skeleton <- "(https?://(.*))?@(.*?)$"
+  
+  endpoint <- gsr(gsr(x, re_skeleton, "\\3"), "https?://", "")  
+  triplet <- ifelse(grepl("@", x), gsr(x, re_skeleton, "\\2"), "")
+  
   # now parse the components
   
   alias <- gsr(names(x), "MC_HOST_", "")
   
-  # triplet login/pass and (optional) token
-  login <- gsr(x, re_all, "\\2")
-  pass <- gsr(x, re_all, "\\3")
-  token <- gsr(x, re_all, "\\5")
-  
+  trip <- lapply(strsplit(triplet, split = ":"), "[", 1:3)
+  login <- vreplace(sapply(trip, "[", 1))
+  pass <- vreplace(sapply(trip, "[", 2))
+  token <- vreplace(sapply(trip, "[", 3))
+
   # server info
-  proto <- gsr(x, re_all, "\\1")
-  endpoint <- gsr(x, re_all, "\\6")
-  port <- gsr(x, re_tail, "\\3")
-  
-  URL <- paste0(proto, "://", endpoint, 
+  proto <- gsr(x, ".*?(https?)://.*$", "\\1")
+
+  hp <- lapply(strsplit(endpoint, c(":")), "[", 1:2)
+  host <- vreplace(sapply(hp, "[", 1))
+  port <- vreplace(sapply(hp, "[", 2))
+
+  URL <- paste0(proto, "://", host, 
     ifelse(is.na(port), "", paste0(":", port)))
   
+  # TODO: better regexp for validating MC_HOST_*-urls
   status <- ifelse(!grepl("\\s+", URL), "success", "invalid")
   accessKey <- login
   secretKey <- if (show_secret) pass else NA_character_
@@ -161,33 +193,90 @@ parse_mc_host_env <- function(x, show_secret = TRUE) {
 #' Returns all aliases known by the minio client, including those provided 
 #' through MC_HOST_* environment variables
 #' 
+#' @param alias single string with the alias to filter for, by default missing
 #' @param details logical to indicate whether results should be provided as
 #' a vector with the alias names or as a data frame with full details
+#' @param include_all logical to indicate whether to include also temporary aliases
+#' specified through MC_HOST_* environment variable settings
 #' @param show_secret logical to indicate whether to display the secret pass
 #' or to blank it out (the default)
 #' @return a vector of aliases or a data frame with alias details
-mc_aliases <- function(details = FALSE, show_secret = FALSE) {
+mc_alias_ls <- function(alias, details = FALSE, include_all = TRUE, show_secret = FALSE) {
   
-  res <- read_jsonl(mc("alias ls --json", verbose = FALSE)$stdout)
-  class(res) <- c("tbl_df", "tbl", "data.frame")
-  env_res <- mc_alias_ls_env(details = details, show_secret = show_secret)
+  if (!missing(alias) && length(alias) > 1)
+    stop("The mc alias list command allows only one argument")
+
+  include_conf <- TRUE
   
-  if (!details) {
-    return(unique(res$alias, env_res))
+  if (include_all) {
+    aliases_env <- mc_alias_ls_env(alias = alias, 
+       details = details, show_secret = show_secret)
+    class(aliases_env) <- c("tbl_df", "tbl", "data.frame")
+    # do not look up aliases from the conf which is resolved from env
+    if (!missing(alias) && details && (nrow(aliases_env) > 0)) {
+      alias <- alias[!(aliases_env$alias %in% alias)]
+    } else if (!missing(alias) && !details && (length(aliases_env) > 0)) {
+      alias <- alias[!(aliases_env %in% alias)]
+    }
+  }
+  
+  alias_args <- ""
+  
+  if (!missing(alias) && length(alias) == 0)  # no aliases left to lookup in conf...
+        include_conf <- FALSE  
+  
+  if (!missing(alias)) 
+    alias_args <- paste0(collapse = " ", trimws(alias))
+
+  if (include_conf) {
+    mc_response <- #tryCatch(
+      mc(glue::glue("alias ls --json {alias_args}"), verbose = FALSE)$stdout#,
+    #  error = function(e) ""
+    #)
+    aliases_conf <- read_jsonl(mc_response)
+    class(aliases_conf) <- c("tbl_df", "tbl", "data.frame")
+  } else {
+    aliases_conf <- data.frame()
+    class(aliases_conf) <- c("tbl_df", "tbl", "data.frame")
   }
 
-  if (!show_secret) {
-    res$secretKey <- NA_character_
-    env_res$secretKey <- NA_character_
+  # token can not be specified in .mc/config.json (yet?)
+  if (nrow(aliases_conf) > 0) 
+    aliases_conf$token <- NA_character_
+  
+  if (!include_all) {
+    if (!details) return(unique(aliases_conf$alias))
+    if (!show_secret) {
+      if (nrow(aliases_conf) > 0) aliases_conf$secretKey <- NA_character_
+    }
+    return(aliases_conf)
   }
   
-  res$token <- NA_character_
-  res <- rbind(res, env_res)
-  res
+  # include MC_HOST_* settings
+  # TODO: do this first, since these take precedence over the config file
+  # TODO: double check the go-code to verify that this is the case
+  # TODO: then exclude any "aliases" found that are MC_HOST_* alias
+  # from the query to "mc alias ls"
+  # OOPS: this command does not allow multiple arguments ie not vectorized...
+  
+  if (!details) {
+    aliases <- unique(c(if (nrow(aliases_conf) > 0) aliases_conf$alias else NULL, aliases_env))
+    return(aliases)
+  } else {
+    if (include_conf) {
+      aliases <- rbind.data.frame(aliases_conf, aliases_env)
+    } else {
+      aliases <- aliases_env
+    }
+    if (!show_secret) aliases$secretKey <- NA_character_
+    class(aliases) <- c("tbl_df", "tbl", "data.frame")
+    return(aliases)
+  }
+  
 }
 
 starts_with_alias <- function(x) {
-  re_aliases <- paste0("^", paste0(collapse = "|", mc_aliases()))
+  re_aliases <- paste0("^", paste0(collapse = "|", mc_alias_ls()))
   grepl(re_aliases, x)
 }
 
@@ -242,20 +331,21 @@ mc_host_env <- function(alias, endpoint_url, login = NA, pass = NA, token = NA) 
 
   use_https <- grepl("^https", endpoint_url)
   proto <- sprintf("http%s://", if (use_https) "s" else "")
-  endpoint <- gs(endpoint_url, "https*://", "")
+  endpoint <- gs(endpoint_url, "https?://", "")
   
   triplet <- as.character(glue::glue_collapse(na.omit(c(login, pass, token)), sep = ":"))
   
   if (length(triplet) == 0) {
-    warning("Please provide credentials (login/pass)...")
+    message("No login/pass/token for alias ", alias)
     triplet <- NULL
+    val <- as.character(glue::glue("{proto}{endpoint}", .na = "", .null = ""))
   }
   
   alias <- paste0("MC_HOST_", alias)
-  val <- as.character(glue::glue("{proto}{triplet}@{endpoint}", .na = "", .null = ""))
+  if (!is.null(triplet))
+    val <- as.character(glue::glue("{proto}{triplet}@{endpoint}", .na = "", .null = ""))
   names(val) <- alias
   as.list(val)
-    
 }
 
 #' Creates and activates a MC_HOST_alias environment variable based on AWS 

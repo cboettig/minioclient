@@ -2,7 +2,6 @@
 
 export(install_mc)
 export(mc)
-export(mc_alias_ls)
 export(mc_alias_set)
 export(mc_anonymous_set)
 export(mc_cat)
