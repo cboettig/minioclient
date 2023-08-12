@@ -86,6 +86,14 @@ across a minio ALIAS/PATH specification</p></dd>
 
 </dl></div>
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    
+
+<p>SQL query results as a <code>data.frame</code> of class <code>tbl_df</code></p>
+
+
+    </div>
+    <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>See <a href="https://min.io/docs/minio/linux/reference/minio-mc/mc-sql.html#" class="external-link">https://min.io/docs/minio/linux/reference/minio-mc/mc-sql.html#</a> and
 <a href="https://github.com/minio/minio/blob/master/docs/select/README.md" class="external-link">https://github.com/minio/minio/blob/master/docs/select/README.md</a></p>
@@ -94,6 +102,22 @@ across a minio ALIAS/PATH specification</p></dd>
 <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-select-sql-reference-select.html" class="external-link">https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-select-sql-reference-select.html</a></p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># interactive()</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="install_mc.html">install_mc</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># upload a CSV file</span></span></span>
+<span class="r-in"><span><span class="va">tf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">tf</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="mc_mb.html">mc_mb</a></span><span class="op">(</span><span class="st">"play/iris"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="mc_cp.html">mc_cp</a></span><span class="op">(</span><span class="va">tf</span>, <span class="st">"play/iris/iris.csv"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># read first 12 lines from the CSV</span></span></span>
+<span class="r-in"><span><span class="fu">mc_sql</span><span class="op">(</span><span class="st">"play/iris/iris.csv"</span>, query <span class="op">=</span> <span class="st">"select * from S3Object limit 12"</span><span class="op">)</span></span></span>
+<span class="r-in"><span> </span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 
