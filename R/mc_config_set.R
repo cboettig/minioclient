@@ -5,7 +5,7 @@
 #' @param key the parameter name, e.g. `sessionToken`
 #' @param value the value to set the parameter to
 #' @param json path to the config
-#' 
+#' @return updates configuration and returns silently (`NULL`). 
 #' @examplesIf interactive()
 #' 
 #' mc_config_set("play", key="sessionToken", value="MyTmpSessionToken")

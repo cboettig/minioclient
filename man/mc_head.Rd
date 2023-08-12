@@ -22,3 +22,16 @@ The head command returns the first n lines of the object as a string. This can
 be useful when inspecting the content of a large file (without first having to
 download and store it on disk locally).
 }
+\examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+# upload a CSV file
+install_mc()
+tf <- tempfile()
+write.csv(iris, tf, row.names = FALSE)
+mc_mb("play/iris")
+mc_cp(tf, "play/iris/iris.csv")
+
+# read first 13 lines from the CSV (header + 12 rows of data)
+read.csv(text = mc_head("play/iris/iris.csv", n = 13))
+\dontshow{\}) # examplesIf}
+}

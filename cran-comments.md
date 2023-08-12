@@ -1,1 +1,1 @@
-Bugfix release addressing issues as described in NEWS.md
+Fixes remaining issues raised by CRAN

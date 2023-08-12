@@ -15,6 +15,9 @@ mc_config_set(alias, key, value, json = file.path(minio_path(), "config.json"))
 
 \item{json}{path to the config}
 }
+\value{
+updates configuration and returns silently (\code{NULL}).
+}
 \description{
 Edit the config files, e.g. to add a sessionToken
 }

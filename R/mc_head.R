@@ -9,7 +9,7 @@
 #' @param flags additional flags to be passed to the `cat` command.
 #'  Default is an empty string.
 #' @returns a character string with the contents of the file
-#' @exampleIf interactive()
+#' @examplesIf interactive()
 #' # upload a CSV file
 #' install_mc()
 #' tf <- tempfile()
