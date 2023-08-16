@@ -130,6 +130,11 @@ test_that("parsing MC_HOST_* env vars works", {
 
 test_that("MC_HOST_* env var values from parameters works (roundtripping)", {
   
+  skip_if_offline()
+  skip_on_cran()
+  Sys.setenv("R_USER_DATA_DIR"=tempdir())
+  install_mc()
+  
   details <- mc_alias_ls(details = TRUE, show_secret = TRUE)
   d <- details[,c("alias", "URL", "accessKey", "secretKey", "token")]
   colnames(d) <- c("alias", "endpoint_url", "login", "pass", "token")

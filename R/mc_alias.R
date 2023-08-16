@@ -2,9 +2,9 @@
 #' mc alias set
 #' 
 #' Set a new alias for the minio client, possibly using env var defaults.
+#' @param alias a short name for this endpoint
 #' @param endpoint_url the endpoint url, starting with the scheme, for example
 #'   "http://localhost:9000" or "https://play.min.io" or "https://s3.amazonaws.com"
-#' @param alias a short name for this endpoint
 #' @param access_key access key (user)
 #' @param secret_key secret access key
 #' @param token temporary session token
@@ -30,8 +30,7 @@ mc_alias_set <- function(alias, endpoint_url,
   if (use_aws_env) {
     setting <- parse_aws_env(alias)
   } else {
-    setting <- mc_host_env(
-      alias = alias, endpoint_url = endpoint_url, 
+    setting <- mc_host_env(alias = alias, endpoint_url = endpoint_url, 
       login = access_key, pass = secret_key, token = token
     )
   }
@@ -39,9 +38,9 @@ mc_alias_set <- function(alias, endpoint_url,
   switch(match.arg(storage), 
     "config" = {
       params <- parse_mc_host_env(setting, show_secret = T)
-      if (nzchar(params$URL))
+      if (!nzchar(params$URL))
         stop("Please provide an endpoint_url setting")
-      if (nzchar(params$alias))
+      if (!nzchar(params$alias))
         stop("Please provide a setting for the alias name")
       cmd <- glue::glue("alias set {params$alias} {params$URL}")
       if (!nzchar(params$secretKey))
