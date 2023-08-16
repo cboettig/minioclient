@@ -6,6 +6,8 @@
 #' @param path destination where binary is installed.
 #' @param force install even if binary is already found.
 #'  Can be used to force upgrade.
+#' @param verbose logical to indicate whether to display verbose messages from
+#' the download process, by default FALSE
 #' @return path to the minio binary (invisibly)
 #' @details This function is just a convenience wrapper for prebuilt MINIO
 #' binaries, from <https://dl.min.io/client/mc/release/>. Should
@@ -29,7 +31,7 @@
 #' 
 #' @export
 install_mc <- function(os = system_os(), arch = system_arch(),
-                       path = minio_path(), force = FALSE ) {
+                       path = minio_path(), force = FALSE, verbose = FALSE) {
   
   os <- switch(os, 
                "mac" = "darwin",
@@ -47,13 +49,33 @@ install_mc <- function(os = system_os(), arch = system_arch(),
   if (file.exists(binary) && !force) {
     return(invisible(binary)) # Already installed
   }
+  
+  # to avoid special case, see 
+  # https://stackoverflow.com/questions/16764946/what-generates-the-text-file-busy-message-in-unix
+  if (file.exists(binary) && force) {
+    unlink(binary)
+  }
+  
   if (!file.exists(path)) {
     fs::dir_create(path)
   }
   
+  org_timeout <- getOption("timeout")
+  options(timeout = max(600, getOption("timeout")))
+  on.exit(options(timeout = org_timeout), add = TRUE)
+  
+  if (verbose) {
+    message(paste0("Due to download rate limiting at dl.min.io, the download ",
+    "for the 25 Mb mc binary can be slow, around 10 minutes."))
+    org_ii <- getOption("internet.info")
+    options(`internet.info` = 1)
+    on.exit(options(`internet.info` = org_ii), add = TRUE)
+  }
+  
   utils::download.file(glue::glue("https://dl.min.io/client/mc/release/",
                                   "{type}/{bin}"),
-                       dest = binary, mode = "wb", quiet = TRUE)
+                       dest = binary, mode = "wb", quiet = !verbose, 
+                       method = "libcurl")
   fs::file_chmod(binary, "+x")
   invisible(binary)
 }
