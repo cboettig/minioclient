@@ -14,7 +14,7 @@
 #' @details see `mc("rm -h")` for details.
 #' @inherit mc return
 #'
-#' @examplesIf FALSE
+#' @examplesIf interactive()
 #'
 #' # Remove a file
 #' mc_rm("path/to/file.txt")

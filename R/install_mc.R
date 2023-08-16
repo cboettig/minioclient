@@ -14,13 +14,13 @@
 #' For details, see official MINIO docs for your operating system,
 #' e.g. <https://min.io/docs/minio/macos/index.html>. 
 #' 
-#' NOTE: If you want to install to other than the default location, OR if you
-#' already have a minio client installed somewhere and want to use that, 
-#' simply set the option "mc.bin.dir", to the appropriate location of the 
+#' NOTE: If you want to install to other than the default location, 
+#' simply set the option "minioclient.dir", to the appropriate location of the 
 #' directory containing your "mc" binary, e.g.
-#'  `options("mc.bin.dir" = "/usr/local/bin)`.  Note that this package
+#'  `options("minioclient.dir" = "~/.mc")`. This is also used as the location
+#'  of the config directory. Note that this package
 #'  will not automatically use MINIO available on $PATH (to promote security
-#'  and portability in design).
+#'  and portability in design). 
 #' @examplesIf interactive()
 #' install_mc()
 #' 
@@ -29,7 +29,7 @@
 #' 
 #' @export
 install_mc <- function(os = system_os(), arch = system_arch(),
-                       path = bin_path(), force = FALSE ) {
+                       path = minio_path(), force = FALSE ) {
   
   os <- switch(os, 
                "mac" = "darwin",
@@ -58,9 +58,9 @@ install_mc <- function(os = system_os(), arch = system_arch(),
   invisible(binary)
 }
 
-bin_path <- function() {
-  getOption("mc.bin.dir", 
-            tools::R_user_dir("mc", "data")
+minio_path <- function() {
+  getOption("minioclient.dir", 
+            tools::R_user_dir("minioclient", "data")
   )
 }
 

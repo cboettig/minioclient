@@ -39,7 +39,7 @@ This function uses the \code{mc} command to mirror files and directories
 from one location to another.
 }
 \examples{
-\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 # Mirror files and directories from source to destination
 mc_mirror("path/to/source", "path/to/destination")

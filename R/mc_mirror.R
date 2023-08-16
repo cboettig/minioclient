@@ -17,7 +17,7 @@
 #'
 #' @inherit mc return
 #'
-#' @examplesIf FALSE
+#' @examplesIf interactive()
 #'
 #' # Mirror files and directories from source to destination
 #' mc_mirror("path/to/source", "path/to/destination")

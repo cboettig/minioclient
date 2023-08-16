@@ -9,12 +9,13 @@
 #' @param flags additional flags to be passed to the `cat` command.
 #'  Default is an empty string.
 #' @returns a character string with the contents of the file
-#' @examples \dontrun{
+#' @examplesIf interactive()
 #' # upload a file to a bucket and read it back
+#' install_mc()
 #' mc_mb("play/mcr")
 #' mc_cp(system.file(package = "minioclient", "DESCRIPTION"), "play/mcr/DESCRIPTION")
 #' mc_cat("play/mcr/DESCRIPTION")
-#' }
+#' 
 #' @export
 
 mc_cat <- function(target, offset = 0, tail = 0, flags = "") {

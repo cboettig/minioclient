@@ -31,7 +31,7 @@ at the specified target location.
 see \code{mc("rm -h")} for details.
 }
 \examples{
-\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 # Remove a file
 mc_rm("path/to/file.txt")

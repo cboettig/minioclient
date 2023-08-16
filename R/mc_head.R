@@ -9,8 +9,9 @@
 #' @param flags additional flags to be passed to the `cat` command.
 #'  Default is an empty string.
 #' @returns a character string with the contents of the file
-#' @examples \dontrun{
+#' @examplesIf interactive()
 #' # upload a CSV file
+#' install_mc()
 #' tf <- tempfile()
 #' write.csv(iris, tf, row.names = FALSE)
 #' mc_mb("play/iris")
@@ -18,7 +19,6 @@
 #' 
 #' # read first 13 lines from the CSV (header + 12 rows of data)
 #' read.csv(text = mc_head("play/iris/iris.csv", n = 13))
-#' }
 #' @export
 
 mc_head <- function(target, n = 10, flags = "") {

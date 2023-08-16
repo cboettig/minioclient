@@ -22,6 +22,9 @@ across a minio ALIAS/PATH specification}
 
 \item{verbose}{logical, by default FALSE}
 }
+\value{
+SQL query results as a \code{data.frame} of class \code{tbl_df}
+}
 \description{
 The S3 Select API can be used against CSV and JSON objects stored in minio.
 If the minio server runs with MINIO_API_SELECT_PARQUET=on, also parquet files
@@ -37,7 +40,8 @@ More examples of query syntax here:
 \url{https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-select-sql-reference-select.html}
 }
 \examples{
-\dontrun{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+install_mc()
 # upload a CSV file
 tf <- tempfile()
 write.csv(iris, tf, row.names = FALSE)
@@ -46,5 +50,6 @@ mc_cp(tf, "play/iris/iris.csv")
 
 # read first 12 lines from the CSV
 mc_sql("play/iris/iris.csv", query = "select * from S3Object limit 12")
-}#' 
+ 
+\dontshow{\}) # examplesIf}
 }

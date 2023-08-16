@@ -12,7 +12,7 @@
 #' @inherit mc return
 #' @details see `mc("mv -h")` for details.
 #' @seealso mc_cp
-#' @examplesIf FALSE
+#' @examplesIf interactive()
 #' 
 #' # move a file
 #' mc_mv("local/path/to/file.txt", "alias/bucket/path/file.txt")

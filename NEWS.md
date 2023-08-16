@@ -1,3 +1,18 @@
+# minioclient 0.0.5
+
+CRAN-policy based bugfix release. 
+
+* bug-fix: 0.0.4 release introduced unit tests that wrote to `~/.mc`.
+  Configuration files are now placed in `minio_path()` directory,
+  using OS-specific path from `tools::R_user_dir()`,
+  or configured as `options("minioclient.dir")`
+* bug-fix: 0.0.4 introduced unit tests that downloaded binary without prompt.
+  `install_mc()` will now prompt before install in interactive mode and must
+  be called explicitly in batch scripts.
+* bug-fix: 0.0.4 some tests may not have fail gracefully when depending on
+  external resources.  This is now patched.
+  
+
 # minioclient 0.0.4
 
 * Refactored function `mc_ls()` to provide results as a data.frame

@@ -31,7 +31,7 @@ move or rename files or directories between servers
 see \code{mc("mv -h")} for details.
 }
 \examples{
-\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 # move a file
 mc_mv("local/path/to/file.txt", "alias/bucket/path/file.txt")
