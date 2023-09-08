@@ -27,8 +27,8 @@ mc <- function(command, ..., path = minio_path(), verbose = interactive()) {
     if(proceed) install_mc()
   }
   
-  command <- paste("--config-dir", path, command)
-  args <- strsplit(command, split = " ")[[1]]
+  command <- paste("--config-dir", shQuote(path), command)
+  args <- scan(text = command, what = 'character', quiet = TRUE)
   p <- processx::run(binary, args, ...)
   
   if(p$timeout & verbose) warning(paste("request", command, "timed out"))
