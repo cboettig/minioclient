@@ -10,9 +10,14 @@
 #' mc_rb("play/my-bucket")
 #'
 #' @export
-mc_rb <- function(bucket) {
+mc_rb <- function(bucket, force = FALSE) {
   if(interactive()){
     proceed <- utils::askYesNo("Are you sure?")
+  } else {
+    proceed = force
+    if(!proceed) {
+      message("Run `mc_rb()` interactively or with force=TRUE")
+    }
   }
   
   if(!proceed){ 
