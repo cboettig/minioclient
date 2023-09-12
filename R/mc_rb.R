@@ -1,6 +1,7 @@
 #' Remove an S3 bucket using mc command
 #'
 #' @param bucket Character string specifying the name of the bucket to remove
+#' @param force Delete bucket without confirmation in non-interactive mode
 #' @inherit mc return
 #'
 #' @examplesIf interactive()
