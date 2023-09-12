@@ -4,10 +4,12 @@
 \alias{mc_rb}
 \title{Remove an S3 bucket using mc command}
 \usage{
-mc_rb(bucket)
+mc_rb(bucket, force = FALSE)
 }
 \arguments{
 \item{bucket}{Character string specifying the name of the bucket to remove}
+
+\item{force}{Delete bucket without confirmation in non-interactive mode}
 }
 \value{
 Returns the list from \code{\link[processx:run]{processx::run()}}, with components \code{status},

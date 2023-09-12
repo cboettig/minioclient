@@ -1,6 +1,7 @@
 #' Remove an S3 bucket using mc command
 #'
 #' @param bucket Character string specifying the name of the bucket to remove
+#' @param force Delete bucket without confirmation in non-interactive mode
 #' @inherit mc return
 #'
 #' @examplesIf interactive()
@@ -10,9 +11,14 @@
 #' mc_rb("play/my-bucket")
 #'
 #' @export
-mc_rb <- function(bucket) {
+mc_rb <- function(bucket, force = FALSE) {
   if(interactive()){
     proceed <- utils::askYesNo("Are you sure?")
+  } else {
+    proceed = force
+    if(!proceed) {
+      message("Run `mc_rb()` interactively or with force=TRUE")
+    }
   }
   
   if(!proceed){ 
