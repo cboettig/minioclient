@@ -29,7 +29,7 @@ mc_cp <- function(from, to = "", recursive = FALSE, flags="", verbose = FALSE) {
     flags <- paste("-r", flags)
   }
   
-  cmd <- paste("cp", flags, from, to)
+  cmd <- paste("cp", flags, paste(from, collapse = " "), to)
   cmd <- gsub("\\s+", " ", cmd)
   mc(cmd, verbose = verbose)
 }
