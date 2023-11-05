@@ -75,7 +75,7 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="minio">minio<a class="anchor" aria-label="anchor" href="#minio"></a>
+<div class="page-header"><h1 id="minioclient">minioclient<a class="anchor" aria-label="anchor" href="#minioclient"></a>
 </h1></div>
 <!-- badges: start -->
 
@@ -136,7 +136,7 @@
 <span><span class="co">#&gt; # A tibble: 1 × 18</span></span>
 <span><span class="co">#&gt;   path       type     size permissions modification_time   user  group device_id</span></span>
 <span><span class="co">#&gt;   &lt;fs::path&gt; &lt;fct&gt; &lt;fs::b&gt; &lt;fs::perms&gt; &lt;dttm&gt;              &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 gbif.html  file    31.6K rw-r--r--   2023-11-05 22:39:39 cboe… cboe…     66307</span></span>
+<span><span class="co">#&gt; 1 gbif.html  file    31.6K rw-r--r--   2023-11-05 22:54:15 cboe… cboe…     66307</span></span>
 <span><span class="co">#&gt; # ℹ 10 more variables: hard_links &lt;dbl&gt;, special_device_id &lt;dbl&gt;, inode &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   block_size &lt;dbl&gt;, blocks &lt;dbl&gt;, flags &lt;int&gt;, generation &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   access_time &lt;dttm&gt;, change_time &lt;dttm&gt;, birth_time &lt;dttm&gt;</span></span></code></pre></div>
@@ -146,30 +146,30 @@
 <span><span class="va">play_bucket</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"play/play-"</span>, <span class="va">random_name</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/mc_mb.html">mc_mb</a></span><span class="op">(</span><span class="va">play_bucket</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Bucket created successfully `play/play-uoikzanffjzp`.</span></span></code></pre></div>
+<span><span class="co">#&gt; Bucket created successfully `play/play-hmdzuvevfzdi`.</span></span></code></pre></div>
 <p>We can copy files or directories to the remote bucket:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/mc_cp.html">mc_cp</a></span><span class="op">(</span><span class="st">"anon/gbif-open-data-us-east-1/index.html"</span>, <span class="va">play_bucket</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/mc_cp.html">mc_cp</a></span><span class="op">(</span><span class="st">"R/"</span>, <span class="va">play_bucket</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/install_mc.R` -&gt; `play/play-uoikzanffjzp/install_mc.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_alias.R` -&gt; `play/play-uoikzanffjzp/mc_alias.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc.R` -&gt; `play/play-uoikzanffjzp/mc.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_anonymous.R` -&gt; `play/play-uoikzanffjzp/mc_anonymous.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_cat.R` -&gt; `play/play-uoikzanffjzp/mc_cat.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_config_set.R` -&gt; `play/play-uoikzanffjzp/mc_config_set.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_cp.R` -&gt; `play/play-uoikzanffjzp/mc_cp.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_diff.R` -&gt; `play/play-uoikzanffjzp/mc_diff.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_du.R` -&gt; `play/play-uoikzanffjzp/mc_du.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_head.R` -&gt; `play/play-uoikzanffjzp/mc_head.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_ls.R` -&gt; `play/play-uoikzanffjzp/mc_ls.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_mb.R` -&gt; `play/play-uoikzanffjzp/mc_mb.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_mirror.R` -&gt; `play/play-uoikzanffjzp/mc_mirror.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_mv.R` -&gt; `play/play-uoikzanffjzp/mc_mv.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_rb.R` -&gt; `play/play-uoikzanffjzp/mc_rb.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_rm.R` -&gt; `play/play-uoikzanffjzp/mc_rm.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_sql.R` -&gt; `play/play-uoikzanffjzp/mc_sql.R`</span></span>
-<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_stat.R` -&gt; `play/play-uoikzanffjzp/mc_stat.R`</span></span>
-<span><span class="co">#&gt; Total: 0 B, Transferred: 22.00 KiB, Speed: 271.53 KiB/s</span></span></code></pre></div>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc.R` -&gt; `play/play-hmdzuvevfzdi/mc.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/install_mc.R` -&gt; `play/play-hmdzuvevfzdi/install_mc.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_alias.R` -&gt; `play/play-hmdzuvevfzdi/mc_alias.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_anonymous.R` -&gt; `play/play-hmdzuvevfzdi/mc_anonymous.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_config_set.R` -&gt; `play/play-hmdzuvevfzdi/mc_config_set.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_cat.R` -&gt; `play/play-hmdzuvevfzdi/mc_cat.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_cp.R` -&gt; `play/play-hmdzuvevfzdi/mc_cp.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_diff.R` -&gt; `play/play-hmdzuvevfzdi/mc_diff.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_du.R` -&gt; `play/play-hmdzuvevfzdi/mc_du.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_head.R` -&gt; `play/play-hmdzuvevfzdi/mc_head.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_ls.R` -&gt; `play/play-hmdzuvevfzdi/mc_ls.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_mb.R` -&gt; `play/play-hmdzuvevfzdi/mc_mb.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_mirror.R` -&gt; `play/play-hmdzuvevfzdi/mc_mirror.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_mv.R` -&gt; `play/play-hmdzuvevfzdi/mc_mv.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_rb.R` -&gt; `play/play-hmdzuvevfzdi/mc_rb.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_rm.R` -&gt; `play/play-hmdzuvevfzdi/mc_rm.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_sql.R` -&gt; `play/play-hmdzuvevfzdi/mc_sql.R`</span></span>
+<span><span class="co">#&gt; `/home/cboettig/cboettig/minioclient/R/mc_stat.R` -&gt; `play/play-hmdzuvevfzdi/mc_stat.R`</span></span>
+<span><span class="co">#&gt; Total: 0 B, Transferred: 22.00 KiB, Speed: 314.03 KiB/s</span></span></code></pre></div>
 <p>Note the use of <code>recursive = TRUE</code> to transfer all objects matching the pattern. In S3 object stores, file paths are really just prefixes, thus this query includes not only everything in the <code>R</code> folder, but also <code>README.md</code>, since it also matches the prefix. (Had we used the prefix <code>R/</code>, <code>README.md</code> would not be matched and the R scripts would go directly into <code>play_bucket</code> root instead of an <code>R/</code> sub-path.)</p>
 <p>We can examine disk usage of remote objects or directories:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
