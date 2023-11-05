@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 # minioclient (development version)
 
 * Added support for downloading and running the minio server with
   `install_minio_server()` and `minio_server()`.
+=======
+# minioclient 0.0.6
+
+* bug-fix: more robust parsing of mc commands e.g. with spaces. ([#7])
+* bug-fix: vectorize paths ([#8], [#9])
+>>>>>>> 98b6b5d (bump version)
 
 # minioclient 0.0.5
 
