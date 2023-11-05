@@ -5,9 +5,12 @@
 
 <!-- badges: start -->
 
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/cboettig/minioclient/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/cboettig/minioclient/actions/workflows/R-CMD-check.yaml)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/minioclient)](https://CRAN.R-project.org/package=minioclient)
+[![](https://cranlogs.r-pkg.org/badges/minioclient)](https://cran.r-project.org/package=minioclient)
 <!-- badges: end -->
 
 ## Rationale
@@ -145,7 +148,7 @@ fs::file_info("gbif.html")
 #> # A tibble: 1 × 18
 #>   path       type     size permissions modification_time   user  group device_id
 #>   <fs::path> <fct> <fs::b> <fs::perms> <dttm>              <chr> <chr>     <dbl>
-#> 1 gbif.html  file    31.6K rw-r--r--   2023-08-10 18:33:12 cboe… cboe…     66307
+#> 1 gbif.html  file    31.6K rw-r--r--   2023-11-05 22:39:39 cboe… cboe…     66307
 #> # ℹ 10 more variables: hard_links <dbl>, special_device_id <dbl>, inode <dbl>,
 #> #   block_size <dbl>, blocks <dbl>, flags <int>, generation <dbl>,
 #> #   access_time <dttm>, change_time <dttm>, birth_time <dttm>
@@ -159,7 +162,7 @@ random_name <- paste0(sample(letters, 12, replace = TRUE), collapse = "")
 play_bucket <- paste0("play/play-", random_name)
 
 mc_mb(play_bucket)
-#> Bucket created successfully `play/play-nwqvinphaeoh`.
+#> Bucket created successfully `play/play-uoikzanffjzp`.
 ```
 
 We can copy files or directories to the remote bucket:
@@ -167,25 +170,25 @@ We can copy files or directories to the remote bucket:
 ``` r
 mc_cp("anon/gbif-open-data-us-east-1/index.html", play_bucket)
 mc_cp("R/", play_bucket, recursive = TRUE, verbose = TRUE)
-#> `/home/cboettig/cboettig/minioclient/R/mc.R` -> `play/play-nwqvinphaeoh/mc.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_alias.R` -> `play/play-nwqvinphaeoh/mc_alias.R`
-#> `/home/cboettig/cboettig/minioclient/R/install_mc.R` -> `play/play-nwqvinphaeoh/install_mc.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_anonymous.R` -> `play/play-nwqvinphaeoh/mc_anonymous.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_cat.R` -> `play/play-nwqvinphaeoh/mc_cat.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_config_set.R` -> `play/play-nwqvinphaeoh/mc_config_set.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_cp.R` -> `play/play-nwqvinphaeoh/mc_cp.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_diff.R` -> `play/play-nwqvinphaeoh/mc_diff.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_du.R` -> `play/play-nwqvinphaeoh/mc_du.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_head.R` -> `play/play-nwqvinphaeoh/mc_head.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_ls.R` -> `play/play-nwqvinphaeoh/mc_ls.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_mb.R` -> `play/play-nwqvinphaeoh/mc_mb.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_mirror.R` -> `play/play-nwqvinphaeoh/mc_mirror.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_mv.R` -> `play/play-nwqvinphaeoh/mc_mv.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_rb.R` -> `play/play-nwqvinphaeoh/mc_rb.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_rm.R` -> `play/play-nwqvinphaeoh/mc_rm.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_sql.R` -> `play/play-nwqvinphaeoh/mc_sql.R`
-#> `/home/cboettig/cboettig/minioclient/R/mc_stat.R` -> `play/play-nwqvinphaeoh/mc_stat.R`
-#> Total: 0 B, Transferred: 21.60 KiB, Speed: 417.13 KiB/s
+#> `/home/cboettig/cboettig/minioclient/R/install_mc.R` -> `play/play-uoikzanffjzp/install_mc.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_alias.R` -> `play/play-uoikzanffjzp/mc_alias.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc.R` -> `play/play-uoikzanffjzp/mc.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_anonymous.R` -> `play/play-uoikzanffjzp/mc_anonymous.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_cat.R` -> `play/play-uoikzanffjzp/mc_cat.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_config_set.R` -> `play/play-uoikzanffjzp/mc_config_set.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_cp.R` -> `play/play-uoikzanffjzp/mc_cp.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_diff.R` -> `play/play-uoikzanffjzp/mc_diff.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_du.R` -> `play/play-uoikzanffjzp/mc_du.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_head.R` -> `play/play-uoikzanffjzp/mc_head.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_ls.R` -> `play/play-uoikzanffjzp/mc_ls.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_mb.R` -> `play/play-uoikzanffjzp/mc_mb.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_mirror.R` -> `play/play-uoikzanffjzp/mc_mirror.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_mv.R` -> `play/play-uoikzanffjzp/mc_mv.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_rb.R` -> `play/play-uoikzanffjzp/mc_rb.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_rm.R` -> `play/play-uoikzanffjzp/mc_rm.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_sql.R` -> `play/play-uoikzanffjzp/mc_sql.R`
+#> `/home/cboettig/cboettig/minioclient/R/mc_stat.R` -> `play/play-uoikzanffjzp/mc_stat.R`
+#> Total: 0 B, Transferred: 22.00 KiB, Speed: 271.53 KiB/s
 ```
 
 Note the use of `recursive = TRUE` to transfer all objects matching the
