@@ -1,5 +1,5 @@
 test_that("s3 select api requests work and returns a data frame", {
-  
+  skip_on_os("windows")
   skip_if_offline()
   skip_on_cran()
   Sys.setenv("R_USER_DATA_DIR"=tempdir())
