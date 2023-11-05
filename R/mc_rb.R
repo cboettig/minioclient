@@ -15,15 +15,12 @@ mc_rb <- function(bucket, force = FALSE) {
   if(interactive()){
     proceed <- utils::askYesNo("Are you sure?")
   } else {
-    proceed = force
+    proceed <- force
     if(!proceed) {
       message("Run `mc_rb()` interactively or with force=TRUE")
+      return(invisible(NULL))
     }
   }
   
-  if(!proceed){ 
-    return(invisible(NULL))
-  }
-    
   mc(paste("rb --force", bucket))
 }
