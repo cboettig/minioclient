@@ -1,3 +1,8 @@
+# minioclient 0.0.6
+
+* bug-fix: more robust parsing of mc commands e.g. with spaces. ([#7])
+* bug-fix: vectorize paths ([#8], [#9])
+
 # minioclient 0.0.5
 
 CRAN-policy based bugfix release. 
