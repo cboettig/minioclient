@@ -28,7 +28,7 @@ mc_rm <- function(target, recursive = FALSE, flags = "", verbose = FALSE) {
     flags <- paste("--recursive --force", flags)
   }
   
-  cmd <- paste("rm", flags, target)
+  cmd <- paste("rm", flags, paste(target, collapse = " "))
   cmd <- gsub("\\s+", " ", cmd)
   mc(cmd, verbose = verbose)
 }
