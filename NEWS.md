@@ -1,3 +1,8 @@
+# minioclient (development version)
+
+* Added support for downloading and running the minio server with
+  `install_minio_server()` and `minio_server()`.
+
 # minioclient 0.0.5
 
 CRAN-policy based bugfix release. 

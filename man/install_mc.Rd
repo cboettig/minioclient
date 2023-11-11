@@ -2,9 +2,17 @@
 % Please edit documentation in R/install_mc.R
 \name{install_mc}
 \alias{install_mc}
-\title{install the mc client}
+\alias{install_minio_server}
+\title{install the mc client or server}
 \usage{
 install_mc(
+  os = system_os(),
+  arch = system_arch(),
+  path = minio_path(),
+  force = FALSE
+)
+
+install_minio_server(
   os = system_os(),
   arch = system_arch(),
   path = minio_path(),
@@ -18,36 +26,36 @@ install_mc(
 
 \item{path}{destination where binary is installed.}
 
-\item{force}{install even if binary is already found.
-Can be used to force upgrade.}
+\item{force}{install even if binary is already found. Can be used to force
+upgrade.}
 }
 \value{
-path to the minio binary (invisibly)
+path to the minio client (mc) or server (minio) binary (invisibly)
 }
 \description{
-install the mc client
+install the mc client or server
 }
 \details{
 This function is just a convenience wrapper for prebuilt MINIO
-binaries, from \url{https://dl.min.io/client/mc/release/}. Should
-support Windows, Mac, and Linux on both Intel/AMD (amd64) and ARM
-architectures.
-For details, see official MINIO docs for your operating system,
-e.g. \url{https://min.io/docs/minio/macos/index.html}.
+binaries, from \url{https://dl.min.io/}. Should support Windows, Mac, and Linux
+on both Intel/AMD (amd64) and ARM architectures. For details, see official
+MINIO docs for your operating system, e.g.
+\url{https://min.io/docs/minio/macos/index.html}.
 
-NOTE: If you want to install to other than the default location,
-simply set the option "minioclient.dir", to the appropriate location of the
-directory containing your "mc" binary, e.g.
+NOTE: If you want to install to other than the default location, simply set
+the options "minioclient.dir" or "minioserver.dir" to the appropriate
+location of the directory containing your "mc" or "minio" binary, e.g.
 \code{options("minioclient.dir" = "~/.mc")}. This is also used as the location
-of the config directory. Note that this package
-will not automatically use MINIO available on $PATH (to promote security
-and portability in design).
+of the config directory. Note that this package will not automatically use
+MINIO available on $PATH (to promote security and portability in design).
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-install_mc()
+\dontshow{if (interactive() ) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+  install_mc()
+  install_minio_server()
 
-# Force upgrade
-install_mc(force=TRUE)
+  # Force upgrade 
+  install_mc(force=TRUE)
+  install_minio_server(force=TRUE)
 \dontshow{\}) # examplesIf}
 }
