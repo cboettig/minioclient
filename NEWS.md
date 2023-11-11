@@ -1,5 +1,7 @@
 # minioclient 0.0.6
 
+* Added support for downloading and running the minio server with
+  `install_minio_server()` and `minio_server()`.
 * bug-fix: more robust parsing of mc commands e.g. with spaces. ([#7])
 * bug-fix: vectorize paths ([#8], [#9])
 
@@ -16,7 +18,6 @@ CRAN-policy based bugfix release.
   be called explicitly in batch scripts.
 * bug-fix: 0.0.4 some tests may not have fail gracefully when depending on
   external resources.  This is now patched.
-  
 
 # minioclient 0.0.4
 

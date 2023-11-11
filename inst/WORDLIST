@@ -8,6 +8,7 @@ Jetstream
 Lifecycle
 MINIO
 MinIO
+minioserver
 NCAR's
 NCAR’s
 NSF's
@@ -35,6 +36,8 @@ md
 minio
 pre
 prebuilt
+processx
 quickstart
 sessionToken
 sql
+vectorize
