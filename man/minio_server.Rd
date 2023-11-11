@@ -24,7 +24,7 @@ for how to specify multiple directories.}
 most of the server configuration with by setting environment variables,
 e.e.g, \code{list(env = c("MINIO_ROOT_USER" = "user", "MINIO_ROOT_PASSWORD" = "password"))}.}
 
-\item{path}{location where the minio  serverexecutable will be installed if
+\item{path}{location where the minio server executable will be installed if
 not present. By default will use the OS-appropriate storage location.}
 }
 \value{
@@ -34,8 +34,8 @@ Returns a \link[processx:process]{processx::process} handle to the running serve
 The MINIO server
 }
 \details{
-This function launches the minio server as a peristent process in teh
-backgound. For documentation of options and flags available, see the server
+This function launches the minio server as a persistent process in the
+background. For documentation of options and flags available, see the server
 documentation at
 \url{https://min.io/docs/minio/linux/reference/minio-server/minio-server.html}.
 }

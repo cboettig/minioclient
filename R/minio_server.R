@@ -13,14 +13,14 @@
 #'   most of the server configuration with by setting environment variables,
 #'   e.e.g, `list(env = c("MINIO_ROOT_USER" = "user", "MINIO_ROOT_PASSWORD" =
 #'   "password"))`.
-#' @param path location where the minio  serverexecutable will be installed if
+#' @param path location where the minio server executable will be installed if
 #'   not present. By default will use the OS-appropriate storage location.
 #' @return Returns a [processx::process] handle to the running server.
 #' @export
 #' @details
 #'
-#' This function launches the minio server as a peristent process in teh
-#' backgound. For documentation of options and flags available, see the server
+#' This function launches the minio server as a persistent process in the
+#' background. For documentation of options and flags available, see the server
 #' documentation at
 #' <https://min.io/docs/minio/linux/reference/minio-server/minio-server.html>.
 #' @examplesIf interactive() 
