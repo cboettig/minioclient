@@ -12,7 +12,7 @@ test_that("server launch works", {
   Sys.setenv("R_USER_DATA_DIR"=tempdir())
   install_minio_server()
   
-  srv <- minio_server()
+  srv <- minio_server(process_args = list())
   on.exit(srv$kill())
   Sys.sleep(3)
   
