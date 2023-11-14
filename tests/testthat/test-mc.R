@@ -18,8 +18,7 @@ test_that("wrappers", {
     x <- mc_alias_ls("play")
     expect_true(TRUE)
     
-    x <- mc_alias_set("anon", "s3.amazonaws.com",
-                      access_key = "", secret_key = "")
+    x <- mc_alias_set("anon", endpoint_url = "https://s3.amazonaws.com")
     expect_true(TRUE)
     
     x <- mc_ls("anon/gbif-open-data-us-east-1")
