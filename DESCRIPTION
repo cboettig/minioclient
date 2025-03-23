@@ -1,6 +1,6 @@
 Package: minioclient
 Title: Interface to the 'MinIO' Client
-Version: 0.0.6
+Version: 0.0.6.99
 Authors@R: c(person(
               "Carl", "Boettiger", 
               email = "cboettig@gmail.com", 
