@@ -1,4 +1,5 @@
 library(testthat)
+library(minioclient)
 
 test_that("install works", {
   skip_if_offline()
