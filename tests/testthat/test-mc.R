@@ -1,3 +1,5 @@
+library(testthat)
+
 test_that("install works", {
   skip_if_offline()
   skip_on_cran()
