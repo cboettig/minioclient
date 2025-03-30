@@ -5,23 +5,33 @@
 \title{mc alias set}
 \usage{
 mc_alias_set(
-  alias = "minio",
-  endpoint = Sys.getenv("AWS_S3_ENDPOINT", "s3.amazonaws.com"),
-  access_key = Sys.getenv("AWS_ACCESS_KEY_ID"),
-  secret_key = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
-  scheme = "https"
+  alias,
+  endpoint_url,
+  access_key = NA,
+  secret_key = NA,
+  token = NA,
+  storage = c("config", "env"),
+  use_aws_env = FALSE
 )
 }
 \arguments{
-\item{alias}{a short name for this endpoint, default is \code{minio}}
+\item{alias}{a short name for this endpoint}
 
-\item{endpoint}{the endpoint domain name}
+\item{endpoint_url}{the endpoint url, starting with the scheme, for example
+"http://localhost:9000" or "https://play.min.io" or "https://s3.amazonaws.com"}
 
-\item{access_key}{access key (user), reads from AWS env vars by default}
+\item{access_key}{access key (user)}
 
-\item{secret_key}{secret access key, reads from AWS env vars by default}
+\item{secret_key}{secret access key}
 
-\item{scheme}{https or http (e.g. for local machine only)}
+\item{token}{temporary session token}
+
+\item{storage}{one of "config" (default) or "env", to indicate if the alias setting
+should be stored in the config file for the minio client or as a system
+environment variable}
+
+\item{use_aws_env}{logical to indicate whether settings for the alias should
+be inferred from currently specified AWS environment variables}
 }
 \value{
 Returns the list from \code{\link[processx:run]{processx::run()}}, with components \code{status},
