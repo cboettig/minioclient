@@ -10,7 +10,12 @@ Authors@R: c(person(
               "Markus", "Skyttner",
               email = "markussk@kth.se",
               role = c("ctb")
-              )
+              ),
+              person(
+              "Noam", "Ross",
+              email = "noam.ross@gmail.com",
+              role = c("ctb"),
+              comment = c(ORCID = "0000-0002-2136-0000"))
             )
 Description: An R interface to the 'MinIO' Client. The 'MinIO' Client ('mc')
   provides a modern alternative to UNIX commands like 'ls', 'cat', 'cp',
