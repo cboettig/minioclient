@@ -19,7 +19,10 @@
 #' The R package provides wrappers only for the most common use cases,
 #' which provide a more natural R syntax and native documentation.
 mc <- function(command, ..., path = minio_path(), verbose = interactive()) {
-  
+  binaryname <- "mc"
+  if (.Platform$OS.type == "windows") {
+    binaryname <- "mc.exe"
+  }
   binary <- fs::path(path, "mc")
   if(!file.exists(binary) && interactive()) {
     proceed <- utils::askYesNo(
