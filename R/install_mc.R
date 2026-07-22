@@ -38,11 +38,9 @@ install_mc <- function(os = system_os(), arch = system_arch(),
                  "x86_64" = "amd64",
                  "aarch64" = "arm64",
                  arch)
-  bin <- switch(os,
-                "windows" = "mc.exe",
-                "mc")
+  bin <- mc_bin(os)
   type <- glue::glue("{os}-{arch}")
-  
+
   binary <- fs::path(path, bin)
   if (file.exists(binary) && !force) {
     return(invisible(binary)) # Already installed
@@ -66,6 +64,15 @@ minio_path <- function() {
 
 system_os <- function () {
   tolower(Sys.info()[["sysname"]])
+}
+
+# Name of the mc binary on the current OS. Windows ships as "mc.exe";
+# all others use "mc". Used by both install_mc() (where to write the
+# binary) and mc() (where to look for it) so the two never disagree.
+mc_bin <- function (os = system_os()) {
+  switch(os,
+         "windows" = "mc.exe",
+         "mc")
 }
 
 system_arch <- function () {

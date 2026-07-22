@@ -1,3 +1,12 @@
+# minioclient 0.0.7
+
+* bug-fix: on Windows, `mc()` looked for a binary named `mc` while
+  `install_mc()` installs `mc.exe`, so the install check never matched and
+  interactive sessions were prompted to (re)install on every call. Both now
+  resolve the binary name through a shared `mc_bin()` helper. Thanks to
+  @mdsumner for the diagnosis
+  ([#16](https://github.com/cboettig/minioclient/pull/16)).
+
 # minioclient 0.0.6
 
 * bug-fix: more robust parsing of mc commands e.g. with spaces. ([#7])
