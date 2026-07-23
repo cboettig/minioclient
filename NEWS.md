@@ -1,3 +1,17 @@
+# minioclient 0.0.7
+
+* bug-fix: on Windows, `mc()` and `mc_sql()` looked for a binary named `mc`
+  while `install_mc()` installs `mc.exe`, so the install check never matched
+  and interactive sessions were prompted to (re)install on every call. The
+  binary name is now resolved through a shared `mc_bin()` helper everywhere.
+  Thanks to @mdsumner for the diagnosis
+  ([#16](https://github.com/cboettig/minioclient/pull/16),
+  [#15](https://github.com/cboettig/minioclient/issues/15)).
+* bug-fix: `mc_sql()` returns S3-Select results with `--json`, but `mc`
+  reports server-side errors as a JSON payload on stdout while exiting `0`.
+  `mc_sql()` now detects that payload and raises an R error instead of
+  returning the error object as if it were query results.
+
 # minioclient 0.0.6
 
 * bug-fix: more robust parsing of mc commands e.g. with spaces. ([#7])

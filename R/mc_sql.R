@@ -37,7 +37,7 @@ mc_sql <- function(target,
                    recursive = TRUE, 
                    verbose = FALSE) {
   
-  binary <- fs::path(minio_path(), "mc")
+  binary <- fs::path(minio_path(), mc_bin())
   
   if(!file.exists(binary)) {
     install_mc()
@@ -56,6 +56,15 @@ mc_sql <- function(target,
   con <- textConnection(p$stdout)
   on.exit(close(con))
   res <- jsonlite::stream_in(con, verbose = FALSE)
+
+  # With --json, mc reports S3-Select server errors as a JSON object on
+  # stdout while still exiting 0 (e.g. servers that do not support the S3
+  # Select API). Surface these as R errors rather than returning the error
+  # payload as if it were query results.
+  if ("status" %in% names(res) && any(res$status == "error", na.rm = TRUE)) {
+    stop(paste("mc sql request failed:", p$stdout), call. = FALSE)
+  }
+
   class(res) <- c("tbl_df", "tbl", "data.frame")
-  res  
+  res
 }

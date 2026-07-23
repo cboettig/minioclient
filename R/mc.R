@@ -20,7 +20,7 @@
 #' which provide a more natural R syntax and native documentation.
 mc <- function(command, ..., path = minio_path(), verbose = interactive()) {
   
-  binary <- fs::path(path, "mc")
+  binary <- fs::path(path, mc_bin())
   if(!file.exists(binary) && interactive()) {
     proceed <- utils::askYesNo(
       "the mc client is not yet installed, should we install it now?")
