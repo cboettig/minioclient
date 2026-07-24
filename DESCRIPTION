@@ -18,7 +18,7 @@ Description: An R interface to the 'MinIO' Client. The 'MinIO' Client ('mc')
   compatible cloud storage service ("AWS" Signature v2 and v4).
   This package provides convenience functions for installing the 'MinIO'
   client and running any operations, as described in the official 
-  documentation, <https://min.io/docs/minio/linux/reference/minio-mc.html?ref=docs-redirect>.
+  documentation, <https://docs.min.io/aistor/reference/cli/>.
   This package provides a flexible and high-performance alternative to 'aws.s3'.
 License: MIT + file LICENSE
 URL: https://github.com/cboettig/minioclient,

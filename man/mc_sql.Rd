@@ -31,7 +31,7 @@ If the minio server runs with MINIO_API_SELECT_PARQUET=on, also parquet files
 can be queried.
 }
 \details{
-See \url{https://min.io/docs/minio/linux/reference/minio-mc/mc-sql.html#} and
+See \url{https://docs.min.io/aistor/reference/cli/mc-sql/} and
 \url{https://github.com/minio/minio/blob/master/docs/select/README.md}
 
 For example "select s.* from S3Object s limit 10" is valid syntax.

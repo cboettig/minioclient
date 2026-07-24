@@ -37,6 +37,6 @@ mc_alias_set()
 \dontshow{\}) # examplesIf}
 }
 \references{
-\url{https://min.io/docs/minio/linux/reference/minio-mc.html}.
+\url{https://docs.min.io/aistor/reference/cli/}.
 Note that keys can be omitted for anonymous use.
 }
