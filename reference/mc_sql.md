@@ -41,8 +41,8 @@ SQL query results as a `data.frame` of class `tbl_df`
 
 ## Details
 
-See <https://min.io/docs/minio/linux/reference/minio-mc/mc-sql.html#>
-and <https://github.com/minio/minio/blob/master/docs/select/README.md>
+See <https://docs.min.io/aistor/reference/cli/mc-sql/> and
+<https://github.com/minio/minio/blob/master/docs/select/README.md>
 
 For example "select s.\* from S3Object s limit 10" is valid syntax.
 

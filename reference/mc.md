@@ -39,6 +39,6 @@ components `status`, `stdout`, `stderr`, and `timeout`; invisibly.
 
 This function forms the basis for all other available commands. This
 utility can run any `mc` command supported by the official minio client,
-see <https://min.io/docs/minio/linux/reference/minio-mc.html>. The R
-package provides wrappers only for the most common use cases, which
-provide a more natural R syntax and native documentation.
+see <https://docs.min.io/aistor/reference/cli/>. The R package provides
+wrappers only for the most common use cases, which provide a more
+natural R syntax and native documentation.

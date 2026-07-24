@@ -17,10 +17,10 @@ the AWS S3 standard. These include NSF’s
 [Jetstream2](https://docs.jetstream-cloud.org/overview/overview-doc/)
 (both based on open source [Redhat
 CEPH](https://access.redhat.com/documentation/en-us/red_hat_ceph_storage/1.3/html/object_gateway_guide_for_red_hat_enterprise_linux/object_gateway_s3_api)),
-[NCAR’s Stratus](https://arc.ucar.edu/knowledge_base/70549594) (based on
-Western Digital S3), and [MinIO Servers](https://min.io) (another open
-source implementation popular with companies and developers), as well as
-Google Cloud Storage’s S3 compatibility mode.
+[NCAR’s Stratus](https://ncar-hpc-docs.readthedocs.io/en/latest/) (based
+on Western Digital S3), and [MinIO Servers](https://www.min.io/)
+(another open source implementation popular with companies and
+developers), as well as Google Cloud Storage’s S3 compatibility mode.
 
 In contrast, the MinIO Client, an [open-source,
 AGPL-v3](https://github.com/minio/mc/) software developed in the Go
@@ -237,7 +237,7 @@ Providing helper methods allows tab-completion discovery of functions,
 R-based documentation, and improved handling of display behavior
 (e.g. `verbose=FALSE` by default on certain commands.) See [official mc
 client
-docs](https://min.io/docs/minio/linux/reference/minio-mc.html?ref=docs-redirect)
+docs](https://www.min.io//docs/minio/linux/reference/minio-mc.html?ref=docs-redirect)
 for details.
 
 In addition to usual R documentation, users can display full help
@@ -250,7 +250,7 @@ mc_du("-h")
 ```
 
 We can now use arbitrary `mc` commands (see
-[quickstart](https://min.io/docs/minio/linux/reference/minio-mc.html?ref=docs-redirect)).
+[quickstart](https://www.min.io//docs/minio/linux/reference/minio-mc.html?ref=docs-redirect)).
 For example, examine file information to confirm that eTags (md5sums
 here) match for these objects:
 

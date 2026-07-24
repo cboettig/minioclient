@@ -41,7 +41,7 @@ This function is just a convenience wrapper for prebuilt MINIO binaries,
 from <https://dl.min.io/client/mc/release/>. Should support Windows,
 Mac, and Linux on both Intel/AMD (amd64) and ARM architectures. For
 details, see official MINIO docs for your operating system, e.g.
-<https://min.io/docs/minio/macos/index.html>.
+<https://docs.min.io/aistor/installation/macos/>.
 
 NOTE: If you want to install to other than the default location, simply
 set the option "minioclient.dir", to the appropriate location of the

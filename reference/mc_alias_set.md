@@ -44,8 +44,8 @@ components `status`, `stdout`, `stderr`, and `timeout`; invisibly.
 
 ## References
 
-<https://min.io/docs/minio/linux/reference/minio-mc.html>. Note that
-keys can be omitted for anonymous use.
+<https://docs.min.io/aistor/reference/cli/>. Note that keys can be
+omitted for anonymous use.
 
 ## Examples
 
