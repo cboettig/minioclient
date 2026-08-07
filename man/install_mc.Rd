@@ -8,7 +8,8 @@ install_mc(
   os = system_os(),
   arch = system_arch(),
   path = minio_path(),
-  force = FALSE
+  force = FALSE,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -20,6 +21,9 @@ install_mc(
 
 \item{force}{install even if binary is already found.
 Can be used to force upgrade.}
+
+\item{verbose}{logical to indicate whether to display verbose messages from
+the download process, by default FALSE}
 }
 \value{
 path to the minio binary (invisibly)

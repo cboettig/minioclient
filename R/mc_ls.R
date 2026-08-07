@@ -28,7 +28,8 @@ mc_ls <- function(target, recursive = FALSE, details = FALSE) {
   }
   
   stopifnot(length(target) >= 1)
-  if (length(target) > 1) target <- paste0(collapse = " ", trimws(target))
+  if (length(target) > 1) 
+    target <- paste0(collapse = " ", trimws(target))
 
   cmd <- paste("ls", flags, target)
   cmd <- gsub("\\s+", " ", cmd)

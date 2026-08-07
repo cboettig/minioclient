@@ -2,7 +2,6 @@
 
 export(install_mc)
 export(mc)
-export(mc_alias_ls)
 export(mc_alias_set)
 export(mc_anonymous_set)
 export(mc_cat)
@@ -17,3 +16,5 @@ export(mc_mv)
 export(mc_rb)
 export(mc_rm)
 export(mc_sql)
+importFrom(stats,na.omit)
+importFrom(stats,setNames)
