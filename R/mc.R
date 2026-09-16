@@ -29,10 +29,31 @@ mc <- function(command, ..., path = minio_path(), verbose = interactive()) {
   
   command <- paste("--config-dir", shQuote(path), command)
   args <- scan(text = command, what = 'character', quiet = TRUE)
-  p <- processx::run(binary, args, ...)
+  # error_on_status = FALSE so the status check below can surface mc's own
+  # stderr; otherwise processx throws first and the server's message is buried
+  # in a generic "System command 'mc' failed". A caller who passes
+  # error_on_status through ... still wins.
+  dots <- list(...)
+  if (is.null(dots$error_on_status)) {
+    dots$error_on_status <- FALSE
+  }
+  p <- do.call(processx::run, c(list(binary, args), dots))
   
-  if(p$timeout & verbose) warning(paste("request", command, "timed out"))
-  if(p$status != 0) stop(paste(p$stderr))
+  if(isTRUE(p$timeout) && verbose) warning(paste("request", command,
+                                                 "timed out"))
+  # Suppressing processx's own error means a timeout or interrupt now lands
+  # here too, with a status of NA and possibly nothing on stderr.
+  if (!identical(as.integer(p$status), 0L)) {
+    msg <- paste(p$stderr, collapse = "\n")
+    if (!nzchar(trimws(msg))) {
+      msg <- if (isTRUE(p$timeout)) {
+        paste("mc", command, "timed out")
+      } else {
+        paste("mc", command, "failed with status", p$status)
+      }
+    }
+    stop(msg, call. = FALSE)
+  }
   
   if(verbose) message(paste0(p$stdout))
   invisible(p)

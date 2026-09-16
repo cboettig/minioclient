@@ -10,6 +10,13 @@
   workflows keep working against a frozen legacy client. Set
   `options(minioclient.version=)` to install a different release tag, or
   `options(minioclient.url=)` to download from a mirror.
+* bug-fix: `mc()` had the same dead-code pattern as `mc_sql()`: every failing
+  `mc_*` wrapper reported a generic "System command 'mc' failed" instead of
+  the message `mc` wrote to stderr. It now runs with
+  `error_on_status = FALSE` (a caller passing that through `...` still wins),
+  so the underlying error comes through, and a timeout or interrupt -- which
+  now reaches the status check with `status = NA` -- gets a descriptive
+  message rather than an empty one.
 * bug-fix: `mc_sql()` passed `error_on_status = FALSE` nowhere, so
   `processx::run()` threw on a non-zero exit before the `p$status != 0` check
   could surface `mc`'s own stderr. Server-side messages (e.g. "method is not
