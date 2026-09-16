@@ -16,6 +16,16 @@
   `options(minioclient.version=)` to install a different release tag, or
   `options(minioclient.url=)` to download from a mirror.
 - bug-fix:
+  [`mc()`](https://cboettig.github.io/minioclient/reference/mc.md) had
+  the same dead-code pattern as
+  [`mc_sql()`](https://cboettig.github.io/minioclient/reference/mc_sql.md):
+  every failing `mc_*` wrapper reported a generic “System command ‘mc’
+  failed” instead of the message `mc` wrote to stderr. It now runs with
+  `error_on_status = FALSE` (a caller passing that through `...` still
+  wins), so the underlying error comes through, and a timeout or
+  interrupt – which now reaches the status check with `status = NA` –
+  gets a descriptive message rather than an empty one.
+- bug-fix:
   [`mc_sql()`](https://cboettig.github.io/minioclient/reference/mc_sql.md)
   passed `error_on_status = FALSE` nowhere, so
   [`processx::run()`](http://processx.r-lib.org/reference/run.md) threw
