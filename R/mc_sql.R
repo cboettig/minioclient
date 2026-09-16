@@ -46,7 +46,11 @@ mc_sql <- function(target,
   args <- c("sql", "--json", ifelse(recursive, "--recursive", NULL), 
             "--query", query, target)
   
-  p <- processx::run(binary, args)
+  # error_on_status = FALSE so the status check below can surface mc's own
+  # stderr; otherwise processx throws first and the server's message (e.g.
+  # "method is not allowed" from a server without S3 Select) is buried in a
+  # generic "System command 'mc' failed".
+  p <- processx::run(binary, args, error_on_status = FALSE)
   
   if (p$timeout & verbose) warning(paste("request for mc sql query timed out"))
   if (p$status != 0) stop(paste(p$stderr))

@@ -10,6 +10,11 @@
   workflows keep working against a frozen legacy client. Set
   `options(minioclient.version=)` to install a different release tag, or
   `options(minioclient.url=)` to download from a mirror.
+* bug-fix: `mc_sql()` passed `error_on_status = FALSE` nowhere, so
+  `processx::run()` threw on a non-zero exit before the `p$status != 0` check
+  could surface `mc`'s own stderr. Server-side messages (e.g. "method is not
+  allowed" from a server without S3 Select) were reported as a generic
+  "System command 'mc' failed"; they now come through intact.
 * `install_mc()` now downloads to a temporary file alongside the destination
   and only moves it into place on success, so a failed download can no longer
   leave a truncated binary that later looks like an installed client. Failures
