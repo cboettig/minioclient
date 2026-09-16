@@ -50,8 +50,20 @@ devtools::install_github("cboettig/minioclient")
 ## MinIO Client
 
 At first use, all operations will attempt to install the client (after
-prompting) if not already installed. Users can also install latest
-version of the minio client can be installed using `install_mc`.
+prompting) if not already installed. Users can also install the minio
+client directly using `install_mc`.
+
+Note that MinIO has moved the client to its closed-source AIStor
+product: the official download host, `dl.min.io`, now returns “410 Gone”
+and the [minio/mc](https://github.com/minio/mc) repository has been
+archived. To keep existing workflows running,
+[`install_mc()`](https://cboettig.github.io/minioclient/reference/install_mc.md)
+installs the last release published there
+(`RELEASE.2025-08-13T08-35-41Z`) from its GitHub release assets. That
+client is frozen: it will receive no further upstream fixes. If you need
+a different build, set `options(minioclient.version = )` to another
+release tag or `options(minioclient.url = )` to the full URL of an `mc`
+binary.
 
 ``` r
 

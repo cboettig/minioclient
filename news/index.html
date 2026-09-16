@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">minioclient</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,14 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.7" id="minioclient-007">minioclient 0.0.7<a class="anchor" aria-label="anchor" href="#minioclient-007"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.0.8" id="minioclient-008">minioclient 0.0.8<a class="anchor" aria-label="anchor" href="#minioclient-008"></a></h2>
+<ul><li>bug-fix: <code><a href="../reference/install_mc.html">install_mc()</a></code> could no longer download the client. MinIO moved ‘mc’ into its closed-source AIStor product, retired the community download host (every <code>https://dl.min.io/client/mc/release/</code> URL now returns “410 Gone”), and archived the <a href="https://github.com/minio/mc" class="external-link">minio/mc</a> repository. <code><a href="../reference/install_mc.html">install_mc()</a></code> now installs the last release published there, <code>RELEASE.2025-08-13T08-35-41Z</code>, from its GitHub release assets, so existing workflows keep working against a frozen legacy client. Set <code>options(minioclient.version=)</code> to install a different release tag, or <code>options(minioclient.url=)</code> to download from a mirror.</li>
+<li>bug-fix: <code><a href="../reference/mc_sql.html">mc_sql()</a></code> passed <code>error_on_status = FALSE</code> nowhere, so <code><a href="http://processx.r-lib.org/reference/run.html" class="external-link">processx::run()</a></code> threw on a non-zero exit before the <code>p$status != 0</code> check could surface <code>mc</code>’s own stderr. Server-side messages (e.g. “method is not allowed” from a server without S3 Select) were reported as a generic “System command ‘mc’ failed”; they now come through intact.</li>
+<li>
+<code><a href="../reference/install_mc.html">install_mc()</a></code> now downloads to a temporary file alongside the destination and only moves it into place on success, so a failed download can no longer leave a truncated binary that later looks like an installed client. Failures raise an informative error instead of a bare <code><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file()</a></code> warning.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.7" id="minioclient-007">minioclient 0.0.7<a class="anchor" aria-label="anchor" href="#minioclient-007"></a></h2><p class="text-muted">CRAN release: 2026-07-26</p>
 <ul><li>bug-fix: on Windows, <code><a href="../reference/mc.html">mc()</a></code> and <code><a href="../reference/mc_sql.html">mc_sql()</a></code> looked for a binary named <code>mc</code> while <code><a href="../reference/install_mc.html">install_mc()</a></code> installs <code>mc.exe</code>, so the install check never matched and interactive sessions were prompted to (re)install on every call. The binary name is now resolved through a shared <code>mc_bin()</code> helper everywhere. Thanks to <a href="https://github.com/mdsumner" class="external-link">@mdsumner</a> for the diagnosis (<a href="https://github.com/cboettig/minioclient/pull/16" class="external-link">#16</a>, <a href="https://github.com/cboettig/minioclient/issues/15" class="external-link">#15</a>).</li>
 <li>bug-fix: <code><a href="../reference/mc_sql.html">mc_sql()</a></code> returns S3-Select results with <code>--json</code>, but <code>mc</code> reports server-side errors as a JSON payload on stdout while exiting <code>0</code>. <code><a href="../reference/mc_sql.html">mc_sql()</a></code> now detects that payload and raises an R error instead of returning the error object as if it were query results.</li>
 </ul></div>

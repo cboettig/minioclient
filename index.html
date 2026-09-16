@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">minioclient</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,8 @@
 <div class="section level2">
 <h2 id="minio-client">MinIO Client<a class="anchor" aria-label="anchor" href="#minio-client"></a>
 </h2>
-<p>At first use, all operations will attempt to install the client (after prompting) if not already installed. Users can also install latest version of the minio client can be installed using <code>install_mc</code>.</p>
+<p>At first use, all operations will attempt to install the client (after prompting) if not already installed. Users can also install the minio client directly using <code>install_mc</code>.</p>
+<p>Note that MinIO has moved the client to its closed-source AIStor product: the official download host, <code>dl.min.io</code>, now returns “410 Gone” and the <a href="https://github.com/minio/mc" class="external-link">minio/mc</a> repository has been archived. To keep existing workflows running, <code><a href="reference/install_mc.html">install_mc()</a></code> installs the last release published there (<code>RELEASE.2025-08-13T08-35-41Z</code>) from its GitHub release assets. That client is frozen: it will receive no further upstream fixes. If you need a different build, set <code>options(minioclient.version = )</code> to another release tag or <code>options(minioclient.url = )</code> to the full URL of an <code>mc</code> binary.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cboettig/minioclient" class="external-link">minioclient</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/install_mc.html">install_mc</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>

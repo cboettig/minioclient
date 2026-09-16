@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">minioclient</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,7 +43,8 @@
 <span>  os <span class="op">=</span> <span class="fu">system_os</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  arch <span class="op">=</span> <span class="fu">system_arch</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  path <span class="op">=</span> <span class="fu">minio_path</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  force <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  force <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  version <span class="op">=</span> <span class="fu">mc_version</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -67,6 +68,11 @@
 <dd><p>install even if binary is already found.
 Can be used to force upgrade.</p></dd>
 
+
+<dt id="arg-version">version<a class="anchor" aria-label="anchor" href="#arg-version"></a></dt>
+<dd><p>release tag of the 'mc' client to install. Defaults to the
+last release published under the open-source 'minio/mc' repository.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -75,11 +81,14 @@ Can be used to force upgrade.</p></dd>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function is just a convenience wrapper for prebuilt MINIO
-binaries, from <a href="https://dl.min.io/client/mc/release/" class="external-link">https://dl.min.io/client/mc/release/</a>. Should
-support Windows, Mac, and Linux on both Intel/AMD (amd64) and ARM
-architectures.
-For details, see official MINIO docs for your operating system,
-e.g. <a href="https://docs.min.io/aistor/installation/macos/" class="external-link">https://docs.min.io/aistor/installation/macos/</a>.</p>
+binaries. MinIO has since moved the client to its closed-source AIStor
+product: the former download host, <a href="https://dl.min.io/client/mc/release/" class="external-link">https://dl.min.io/client/mc/release/</a>,
+now returns "410 Gone", and the <a href="https://github.com/minio/mc" class="external-link">https://github.com/minio/mc</a> repository has
+been archived. This package therefore installs the last release published
+there, from its GitHub release assets, so that existing workflows keep
+working. The client is frozen at that version and will receive no further
+upstream fixes. Should support Windows, Mac, and Linux on both Intel/AMD
+(amd64) and ARM architectures.</p>
 <p>NOTE: If you want to install to other than the default location,
 simply set the option "minioclient.dir", to the appropriate location of the
 directory containing your "mc" binary, e.g.
@@ -87,6 +96,10 @@ directory containing your "mc" binary, e.g.
 of the config directory. Note that this package
 will not automatically use MINIO available on $PATH (to promote security
 and portability in design).</p>
+<p>Two further options cover the case where the pinned release is no longer
+reachable: set <code>options("minioclient.version")</code> to install a different
+release tag, or <code>options("minioclient.url")</code> to give the full URL of an
+<code>mc</code> binary to download (e.g. an internal mirror).</p>
     </div>
 
     <div class="section level2">
