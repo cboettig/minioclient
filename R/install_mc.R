@@ -69,16 +69,20 @@ install_mc <- function(os = system_os(), arch = system_arch(),
   tmp <- fs::path(path, paste0(bin, ".download"))
   on.exit(unlink(tmp), add = TRUE)
 
-  ok <- tryCatch(
-    identical(as.integer(
+  # Judge the download by what landed on disk, not by whether R warned. The
+  # asset URL redirects to a CDN, and some R versions warn about a length
+  # mismatch across that redirect even when the transfer completed; treating
+  # any warning as fatal would reject a perfectly good binary.
+  status <- tryCatch(
+    suppressWarnings(
       utils::download.file(url, destfile = tmp, mode = "wb", quiet = TRUE)
-    ), 0L),
-    error = function(e) FALSE,
-    warning = function(w) FALSE
+    ),
+    error = function(e) 1L
   )
   # An error page served with a 200 would pass the status check; the client is
   # tens of MB, so anything tiny is not the binary we asked for.
-  if (!ok || !file.exists(tmp) || file.size(tmp) < 1e6) {
+  if (!identical(as.integer(status), 0L) ||
+      !file.exists(tmp) || file.size(tmp) < 1e6) {
     stop(mc_download_error(url, version), call. = FALSE)
   }
 
