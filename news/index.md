@@ -4,7 +4,7 @@
 
 - bug-fix:
   [`install_mc()`](https://cboettig.github.io/minioclient/reference/install_mc.md)
-  could no longer download the client. MinIO moved ‘mc’ into its
+  could no longer download the client at all. MinIO moved ‘mc’ into its
   closed-source AIStor product, retired the community download host
   (every `https://dl.min.io/client/mc/release/` URL now returns “410
   Gone”), and archived the [minio/mc](https://github.com/minio/mc)
@@ -12,34 +12,34 @@
   [`install_mc()`](https://cboettig.github.io/minioclient/reference/install_mc.md)
   now installs the last release published there,
   `RELEASE.2025-08-13T08-35-41Z`, from its GitHub release assets, so
-  existing workflows keep working against a frozen legacy client. Set
+  existing workflows keep working. That client is frozen at that version
+  and will receive no further upstream fixes. Set
   `options(minioclient.version=)` to install a different release tag, or
   `options(minioclient.url=)` to download from a mirror.
-- bug-fix:
-  [`mc()`](https://cboettig.github.io/minioclient/reference/mc.md) had
-  the same dead-code pattern as
-  [`mc_sql()`](https://cboettig.github.io/minioclient/reference/mc_sql.md):
-  every failing `mc_*` wrapper reported a generic “System command ‘mc’
-  failed” instead of the message `mc` wrote to stderr. It now runs with
-  `error_on_status = FALSE` (a caller passing that through `...` still
-  wins), so the underlying error comes through, and a timeout or
-  interrupt – which now reaches the status check with `status = NA` –
-  gets a descriptive message rather than an empty one.
-- bug-fix:
-  [`mc_sql()`](https://cboettig.github.io/minioclient/reference/mc_sql.md)
-  passed `error_on_status = FALSE` nowhere, so
-  [`processx::run()`](http://processx.r-lib.org/reference/run.md) threw
-  on a non-zero exit before the `p$status != 0` check could surface
-  `mc`’s own stderr. Server-side messages (e.g. “method is not allowed”
-  from a server without S3 Select) were reported as a generic “System
-  command ‘mc’ failed”; they now come through intact.
 - [`install_mc()`](https://cboettig.github.io/minioclient/reference/install_mc.md)
   now downloads to a temporary file alongside the destination and only
-  moves it into place on success, so a failed download can no longer
-  leave a truncated binary that later looks like an installed client.
-  Failures raise an informative error instead of a bare
+  moves it into place on success, so a failed or truncated download can
+  no longer leave a stub that later looks like an installed client.
+  Failures raise an informative error, and a benign
   [`download.file()`](https://rdrr.io/r/utils/download.file.html)
-  warning.
+  warning (some R versions warn about a length mismatch across the
+  redirect to GitHub’s CDN) no longer aborts an otherwise complete
+  download.
+- bug-fix:
+  [`mc()`](https://cboettig.github.io/minioclient/reference/mc.md) and
+  [`mc_sql()`](https://cboettig.github.io/minioclient/reference/mc_sql.md)
+  discarded the client’s own error messages.
+  [`processx::run()`](http://processx.r-lib.org/reference/run.md)
+  defaults to `error_on_status = TRUE` and threw before either
+  function’s `p$status != 0` check could run, so a failing `mc_*` call
+  reported a generic “System command ‘mc’ failed” while the message `mc`
+  wrote to stderr was lost. Both now run with `error_on_status = FALSE`
+  – in [`mc()`](https://cboettig.github.io/minioclient/reference/mc.md),
+  a caller passing that through `...` still wins – and surface the
+  underlying message. In
+  [`mc()`](https://cboettig.github.io/minioclient/reference/mc.md) a
+  timeout or interrupt, which now reaches the status check with
+  `status = NA`, gets a descriptive message rather than an empty one.
 
 ## minioclient 0.0.7
 
